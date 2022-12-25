@@ -1,8 +1,9 @@
 ﻿using StereoKit;
+using StereoKit.Framework;
 
-namespace SKTemplate_Maui.Content.Objects.UI
+namespace CicoLaboratory.Content.Objects.UI
 {
-    internal class SampleUI
+    internal class SampleUI : IStepper
     {
         // Since StereoKit doesn’t store state, we will have to track data ourselves!
 
@@ -15,9 +16,16 @@ namespace SKTemplate_Maui.Content.Objects.UI
         // A floating value that will be mapped to the slider
         float slider = 0.5f;
 
-        public void Init()
-        {
+        public bool Enabled => throw new System.NotImplementedException();
 
+        public bool Initialize()
+        {
+            return true;
+        }
+
+        public void Shutdown()
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Step()
@@ -57,5 +65,7 @@ namespace SKTemplate_Maui.Content.Objects.UI
             // StereoKit will log errors when this occurs, so keep your eyes peeled for that!
             StereoKit.UI.WindowEnd();
         }
+
+
     }
 }

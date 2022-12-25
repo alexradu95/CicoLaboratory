@@ -3,7 +3,7 @@ using StereoKit;
 
 namespace SKTemplate_Maui.Content.Objects.Features
 {
-    internal class DebugHands
+    internal class DebugHands : IStepper
     {
         static Pose optionsPose = new Pose(0.5f, 0, -0.5f, Quat.LookDir(-1, 0, 1));
         bool showHands = true;
@@ -16,7 +16,9 @@ namespace SKTemplate_Maui.Content.Objects.Features
         Mesh jointMesh;
         HandMenuRadial handMenu;
 
-        public void Init()
+        public bool Enabled => throw new System.NotImplementedException();
+
+        public bool Initialize()
         {
             jointMesh = Mesh.GenerateSphere(1);
 
@@ -76,9 +78,27 @@ namespace SKTemplate_Maui.Content.Objects.Features
                     new HandMenuItem("Paste", null, () => Log.Info("Paste")),
                     new HandMenuItem("Back", null, null, HandMenuAction.Back))));
             /// :End:
+            /// 
+            return true;
         }
 
         public void Step()
+        {
+            ShowHandsDebugConfigMenu();
+
+            if (showJoints) DrawJoints(jointMesh, Default.Material);
+            if (showAxes) DrawAxes();
+            if (showPointers) DrawPointers();
+            if (showHandSize) DrawHandSize();
+            if (showHandMenus)
+            {
+                DrawHandMenu(Handed.Right);
+                DrawHandMenu(Handed.Left);
+            }
+            DrawHandPosition();
+        }
+
+        private void ShowHandsDebugConfigMenu()
         {
             StereoKit.UI.WindowBegin("Options", ref optionsPose, new Vec2(24, 0) * U.cm);
             StereoKit.UI.Label("Show");
@@ -134,16 +154,6 @@ namespace SKTemplate_Maui.Content.Objects.Features
                         new GradientKey(new Color(.8f, .8f, .8f, 1), 0.55f),
                         new GradientKey(new Color(1, 1, 1, 1), 1)));
             StereoKit.UI.WindowEnd();
-
-            if (showJoints) DrawJoints(jointMesh, Default.Material);
-            if (showAxes) DrawAxes();
-            if (showPointers) DrawPointers();
-            if (showHandSize) DrawHandSize();
-            if (showHandMenus)
-            {
-                DrawHandMenu(Handed.Right);
-                DrawHandMenu(Handed.Left);
-            }
         }
 
         public void Shutdown()
@@ -191,6 +201,8 @@ namespace SKTemplate_Maui.Content.Objects.Features
 
             return Vec3.Dot(palmDirection, directionToHead) > 0.5f;
         }
+
+
         /// Once you have that information, it's simply a matter of placing a
         /// window off to the side of the hand! The palm pose Right direction
         /// points to different sides of each hand, so a different X offset
@@ -298,6 +310,29 @@ namespace SKTemplate_Maui.Content.Objects.Features
 
                 StereoKit.Text.Add(
                     (hand.size * 100).ToString(".0") + "cm",
+                    Matrix.TRS(pos, rot, 0.3f),
+                    TextAlign.XCenter | TextAlign.YBottom);
+            }
+        }
+
+
+        // TODO - Move the position in a better place
+        public static void DrawHandPosition()
+        {
+            for (int h = 0; h < (int)Handed.Max; h++)
+            {
+                Hand hand = Input.Hand((Handed)h);
+
+                if (!hand.IsTracked)
+                    continue;
+
+                HandJoint at = hand[FingerId.Middle, JointId.Tip];
+                Vec3 pos = at.position + at.Pose.Forward * at.radius;
+                Quat rot = at.orientation * Quat.FromAngles(-90, 0, 0);
+                if (!HandFacingHead((Handed)h)) rot = rot * Quat.FromAngles(0, 180, 0);
+
+                StereoKit.Text.Add(
+                    (hand.fingers[0].position.ToString()),
                     Matrix.TRS(pos, rot, 0.3f),
                     TextAlign.XCenter | TextAlign.YBottom);
             }

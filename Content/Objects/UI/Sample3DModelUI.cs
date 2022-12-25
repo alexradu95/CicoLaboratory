@@ -1,13 +1,14 @@
 ﻿using StereoKit;
+using StereoKit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SKTemplate_Maui.Content.Objects.UI
+namespace CicoLaboratory.Content.Objects.UI
 {
-    internal class Sample3DModelUI
+    internal class Sample3DModelUI : IStepper
     {
         // Mixed Reality also provides us with the opportunity to turn objects into interfaces!
         // Instead of using the old ‘window’ paradigm, we can create 3D models and apply UI elements to their surface!
@@ -21,12 +22,20 @@ namespace SKTemplate_Maui.Content.Objects.UI
         float clipSlider;
         int clipOption = 1;
 
+        public bool Enabled => throw new NotImplementedException();
 
-        public void Init()
+        public bool Initialize()
         {
             // We’ll load up a clipboard, so we can attach an interface to that!
             clipboard = Model.FromFile("Clipboard.glb", Default.ShaderUI);
             logoSprite = Sprite.FromFile("StereoKitWide.png", SpriteType.Single);
+
+            return true;
+        }
+
+        public void Shutdown()
+        {
+            throw new NotImplementedException();
         }
 
         public void Step()
@@ -61,5 +70,6 @@ namespace SKTemplate_Maui.Content.Objects.UI
             // As with windows, Handles need an End call.
             StereoKit.UI.HandleEnd();
         }
+
     }
 }
