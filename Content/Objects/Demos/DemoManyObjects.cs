@@ -7,12 +7,15 @@ namespace StereoKitTest
 {
 	class DemoManyObjects : IStepper
 	{
-		Model model = Model.FromFile("DamagedHelmet.gltf");
-		const int cacheCount = 100;
+		Model model;
+		const int cacheCount = 1000;
 		List<Pose> poseCache = new List<Pose>(cacheCount);
         public bool Enabled => throw new System.NotImplementedException();
         public bool Initialize() {
-			for (int i = 0; i < cacheCount; i++) {
+
+            model = Model.FromFile("DamagedHelmet.gltf");
+
+            for (int i = 0; i < cacheCount; i++) {
 				poseCache.Add(Pose.Identity);
 			}
 			return true;
@@ -25,9 +28,9 @@ namespace StereoKitTest
 			Pose curr = poseCache[0];
 			UI.Handle("Model", ref curr, model.Bounds * 0.1f);
 
-			for (int y = 0; y < 5; y++)
+			for (int y = 0; y < 20; y++)
 			{
-				for (int x = 0; x < 5; x++)
+				for (int x = 0; x < 20; x++)
 				{
 					Vec3  grid = new Vec3(x-2f, 0, y-4) * 0.5f;
 					float dist = Math.Min(1, grid.Length/10.0f);

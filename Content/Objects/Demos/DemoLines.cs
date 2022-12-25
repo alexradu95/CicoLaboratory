@@ -9,12 +9,16 @@ namespace StereoKitTest
     {
         public bool Enabled => throw new System.NotImplementedException();
         Pose  windowPose   = new Pose(new Vec3(0.3f, 0, -0.3f), Quat.LookDir(-1,0,1));
-		Model paletteModel = Model.FromFile("Palette.glb", Default.ShaderUI);
+		Model paletteModel;
 		Pose  palettePose  = new Pose(new Vec3(-0.3f, 0, -0.3f), Quat.LookDir(1, 0, 1));
 		Color activeColor  = Color.White;
 		float lineSize     = 0.02f;
 
-		public bool Initialize() { return true; }
+		public bool Initialize() {
+            paletteModel = Model.FromFile("Palette.glb", Default.ShaderUI);
+
+            return true; 
+		}
 		public void Shutdown() { }
 
 		public void Step()
@@ -126,3 +130,4 @@ namespace StereoKitTest
 		}
 	}
 }
+
