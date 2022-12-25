@@ -17,7 +17,7 @@ namespace StereoKitTest
 		Image,
 	}
 
-	class DemoSky : IStepper
+	class DemoSkyLight : IStepper
 	{
 		static List<Light> lights      = new List<Light>();
 		static Pose        windowPose  = new Pose(0, 0.1f, -0.3f, Quat.LookDir(-Vec3.Forward));
@@ -46,8 +46,9 @@ namespace StereoKitTest
 				UI.Label("Lights");
 				if (UI.Button("Add"))
 				{
-					lights.Add(new Light { 
-						pose  = new Pose(Vec3.Up*25*U.cm, Quat.LookDir(-Vec3.Forward)), 
+					lights.Add(new Light
+					{
+						pose = new Pose(Vec3.Up * 25 * U.cm, Quat.LookDir(-Vec3.Forward)),
 						color = Vec3.One });
 					UpdateLights();
 				}
