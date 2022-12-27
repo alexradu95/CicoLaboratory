@@ -1,4 +1,6 @@
-﻿using StereoKit;
+﻿using CicoLaboratory.Content;
+using CicoLaboratory.Content.Environment;
+using StereoKit;
 using StereoKitTest;
 using StereoKitTest.Demos;
 
@@ -40,6 +42,8 @@ public class App
         //SK.AddStepper<DemoUnicode>();
         //SK.AddStepper<DemoWelcome>();
         //SK.AddStepper<DemoWorldMesh>();
+        SK.AddStepper<ControllerLocomotion>();
+        SK.AddStepper<LaboratoryEnvironment>();
     }
 
     public void Step()
