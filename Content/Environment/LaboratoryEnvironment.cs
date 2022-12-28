@@ -3,6 +3,7 @@ using StereoKit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace CicoLaboratory.Content.Environment
     internal class LaboratoryEnvironment : IStepper
     {
         public bool Enabled => throw new NotImplementedException();
-
+        Model apartmentModel;
         Random r = new Random();
         Dictionary<Vec4, Color> env = new Dictionary<Vec4, Color>();
 
@@ -29,6 +30,8 @@ namespace CicoLaboratory.Content.Environment
 
         public void Step()
         {
+            var apartmentTransform = Matrix.S(new Vec3(0.01f, 0.01f, 0.01f));
+            apartmentModel.Draw(apartmentTransform);
             foreach (KeyValuePair<Vec4, Color> kvp in env)
                 Mesh.Sphere.Draw(Material.Default, Matrix.TS(kvp.Key.XYZ, SKMath.Lerp(.1f, .5f, kvp.Key.w)), kvp.Value);
 
@@ -41,7 +44,7 @@ namespace CicoLaboratory.Content.Environment
 
         void BuildEnvironment()
         {
-
+            apartmentModel = Model.FromFile("Apartment/apartment.obj");
             int count = 100;
             int envRange = 5;
             while (count > 0)
