@@ -17,6 +17,7 @@ public class App
 
     public void Init()
     {
+        SK.AddStepper<FeatureActivatorMenu>();
         //SK.AddStepper<DebugHands>();
         //SK.AddStepper<Sample3DModelUI>();
         //SK.AddStepper<SampleUI>();
@@ -42,8 +43,8 @@ public class App
         //SK.AddStepper<DemoUnicode>();
         //SK.AddStepper<DemoWelcome>();
         //SK.AddStepper<DemoWorldMesh>();
-        SK.AddStepper<ControllerLocomotion>();
-        SK.AddStepper<LaboratoryEnvironment>();
+        //SK.AddStepper<ControllerLocomotion>();
+        //SK.AddStepper<LaboratoryEnvironment>();
     }
 
     public void Step()
