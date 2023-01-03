@@ -43,7 +43,7 @@ public class App
         //SK.AddStepper<DemoUnicode>();
         //SK.AddStepper<DemoWelcome>();
         //SK.AddStepper<DemoWorldMesh>();
-        //SK.AddStepper<ControllerLocomotion>();
+        SK.AddStepper<ControllerLocomotion>();
         //SK.AddStepper<LaboratoryEnvironment>();
     }
 

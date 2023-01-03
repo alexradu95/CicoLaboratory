@@ -10,10 +10,12 @@ namespace CicoLaboratory.Content
     internal class FeatureActivatorMenu : IStepper
     {
 
+
         private List<Type> allSteppers = new List<Type>();
+        Dictionary<string, IStepper> activeFeatures = new();
+
         private Pose demoSelectPose = new Pose();
         private Sprite powerButton;
-        private List<string> activatedSteppers= new List<string>();
 
         public bool Enabled => true;
 
@@ -35,6 +37,7 @@ namespace CicoLaboratory.Content
         private void FindDemoClasses()
         {
             allSteppers = Assembly.GetExecutingAssembly().GetTypes().Where(a => a != typeof(IStepper) && typeof(IStepper).IsAssignableFrom(a)).ToList();
+            allSteppers.Remove(typeof(FeatureActivatorMenu));
         }
 
         public void Shutdown()
@@ -49,15 +52,15 @@ namespace CicoLaboratory.Content
             foreach(string demoName in allSteppers.Select(el => el.Name)) {
                 if (UI.Button(demoName))
                 {
-                    var featureClass = allSteppers.FirstOrDefault(el => el.Name == demoName);
-                    if (activatedSteppers.Contains(demoName))
+                    if (activeFeatures.ContainsKey(demoName))
                     {
-                        SK.RemoveStepper(featureClass);
-                        activatedSteppers.Remove(demoName);
-                    } else
+                        SK.RemoveStepper(activeFeatures[demoName]);
+                        activeFeatures.Remove(demoName);
+                    }
+                    else
                     {
-                        SK.AddStepper(featureClass);
-                        activatedSteppers.Add(demoName);
+                        Type feature = allSteppers.FirstOrDefault(el => el.Name == demoName);
+                        activeFeatures[demoName] = (IStepper) SK.AddStepper(feature);
                     }
                 }
                 UI.SameLine();
