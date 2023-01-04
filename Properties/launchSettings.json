@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CicoLaboratory": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

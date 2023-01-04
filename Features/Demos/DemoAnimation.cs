@@ -1,8 +1,7 @@
 ﻿using StereoKit.Framework;
 using StereoKit;
 
-
-namespace CicoLaboratory.Content.Objects.Demos
+namespace CicoLaboratory.Content.Demos
 {
     internal class DemoAnimations : IStepper
     {

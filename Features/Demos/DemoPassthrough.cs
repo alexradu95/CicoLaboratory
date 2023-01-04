@@ -3,13 +3,15 @@ using StereoKit.Framework;
 using System;
 using System.Runtime.InteropServices;
 
-namespace CicoLaboratory.Content.Objects.Demos
+namespace CicoLaboratory.Content.Demos
 {
-    class PassthroughFBExt : IStepper
+    public class PassthroughFBExt : IStepper
     {
         bool extAvailable;
         bool enabled;
         bool enabledPassthrough;
+        bool enableOnInitialize;
+        bool passthroughRunning;
         XrPassthroughFB activePassthrough = new XrPassthroughFB();
         XrPassthroughLayerFB activeLayer = new XrPassthroughLayerFB();
 
@@ -31,11 +33,13 @@ namespace CicoLaboratory.Content.Objects.Demos
             }
         }
 
-        public PassthroughFBExt()
+        public PassthroughFBExt() : this(true) { }
+        public PassthroughFBExt(bool enabled = true)
         {
             if (SK.IsInitialized)
                 Log.Err("PassthroughFBExt must be constructed before StereoKit is initialized!");
             Backend.OpenXR.RequestExt("XR_FB_passthrough");
+            enableOnInitialize = enabled;
         }
 
         public bool Initialize()
@@ -45,6 +49,8 @@ namespace CicoLaboratory.Content.Objects.Demos
                 Backend.OpenXR.ExtEnabled("XR_FB_passthrough") &&
                 LoadBindings();
 
+            if (enableOnInitialize)
+                EnabledPassthrough = true;
             return true;
         }
 
@@ -64,15 +70,19 @@ namespace CicoLaboratory.Content.Objects.Demos
 
         void StartPassthrough()
         {
+            if (!extAvailable) return;
+            if (passthroughRunning) return;
+            passthroughRunning = true;
+
             oldColor = Renderer.ClearColor;
             oldSky = Renderer.EnableSky;
 
-            xrCreatePassthroughFB(
-            Backend.OpenXR.Session,
-            new XrPassthroughCreateInfoFB(XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB),
-            out activePassthrough);
+            XrResult result = xrCreatePassthroughFB(
+                Backend.OpenXR.Session,
+                new XrPassthroughCreateInfoFB(XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB),
+                out activePassthrough);
 
-            xrCreatePassthroughLayerFB(
+            result = xrCreatePassthroughLayerFB(
                 Backend.OpenXR.Session,
                 new XrPassthroughLayerCreateInfoFB(activePassthrough, XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB, XrPassthroughLayerPurposeFB.RECONSTRUCTION_FB),
                 out activeLayer);
@@ -83,6 +93,9 @@ namespace CicoLaboratory.Content.Objects.Demos
 
         void EndPassthrough()
         {
+            if (!passthroughRunning) return;
+            passthroughRunning = false;
+
             xrPassthroughPauseFB(activePassthrough);
             xrDestroyPassthroughLayerFB(activeLayer);
             xrDestroyPassthroughFB(activePassthrough);
@@ -123,8 +136,11 @@ namespace CicoLaboratory.Content.Objects.Demos
             Success = 0,
         }
 
+#pragma warning disable 0169 // handle is not "used", but required for interop
         struct XrPassthroughFB { ulong handle; }
         struct XrPassthroughLayerFB { ulong handle; }
+#pragma warning restore 0169
+
         [StructLayout(LayoutKind.Sequential)]
         struct XrPassthroughCreateInfoFB
         {

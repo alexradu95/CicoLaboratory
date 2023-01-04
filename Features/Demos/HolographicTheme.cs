@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CicoLaboratory.Content.Objects.Demos
+namespace CicoLaboratory.Content.Demos
 {
     static class HolographicTheme
     {
@@ -84,7 +84,7 @@ namespace CicoLaboratory.Content.Objects.Demos
 
                 for (uint i = 0; i < cornerResolution; i++)
                 {
-                    float ang = (c * 90 + (i / (float)(cornerResolution - 1)) * 90) * Units.deg2rad;
+                    float ang = (c * 90 + i / (float)(cornerResolution - 1) * 90) * Units.deg2rad;
                     float x = MathF.Cos(ang);
                     float y = MathF.Sin(ang);
                     Vec3 normal = V.XY0(x, y);
@@ -110,7 +110,7 @@ namespace CicoLaboratory.Content.Objects.Demos
                     }
                     else
                     {
-                        uint cornerFrontNext = (uint)(((c + 1) % 4) * (usubd + 2));
+                        uint cornerFrontNext = (uint)((c + 1) % 4 * (usubd + 2));
                         uint cornerBackNext = cornerFrontNext + 1;
                         i4_n = cornerBackNext + 1;
 
@@ -182,7 +182,7 @@ namespace CicoLaboratory.Content.Objects.Demos
 
                 for (uint i = 0; i < cornerResolution; i++)
                 {
-                    float ang = (c * 90 + (i / (float)(cornerResolution - 1)) * 90 + angStart) * Units.deg2rad;
+                    float ang = (c * 90 + i / (float)(cornerResolution - 1) * 90 + angStart) * Units.deg2rad;
                     float x = MathF.Cos(ang);
                     float y = MathF.Sin(ang);
                     Vec3 normal = V.XY0(x, y);
@@ -266,7 +266,7 @@ namespace CicoLaboratory.Content.Objects.Demos
 
                 for (uint i = 0; i < cornerResolution; i++)
                 {
-                    float ang = (c * 90 + (i / (float)(cornerResolution - 1)) * 90) * Units.deg2rad;
+                    float ang = (c * 90 + i / (float)(cornerResolution - 1) * 90) * Units.deg2rad;
                     float x = MathF.Cos(ang);
                     float y = MathF.Sin(ang);
                     Vec3 normal = V.XY0(x, y);
@@ -289,7 +289,7 @@ namespace CicoLaboratory.Content.Objects.Demos
                     }
                     else
                     {
-                        uint cornerBackNext = (uint)(((c + 1) % 4) * (usubd + 2));
+                        uint cornerBackNext = (uint)((c + 1) % 4 * (usubd + 2));
                         uint cornerFrontNext = cornerBackNext + 1;
                         i4_n = cornerFrontNext + 1;
 

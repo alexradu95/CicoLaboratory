@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CicoLaboratory.Content.Objects.Demos
+namespace CicoLaboratory.Content.Demos
 {
     class DemoArialTestFont : IStepper
     {
