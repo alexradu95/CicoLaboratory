@@ -21,9 +21,16 @@ namespace CicoLaboratory.Content
 
         public bool Initialize()
         {
+            FindAllSteppers();
+
             InitializeUI();
-            FindDemoClasses();
             return true;
+        }
+
+        private void FindAllSteppers()
+        {
+            allSteppers = Assembly.GetExecutingAssembly().GetTypes().Where(a => a != typeof(IStepper) && typeof(IStepper).IsAssignableFrom(a)).ToList();
+            allSteppers.Remove(typeof(FeatureActivatorMenu));
         }
 
         private void InitializeUI()
@@ -32,12 +39,6 @@ namespace CicoLaboratory.Content
 
             demoSelectPose.position = new Vec3(0, 0, -0.6f);
             demoSelectPose.orientation = Quat.LookDir(-Vec3.Forward);
-        }
-
-        private void FindDemoClasses()
-        {
-            allSteppers = Assembly.GetExecutingAssembly().GetTypes().Where(a => a != typeof(IStepper) && typeof(IStepper).IsAssignableFrom(a)).ToList();
-            allSteppers.Remove(typeof(FeatureActivatorMenu));
         }
 
         public void Shutdown()
@@ -49,18 +50,20 @@ namespace CicoLaboratory.Content
         {
             // Make a window for demo selection
             UI.WindowBegin("Demos", ref demoSelectPose, new Vec2(50 * U.cm, 0));
-            foreach(string demoName in allSteppers.Select(el => el.Name)) {
+            foreach (string demoName in allSteppers.Select(el => el.Name))
+            {
+                // If the button is pressed
                 if (UI.Button(demoName))
                 {
-                    if (activeFeatures.ContainsKey(demoName))
+                    if (!activeFeatures.ContainsKey(demoName))
                     {
-                        SK.RemoveStepper(activeFeatures[demoName]);
-                        activeFeatures.Remove(demoName);
+                        Type featureType = allSteppers.FirstOrDefault(el => el.Name == demoName);
+                        activeFeatures[demoName] = (IStepper) SK.AddStepper(featureType);
                     }
                     else
                     {
-                        Type feature = allSteppers.FirstOrDefault(el => el.Name == demoName);
-                        activeFeatures[demoName] = (IStepper) SK.AddStepper(feature);
+                        SK.RemoveStepper(activeFeatures[demoName]);
+                        activeFeatures.Remove(demoName);
                     }
                 }
                 UI.SameLine();
