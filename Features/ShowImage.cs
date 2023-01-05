@@ -5,20 +5,28 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using SixLabors.ImageSharp;
+using Microsoft.Maui.Controls.Xaml;
+using SixLabors.ImageSharp.PixelFormats;
+using System.IO;
+using SixLabors.ImageSharp.Memory;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Gif;
 
 namespace CicoLaboratory.Features
 {
     internal class ShowImage : IStepper
     {
         public bool Enabled => throw new NotImplementedException();
-        Sprite sprite;
-        byte[] imageBytes;
         Pose windowPose = new Pose(-.4f, 0, 0, Quat.LookDir(1, 0, 1));
+        ImageFrameCollection framesCollection;
+        Sprite logoSprite;
+        int currentFrameNumber = 0;
 
         public bool Initialize() {
 
-            imageBytes = GetImageAsByteArrayAsync("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png").Result;
-            sprite = Sprite.FromTex(Tex.FromMemory(imageBytes));
+            framesCollection = GetGifFramesAsync("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif").Result;
 
             return true;
         }
@@ -31,31 +39,49 @@ namespace CicoLaboratory.Features
         public void Step()
         {
             UI.WindowBegin("Window", ref windowPose, new Vec2(20, 0) * U.cm, UIWin.Body);
-            UI.Image(sprite, new Vec2(22, 0) * U.cm);
+            AnimateGif();
             UI.WindowEnd();
         }
 
-
-        public async Task<byte[]> GetImageAsByteArrayAsync(string imageUrl)
+        private void AnimateGif()
         {
-            byte[] imageBytes;
-
-            using (var httpClient = new HttpClient())
+            using (MemoryStream ms = new MemoryStream())
             {
-                using (var response = await httpClient.GetAsync(imageUrl))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        imageBytes = await response.Content.ReadAsByteArrayAsync();
-                        return imageBytes;
-                    }
-                    else
-                    {
-                        // Handle unsuccessful response
-                        return null;
-                    }
+                if(logoSprite == null) {
+                    logoSprite = Sprite.FromTex(Tex.FromMemory(ms.GetBuffer()));
                 }
+
+                Image currentFrame = framesCollection.CloneFrame(currentFrameNumber);
+                currentFrame.Save(ms, new GifEncoder());
+                logoSprite.Draw(Matrix.Identity, Color32.BlackTransparent);
+                
+            }
+
+            if (currentFrameNumber == framesCollection.Count - 1)
+            {
+                currentFrameNumber = 0;
+            } else
+            {
+                currentFrameNumber++;
             }
         }
+
+        public async Task<ImageFrameCollection> GetGifFramesAsync(string imageUrl)
+        {
+            using var httpClient = new HttpClient();
+            using var response = await httpClient.GetAsync(imageUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using var stream = await response.Content.ReadAsStreamAsync();
+                return Image.Load(stream).Frames;
+            }
+            else
+            {
+                // Handle unsuccessful response
+                return null;
+            }
+        }
+
     }
 }
