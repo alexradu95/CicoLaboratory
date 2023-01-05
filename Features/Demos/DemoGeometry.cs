@@ -32,7 +32,7 @@ class DemoGeometry: IStepper
 		/// 
 		/// Here's a quick example of generating a mesh! You can store it in just a
 		/// Mesh, or you can attach it to a Model for easier rendering later on.
-		Mesh  cubeMesh  = Mesh.GenerateCube(Vec3.One * 0.4f);
+		Mesh cubeMesh = Mesh.GenerateCube(Vec3.One * 0.4f);
 		Model cubeModel = Model.FromMesh(cubeMesh, Default.Material);
 		/// :End:
 		demoCubeMesh  = cubeMesh;

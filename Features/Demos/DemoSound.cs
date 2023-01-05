@@ -61,11 +61,11 @@ namespace CicoLaboratory.Content.Demos
 
         public bool Initialize()
         {
-            /// :CodeSample: Sound Sound.FromFile Sound.Play
-            /// ### Basic usage
-            Sound sound = Sound.FromFile("BlipNoise.wav");
-            sound.Play(Vec3.Zero);
-            /// :End:
+            ///// :CodeSample: Sound Sound.FromFile Sound.Play
+            ///// ### Basic usage
+            //Sound sound = Sound.FromFile("BlipNoise.wav");
+            //sound.Play(Vec3.Zero);
+            ///// :End:
 
             /// :CodeSample: Sound Sound.Generate
             /// ### Generating a sound via generator
