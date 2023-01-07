@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using SixLabors.ImageSharp;
 using System.IO;
-using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace CicoLaboratory.Features
 {
@@ -50,9 +49,23 @@ namespace CicoLaboratory.Features
         public void Step()
         {
             UI.WindowBegin("Window", ref windowPose, new Vec2(20, 0) * U.cm, UIWin.Normal);
-            foreach(Tex tex in gifFramesTextures) {
-                UI.Image(Sprite.FromTex(tex), new Vec2(20, 0) * U.cm);
+
+
+            if(gifFramesTextures.Count > 0)
+            {
+                if (currentFrameNumber == gifFramesTextures.Count - 1)
+                {
+                    currentFrameNumber = 0;
+                }
+                else
+                {
+                    currentFrameNumber++;
+                }
+
+                UI.Image(Sprite.FromTex(gifFramesTextures[currentFrameNumber]), new Vec2(20, 0) * U.cm);
             }
+
+
             UI.WindowEnd();
         }
 
