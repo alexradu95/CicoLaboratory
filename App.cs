@@ -2,6 +2,7 @@
 using CicoLaboratory.Content.Demos;
 using CicoLaboratory.Content.Environment;
 using CicoLaboratory.Content.Locomotion;
+using CicoLaboratory.Features;
 using StereoKit;
 
 namespace CicoLaboratory;
@@ -25,7 +26,7 @@ public class App
     public void Init()
     {
         SK.AddStepper<FeatureActivatorMenu>();
-        SK.AddStepper<ControllerLocomotion>();
+        //SK.AddStepper<ControllerLocomotion>();
     }
 
     public void Step()
