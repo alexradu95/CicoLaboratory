@@ -25,7 +25,7 @@ public class App
 
     public void Init()
     {
-        SK.AddStepper<FeatureActivatorMenu>();
+        SK.AddStepper<ShowImage>();
         //SK.AddStepper<ControllerLocomotion>();
     }
 

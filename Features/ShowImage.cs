@@ -4,46 +4,58 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using SixLabors.ImageSharp;
 using System.IO;
+using ImageMagick;
+using System.Linq;
 
 namespace CicoLaboratory.Features
 {
     internal class ShowImage : IStepper
     {
         public bool Enabled => true;
-        List<Tex> gifFramesTextures = new List<Tex>();
+        List<Tex> gifFramesTextures = new();
+
         Pose windowPose = new Pose(-.4f, 0, 0, Quat.LookDir(1, 0, 1));
+        int delayTime = 0;
         int currentFrameNumber = 0;
 
-        public bool Initialize() {
+        public bool Initialize()
+        {
 
-            Task<Image> loadImageTask = RetrieveImageFromWeb("https://i.gifer.com/9zQg.gif");
-            loadImageTask.ContinueWith(image =>
-            {
-                Image result = image.Result;
-
-
-                while (result.Frames.Count > 0)
-                {
-                    var exportedFrame = result.Frames.ExportFrame(0);
-
-                    using (MemoryStream ms = new())
-                    {
-                        exportedFrame.SaveAsJpeg(ms);
-                        var texture = Tex.FromMemory(ms.ToArray());
-                        gifFramesTextures.Add(texture);
-                    }
-                }
-
-            });
+            var loadImage = RetrieveImageFromWeb("https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1").Result;
+            ExtractGifsFrame(loadImage);
 
             return true;
         }
 
+        private void ExtractGifsFrame(byte[] loadImage)
+        {
+
+            List<byte[]> frames = new List<byte[]>();
+
+            using (var image = new MagickImageCollection())
+            {
+                image.Read(loadImage);
+                gifFramesTextures = image.Select(imageFrame =>
+                {
+
+                    if (delayTime == 0)
+                    {
+                        delayTime = imageFrame.AnimationDelay;
+                    }
+                    using (var frameStream = new MemoryStream())
+                    {
+                        imageFrame.Format = MagickFormat.Png;
+                        imageFrame.Write(frameStream);
+                        return frameStream.ToArray();
+                    }
+                }).Select(byteArray => Tex.FromMemory(byteArray)).ToList();
+            }
+        }
+
         public void Shutdown()
         {
-            throw new NotImplementedException();
+            //donothing
         }
 
         public void Step()
@@ -51,7 +63,22 @@ namespace CicoLaboratory.Features
             UI.WindowBegin("Window", ref windowPose, new Vec2(20, 0) * U.cm, UIWin.Normal);
 
 
-            if(gifFramesTextures.Count > 0)
+            if (gifFramesTextures.Count > 0)
+            {
+                GoToNextFrame();
+
+                UI.Image(Sprite.FromTex(gifFramesTextures[currentFrameNumber]), new Vec2(20, 0) * U.cm);
+            }
+
+
+            UI.WindowEnd();
+        }
+
+        private void GoToNextFrame()
+        {
+            var timeTotal = Time.Total * 100;
+            var calc = timeTotal % delayTime;
+            if ((int) calc == 1 || (int) calc == 0) 
             {
                 if (currentFrameNumber == gifFramesTextures.Count - 1)
                 {
@@ -61,23 +88,17 @@ namespace CicoLaboratory.Features
                 {
                     currentFrameNumber++;
                 }
-
-                UI.Image(Sprite.FromTex(gifFramesTextures[currentFrameNumber]), new Vec2(20, 0) * U.cm);
             }
-
-
-            UI.WindowEnd();
         }
 
-        private async Task<Image> RetrieveImageFromWeb(string imageUrl)
+        private async Task<byte[]> RetrieveImageFromWeb(string imageUrl)
         {
             using var httpClient = new HttpClient();
             using var response = await httpClient.GetAsync(imageUrl);
 
             if (response.IsSuccessStatusCode)
             {
-                var byteArrayContent = await response.Content.ReadAsByteArrayAsync();
-                return Image.Load(byteArrayContent);
+                return await response.Content.ReadAsByteArrayAsync();
             }
 
             return null; //should return a placeholder
