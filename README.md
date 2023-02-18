@@ -1,4 +1,5 @@
-# 🧿 cicOS - personal OS for the future of mixed reality ~~headsets~~ eye-glasses 👓
+# 🧿 cicOS 
+## personal OS for the future of mixed reality ~~headsets~~ eye-glasses 👓
 https://en.wikipedia.org/wiki/Nazar_(amulet)****
 
 🚀 Getting Started
