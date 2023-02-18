@@ -5,7 +5,9 @@ https://en.wikipedia.org/wiki/Nazar_(amulet)****
 🚀 Getting Started
 
 To get started with the project, you will need the following:
+
  1️⃣ A compatible OpenXR headset or device, such as the Windows Mixed Reality headset or Oculus Quest
+ 
  2️⃣ A development environment with C# and .NET support, such as Visual Studio
 
 👥 Contributing
