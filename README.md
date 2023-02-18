@@ -1,7 +1,8 @@
-# cicOS
+# 🤖 cicOS
+## a simple idea/imagination of an operating system for the future mixed reality ~~headsets~~ eye-glasses
 
-🤖 OpenXR AI Assistant App 🌎👨‍💻
-This project is an 🌎 OpenXR app that uses 🤖 AI to provide assistance to users in a virtual or mixed reality environment. 
+
+This project is an OpenXR app that uses 🤖 AI to provide assistance to users in a virtual or mixed reality environment. 
 The app is written in C# and utilizes StereoKit. 
 
 🚀 Getting Started
