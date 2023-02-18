@@ -1,8 +1,6 @@
 ﻿using CicoLaboratory.Content;
 using CicoLaboratory.Content.Demos;
-using CicoLaboratory.Content.Environment;
-using CicoLaboratory.Content.Locomotion;
-using CicoLaboratory.Features;
+
 using StereoKit;
 
 namespace CicoLaboratory;
