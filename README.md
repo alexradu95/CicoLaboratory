@@ -1,7 +1,5 @@
-# 🤖 cicOS - personal OS for the future if mixed reality ~~headsets~~ eye-glasses
-
-This project is an OpenXR app that uses 🤖 AI to provide assistance to users in a virtual or mixed reality environment. 
-The app is written in C# and utilizes StereoKit. 
+# 🧿 cicOS - personal OS for the future of mixed reality ~~headsets~~ eye-glasses 👓
+https://en.wikipedia.org/wiki/Nazar_(amulet)****
 
 🚀 Getting Started
 To get started with the project, you will need the following:
@@ -14,6 +12,3 @@ Contributions to the project are welcome! To contribute, you can fork the reposi
 
 📄 License
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-🙏 Acknowledgments
-This project was inspired by the growing use of AI and OpenXR technologies in virtual and mixed reality environments. Special thanks to the creators of the various AI APIs and OpenXR frameworks used in this project, as well as the broader developer community for their contributions to these technologies.
