@@ -41,7 +41,7 @@ namespace VRWorld
 
         public bool Initialize()
         {
-            string openAiKey = "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";
+            string openAiKey = "";
 
             speechRecognizer = BuildSpeechRecognizer();
             openAIApi = new OpenAIAPI(openAiKey);
@@ -52,7 +52,7 @@ namespace VRWorld
         private SpeechRecognizer BuildSpeechRecognizer()
         {
             //Azure speech to text AI
-            string speechKey = "9abb06bd923b40fc9b99692bc077c9e9";
+            string speechKey = "";
             string speechRegion = "westeurope";
 
             var speechConfig = SpeechConfig.FromSubscription(speechKey, speechRegion);
