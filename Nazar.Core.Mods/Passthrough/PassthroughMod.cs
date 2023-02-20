@@ -1,11 +1,11 @@
-﻿using StereoKit;
-using StereoKit.Framework;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
+using StereoKit;
+using StereoKit.Framework;
 
-namespace CicoLaboratory.Content.Demos
+namespace Nazar.Core.Mods.Passthrough
 {
-    public class PassthroughFBExt : IStepper
+    public class PassthroughMod : IStepper
     {
         bool extAvailable;
         bool enabled;
@@ -33,11 +33,11 @@ namespace CicoLaboratory.Content.Demos
             }
         }
 
-        public PassthroughFBExt() : this(true) { }
-        public PassthroughFBExt(bool enabled = true)
+        public PassthroughMod() : this(true) { }
+        public PassthroughMod(bool enabled = true)
         {
             if (SK.IsInitialized)
-                Log.Err("PassthroughFBExt must be constructed before StereoKit is initialized!");
+                Log.Err("PassthroughMod must be constructed before StereoKit is initialized!");
             Backend.OpenXR.RequestExt("XR_FB_passthrough");
             enableOnInitialize = enabled;
         }

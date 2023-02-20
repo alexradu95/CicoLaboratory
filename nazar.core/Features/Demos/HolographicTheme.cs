@@ -1,11 +1,7 @@
-﻿using StereoKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using StereoKit;
 
-namespace CicoLaboratory.Content.Demos
+namespace nazar.core.Features.Demos
 {
     static class HolographicTheme
     {

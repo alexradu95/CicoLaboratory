@@ -1,12 +1,8 @@
-﻿using StereoKit;
+﻿using System;
+using StereoKit;
 using StereoKit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CicoLaboratory.Content.Locomotion
+namespace nazar.core.Features.Locomotion
 {
     internal class ControllerLocomotion : IStepper
     {

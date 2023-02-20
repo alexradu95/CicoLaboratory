@@ -1,7 +1,7 @@
 using StereoKit;
 using StereoKit.Framework;
 
-namespace CicoLaboratory.Content.Demos
+namespace nazar.core.Features.Demos
 {
     class DemoFilePicker : IStepper
     {

@@ -1,7 +1,7 @@
-﻿using StereoKit.Framework;
-using StereoKit;
+﻿using StereoKit;
+using StereoKit.Framework;
 
-namespace CicoLaboratory.Content.Demos
+namespace nazar.core.Features.Demos
 {
     internal class DemoAnimations : IStepper
     {

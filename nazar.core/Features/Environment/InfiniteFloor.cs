@@ -1,8 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
-using System;
 
-namespace CicoLaboratory.Content.Environment
+namespace nazar.core.Features.Environment
 {
     // Infinite floor feature from JumliVR repo
     internal class InfiniteFloor : IStepper

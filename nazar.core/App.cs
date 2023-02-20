@@ -1,13 +1,10 @@
-﻿using CicoLaboratory.Content;
-using CicoLaboratory.Content.Demos;
-
+﻿using Nazar.Core.Mods;
 using StereoKit;
 
 namespace Nazar.Core;
 
 public class App
 {
-    public static PassthroughFBExt passthrough;
 
     public SKSettings Settings => new SKSettings
     {
@@ -18,12 +15,12 @@ public class App
 
     public App()
     {
-        passthrough = SK.AddStepper<PassthroughFBExt>();
+
     }
 
     public void Init()
     {
-        SK.AddStepper<FeatureActivatorMenu>();
+        SK.AddStepper<CoreMods>();
     }
 
     public void Step()

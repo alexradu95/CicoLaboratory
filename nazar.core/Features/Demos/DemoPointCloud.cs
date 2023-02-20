@@ -1,6 +1,6 @@
-﻿using StereoKit;
-using System;
+﻿using System;
 using System.Linq;
+using StereoKit;
 using StereoKit.Framework;
 
 /* Unmerged change from project 'CicoLaboratory (net7.0-android)'
@@ -13,7 +13,7 @@ using CicoLaboratory.Content.Demos;
 namespace CicoLaboratory.Content.Demos
 */
 
-namespace CicoLaboratory.Content.Demos
+namespace nazar.core.Features.Demos
 {
     public class PointCloud
     {

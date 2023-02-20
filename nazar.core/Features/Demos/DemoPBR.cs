@@ -1,5 +1,8 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
+
+namespace nazar.core.Features.Demos;
+
 class DemoPBR : IStepper
 {
     const int materialGrid = 6;
@@ -69,9 +72,9 @@ class DemoPBR : IStepper
 
         Hierarchy.Push(Matrix.T(0, 0, -1));
 
-            UI.HandleBegin("Model", ref modelPose, pbrModel.Bounds * .2f);
-            pbrModel.Draw(Matrix.TRS(Vec3.Zero, Quat.FromAngles(0, 180, 0), 0.2f));
-            UI.HandleEnd();
+        UI.HandleBegin("Model", ref modelPose, pbrModel.Bounds * .2f);
+        pbrModel.Draw(Matrix.TRS(Vec3.Zero, Quat.FromAngles(0, 180, 0), 0.2f));
+        UI.HandleEnd();
 
         for (int y = 0; y < materialGrid; y++)
         {

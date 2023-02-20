@@ -1,8 +1,9 @@
-﻿using Nazar.Core;
-using StereoKit;
+﻿using StereoKit;
 using StereoKit.Framework;
 
-class DemoFBPassthrough : IStepper
+namespace Nazar.Core.Mods.Passthrough;
+
+class PassthroughModUI : IStepper
 {
     Pose windowPose = new Pose(0.5f, 0, -0.5f, Quat.LookDir(-1, 0, 1));
 
@@ -20,12 +21,12 @@ class DemoFBPassthrough : IStepper
     public void Step()
     {
         UI.WindowBegin("Passthrough Settings", ref windowPose);
-        bool toggle = App.passthrough.EnabledPassthrough;
-        UI.Label(App.passthrough.Available
+        bool toggle = CoreMods.passthroughMod.EnabledPassthrough;
+        UI.Label(CoreMods.passthroughMod.Available
             ? "Passthrough EXT available!"
             : "No passthrough EXT available :(");
         if (UI.Toggle("Passthrough", ref toggle))
-            App.passthrough.EnabledPassthrough = toggle;
+            CoreMods.passthroughMod.EnabledPassthrough = toggle;
         UI.WindowEnd();
 
         Text.Add(title, titlePose);

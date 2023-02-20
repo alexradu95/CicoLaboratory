@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using Nazar.Core.Mods.Passthrough;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace nazar.core.Features
+namespace Nazar.Core.Mods
 {
-    internal class FeatureActivatorMenu : IStepper
+    public class CoreMods : IStepper
     {
-
+        public static PassthroughMod passthroughMod;
 
         private List<Type> allSteppers = new List<Type>();
         Dictionary<string, IStepper> activeFeatures = new();
@@ -21,16 +21,21 @@ namespace nazar.core.Features
 
         public bool Initialize()
         {
-            FindAllSteppers();
+            InitializeMods();
 
             InitializeUI();
             return true;
         }
 
-        private void FindAllSteppers()
+        private void InitializeMods()
         {
-            allSteppers = Assembly.GetExecutingAssembly().GetTypes().Where(a => a != typeof(IStepper) && typeof(IStepper).IsAssignableFrom(a)).ToList();
-            allSteppers.Remove(typeof(FeatureActivatorMenu));
+            InitializePassthrough();
+        }
+
+        private void InitializePassthrough()
+        {
+            passthroughMod = SK.AddStepper<PassthroughMod>();
+            allSteppers.Add(typeof(PassthroughModUI));
         }
 
         private void InitializeUI()
@@ -49,7 +54,7 @@ namespace nazar.core.Features
         public void Step()
         {
             // Make a window for demo selection
-            UI.WindowBegin("Demos", ref demoSelectPose, new Vec2(50 * U.cm, 0));
+            UI.WindowBegin("Core Mods Settings", ref demoSelectPose, new Vec2(50 * U.cm, 0));
             foreach (string demoName in allSteppers.Select(el => el.Name))
             {
                 // If the button is pressed

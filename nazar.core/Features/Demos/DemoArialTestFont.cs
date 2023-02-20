@@ -1,12 +1,8 @@
-﻿using StereoKit;
+﻿using System;
+using StereoKit;
 using StereoKit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CicoLaboratory.Content.Demos
+namespace nazar.core.Features.Demos
 {
     class DemoArialTestFont : IStepper
     {
