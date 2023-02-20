@@ -1,5 +1,5 @@
 # 🧿 nazarOS 
-## personal OS imagination for the future of mixed reality ~~headsets~~ 👁️👓
+## personal OS imagination for the future of mixed reality ~~headsets~~
 
 👥 Contributing
 
