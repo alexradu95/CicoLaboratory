@@ -30,14 +30,14 @@ namespace Nazar.Core.Features
         {
             // Make a window for demo selection
             UI.WindowBegin("Core Mods Settings", ref demoSelectPose, new Vec2(50 * U.cm, 0));
-            foreach (string demoName in CoreFeaturesState.AllFeatures.Select(el => el.Name))
+            foreach (string demoName in CoreFeaturesState.ToggleableFeatures.Select(el => el.Name))
             {
                 // If the button is pressed
                 if (UI.Button(demoName))
                 {
                     if (!CoreFeaturesState.ActiveToggleableFeatures.ContainsKey(demoName))
                     {
-                        Type featureType = CoreFeaturesState.AllFeatures.FirstOrDefault(el => el.Name == demoName);
+                        Type featureType = CoreFeaturesState.ToggleableFeatures.FirstOrDefault(el => el.Name == demoName);
                         CoreFeaturesState.ActiveToggleableFeatures[demoName] = (IStepper)SK.AddStepper(featureType);
                     }
                     else

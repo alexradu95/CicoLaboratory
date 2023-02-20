@@ -3,14 +3,13 @@ using System.Runtime.InteropServices;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Core.Mods.Passthrough
+namespace Nazar.Core.Features.Passthrough
 {
-    public class PassthroughFunctionality : IStepper
+    public class PassthroughExtension : IStepper
     {
+        bool enabledPassthrough;
         bool extAvailable;
         bool enabled;
-        bool enabledPassthrough;
-        bool enableOnInitialize;
         bool passthroughRunning;
         XrPassthroughFB activePassthrough = new XrPassthroughFB();
         XrPassthroughLayerFB activeLayer = new XrPassthroughLayerFB();
@@ -33,13 +32,11 @@ namespace Nazar.Core.Mods.Passthrough
             }
         }
 
-        public PassthroughFunctionality() : this(true) { }
-        public PassthroughFunctionality(bool enabled = true)
+        public PassthroughExtension()
         {
             if (SK.IsInitialized)
                 Log.Err("PassthroughMod must be constructed before StereoKit is initialized!");
             Backend.OpenXR.RequestExt("XR_FB_passthrough");
-            enableOnInitialize = enabled;
         }
 
         public bool Initialize()
@@ -49,8 +46,11 @@ namespace Nazar.Core.Mods.Passthrough
                 Backend.OpenXR.ExtEnabled("XR_FB_passthrough") &&
                 LoadBindings();
 
-            if (enableOnInitialize)
-                EnabledPassthrough = true;
+            EnabledPassthrough = true;
+
+            // Adding the configure menu
+            CoreFeaturesState.ToggleableFeatures.Add(typeof(PassthroughMenu));
+
             return true;
         }
 
@@ -105,33 +105,33 @@ namespace Nazar.Core.Mods.Passthrough
         }
 
         #region OpenXR native bindings and types
-        enum XrStructureType : UInt64
+        enum XrStructureType : ulong
         {
             XR_TYPE_PASSTHROUGH_CREATE_INFO_FB = 1000118001,
             XR_TYPE_PASSTHROUGH_LAYER_CREATE_INFO_FB = 1000118002,
             XR_TYPE_PASSTHROUGH_STYLE_FB = 1000118020,
             XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_FB = 1000118003,
         }
-        enum XrPassthroughFlagsFB : UInt64
+        enum XrPassthroughFlagsFB : ulong
         {
             None = 0,
             IS_RUNNING_AT_CREATION_BIT_FB = 0x00000001
         }
-        enum XrCompositionLayerFlags : UInt64
+        enum XrCompositionLayerFlags : ulong
         {
             None = 0,
             CORRECT_CHROMATIC_ABERRATION_BIT = 0x00000001,
             BLEND_TEXTURE_SOURCE_ALPHA_BIT = 0x00000002,
             UNPREMULTIPLIED_ALPHA_BIT = 0x00000004,
         }
-        enum XrPassthroughLayerPurposeFB : UInt32
+        enum XrPassthroughLayerPurposeFB : uint
         {
             RECONSTRUCTION_FB = 0,
             PROJECTED_FB = 1,
             TRACKED_KEYBOARD_HANDS_FB = 1000203001,
             MAX_ENUM_FB = 0x7FFFFFFF,
         }
-        enum XrResult : UInt32
+        enum XrResult : uint
         {
             Success = 0,
         }
