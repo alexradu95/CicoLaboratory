@@ -1,4 +1,4 @@
-﻿using Nazar.Core.Extensions.Passthrough;
+﻿using Nazar.Core.Features.Passthrough;
 using Nazar.Core.Mods;
 using StereoKit;
 using StereoKit.Framework;
@@ -21,6 +21,7 @@ public class App : IStepper
     public App()
     {
         passthrough = SK.AddStepper<PassthroughService>();
+        SK.AddStepper<PassthroughModUI>();
     }
     public bool Initialize()
     {

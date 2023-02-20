@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Core.Mods.Passthrough;
+namespace Nazar.Core.Features.Passthrough;
 
 public class PassthroughModUI : IStepper
 {

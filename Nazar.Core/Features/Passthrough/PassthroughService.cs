@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Core.Extensions.Passthrough
+namespace Nazar.Core.Features.Passthrough
 {
     public class PassthroughService : IStepper
     {
