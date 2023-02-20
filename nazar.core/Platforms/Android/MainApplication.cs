@@ -2,7 +2,7 @@
 using Android.Runtime;
 using System;
 
-namespace Nazar.Core
+namespace Nazar
 {
     [Application]
     public class MainApplication : Application

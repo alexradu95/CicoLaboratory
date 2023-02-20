@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Core", "nazar.core\Nazar.Core.csproj", "{337D60E0-DA09-4F3F-98BA-3F230C414567}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar", "nazar.core\Nazar.csproj", "{337D60E0-DA09-4F3F-98BA-3F230C414567}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Core.Features", "Nazar.Core.Features\Nazar.Core.Features.csproj", "{F2B9B49C-12EA-4639-8C5C-D330B0E44766}"
 EndProject

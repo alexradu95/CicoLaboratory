@@ -4,17 +4,17 @@
 		<TargetFrameworks>net7.0;net7.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
 		<OutputType>Exe</OutputType>
-		<RootNamespace>Nazar.Core</RootNamespace>
+		<RootNamespace>Nazar</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<WindowsPackageType>None</WindowsPackageType>
 
 		<!-- Display name -->
-		<ApplicationTitle>nazar.core</ApplicationTitle>
+		<ApplicationTitle>Nazar</ApplicationTitle>
 		
 		<!-- App Identifier -->
-		<ApplicationId>net.alexradu.nazar.core</ApplicationId>
+		<ApplicationId>net.alexradu.nazar</ApplicationId>
 		<ApplicationIdGuid>3D5F4D8D-9662-432A-AFF9-6D745DA4EAAB</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -43,7 +43,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Nazar.Core.Features\Nazar.Core.Features.csproj" />
-	  <ProjectReference Include="..\Nazar.Core.Mods\Nazar.Core.Features.csproj" />
 	</ItemGroup>
 
 </Project>

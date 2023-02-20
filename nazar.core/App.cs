@@ -2,7 +2,7 @@
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Core;
+namespace Nazar;
 
 public class App : IStepper
 {
