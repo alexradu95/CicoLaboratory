@@ -24,7 +24,7 @@ namespace Nazar.Core
             // Initialize StereoKit, and the app
             if (!SK.Initialize(app.Settings))
                 Environment.Exit(1);
-            app.Init();
+            app.Initialize();
 
             // Now loop until finished, and then shut down
             SK.Run(app.Step);

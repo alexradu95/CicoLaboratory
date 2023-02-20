@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nazar.Core.Mods.Passthrough;
 using StereoKit;
 using StereoKit.Framework;
 
@@ -18,23 +17,19 @@ namespace Nazar.Core.Mods
 
         public bool Enabled => true;
 
-        public bool Initialize()
-        {
-            InitializeMods();
-
-            InitializeUI();
-            return true;
-        }
-
-        private void InitializeMods()
+        public CoreMods()
         {
             InitializePassthrough();
         }
 
+        public bool Initialize()
+        {
+            InitializeUI();
+            return true;
+        }
+
         private void InitializePassthrough()
         {
-            SK.AddStepper<PassthroughMod>();
-            allSteppers.Add(typeof(PassthroughModUI));
         }
 
         private void InitializeUI()

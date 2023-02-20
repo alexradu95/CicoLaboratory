@@ -9,7 +9,6 @@ using Java.Lang;
 using StereoKit;
 using System;
 using System.Threading.Tasks;
-using nazar.core;
 
 namespace Nazar.Core
 {
@@ -67,7 +66,7 @@ namespace Nazar.Core
                 settings.androidActivity = activityHandle;
                 if (!SK.Initialize(settings))
                     return;
-                app.Init();
+                app.Initialize();
 
                 // Now loop until finished, and then shut down
                 SK.Run(app.Step);
