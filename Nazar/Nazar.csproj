@@ -26,6 +26,8 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 
 		<SKOpenXRLoader>Oculus</SKOpenXRLoader>
+
+		<UserSecretsId>b78f3303-5171-4bf5-a609-96a5c476c283</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -38,11 +40,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
 		<PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Nazar.Core.Features\Nazar.Core.Features.csproj" />
+	  <ProjectReference Include="..\Nazar.Core\Nazar.Core.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Assets\**" />
+    <EmbeddedResource Remove="Assets\**" />
+    <None Remove="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.25.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="OpenAI" Version="1.4.0" />
@@ -14,17 +20,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Assets\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <UpToDateCheckInput Remove="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="secret_keys.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>secret_keys.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="secret_keys.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>secret_keys.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Assets\floor.hlsl" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <SKShader Include="Assets\floor.hlsl" />
   </ItemGroup>
 
 </Project>

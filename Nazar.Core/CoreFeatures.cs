@@ -2,6 +2,7 @@
 using Nazar.Core.Features.Passthrough;
 using StereoKit;
 using StereoKit.Framework;
+using VRWorld;
 
 namespace Nazar.Core.Mods
 {
@@ -18,6 +19,7 @@ namespace Nazar.Core.Mods
 
         public bool Initialize() {
 
+            CoreFeaturesState.ToggleableFeatures.Add(typeof(AiAssistant));
             return true;
 
         }
