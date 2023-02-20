@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Nazar.Features/OpenAI/App.config
+/Nazar.Features/OpenAI/secret_keys.settings
+/Nazar.Features/OpenAI/secret_keys.Designer.cs
