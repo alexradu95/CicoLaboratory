@@ -9,9 +9,8 @@ namespace Nazar.Core.Mods
 {
     public class CoreMods : IStepper
     {
-        public static PassthroughMod passthroughMod;
-
         private List<Type> allSteppers = new List<Type>();
+
         Dictionary<string, IStepper> activeFeatures = new();
 
         private Pose demoSelectPose = new Pose();
@@ -34,7 +33,7 @@ namespace Nazar.Core.Mods
 
         private void InitializePassthrough()
         {
-            passthroughMod = SK.AddStepper<PassthroughMod>();
+            SK.AddStepper<PassthroughMod>();
             allSteppers.Add(typeof(PassthroughModUI));
         }
 

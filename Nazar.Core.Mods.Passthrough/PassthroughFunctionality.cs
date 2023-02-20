@@ -5,7 +5,7 @@ using StereoKit.Framework;
 
 namespace Nazar.Core.Mods.Passthrough
 {
-    public class PassthroughMod : IStepper
+    public class PassthroughFunctionality : IStepper
     {
         bool extAvailable;
         bool enabled;
@@ -33,8 +33,8 @@ namespace Nazar.Core.Mods.Passthrough
             }
         }
 
-        public PassthroughMod() : this(true) { }
-        public PassthroughMod(bool enabled = true)
+        public PassthroughFunctionality() : this(true) { }
+        public PassthroughFunctionality(bool enabled = true)
         {
             if (SK.IsInitialized)
                 Log.Err("PassthroughMod must be constructed before StereoKit is initialized!");

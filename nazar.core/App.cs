@@ -1,4 +1,5 @@
-﻿using Nazar.Core.Mods;
+﻿using Nazar.Core.Features;
+using Nazar.Core.Mods;
 using StereoKit;
 
 namespace Nazar.Core;
@@ -21,6 +22,7 @@ public class App
     public void Init()
     {
         SK.AddStepper<CoreMods>();
+        SK.AddStepper<ExtensionMods>();
     }
 
     public void Step()

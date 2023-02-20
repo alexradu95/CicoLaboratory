@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -8,10 +8,5 @@
   <ItemGroup>
     <PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Nazar.Core.Mods.Passthrough\Nazar.Core.Mods.Passthrough.csproj" />
-  </ItemGroup>
-
+  
 </Project>
-
