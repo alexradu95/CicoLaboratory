@@ -1,7 +1,6 @@
 using StereoKit;
 using System;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OpenAI_API.Completions;
@@ -9,8 +8,6 @@ using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Microsoft.Extensions.Configuration;
 using StereoKit.Framework;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 using OpenAI_API;
 
 namespace VRWorld
@@ -44,10 +41,9 @@ namespace VRWorld
 
         public bool Initialize()
         {
-            var config = new ConfigurationBuilder().AddUserSecrets<AiAssistant>().Build();
-            string openAiKey = config.GetSection("OPENAI_API_KEY").Value;
+            string openAiKey = System.Configuration.ConfigurationManager.AppSettings["OPENAI_API_KEY"];
 
-            speechRecognizer = BuildSpeechRecognizer(config);
+            speechRecognizer = BuildSpeechRecognizer();
             checkRecordMic();
 
 
@@ -63,11 +59,12 @@ namespace VRWorld
 
         }
 
-        private SpeechRecognizer BuildSpeechRecognizer(IConfigurationRoot config)
+        private SpeechRecognizer BuildSpeechRecognizer()
         {
             //Azure speech to text AI
-            string speechKey = config.GetSection("SPEECH_KEY").Value;
-            string speechRegion = config.GetSection("SPEECH_REGION").Value;
+            string speechKey = System.Configuration.ConfigurationManager.AppSettings["SPEECH_KEY"];
+
+            string speechRegion = System.Configuration.ConfigurationManager.AppSettings["SPEECH_REGION"];
 
             var speechConfig = SpeechConfig.FromSubscription(speechKey, speechRegion);
             speechConfig.SpeechRecognitionLanguage = "en-US";
