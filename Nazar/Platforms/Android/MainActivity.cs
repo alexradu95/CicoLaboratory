@@ -1,10 +1,13 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.App;
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
 using Java.Lang;
 using StereoKit;
 using System;
@@ -64,6 +67,11 @@ namespace Nazar
                 // Initialize StereoKit, and the app
                 SKSettings settings = app.Settings;
                 settings.androidActivity = activityHandle;
+
+                // For requesting permission to use the Microphone
+                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.RecordAudio) != Android.Content.PM.Permission.Granted)
+                    ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.RecordAudio }, 1);
+
                 if (!SK.Initialize(settings))
                     return;
                 app.Initialize();

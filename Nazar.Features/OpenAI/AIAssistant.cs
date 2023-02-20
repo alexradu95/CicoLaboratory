@@ -23,7 +23,7 @@ namespace VRWorld
         Pose buttonPose = new Pose(0.04f, -0.32f, -0.34f, Quat.LookDir(-0.03f, 0.64f, 0.76f));
 
         //Microphone and text
-        bool record = true;
+        bool record = false;
         string textInput = "";
         string speechAIText = "";
 
@@ -41,30 +41,19 @@ namespace VRWorld
 
         public bool Initialize()
         {
-            string openAiKey = System.Configuration.ConfigurationManager.AppSettings["OPENAI_API_KEY"];
+            string openAiKey = "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";
 
             speechRecognizer = BuildSpeechRecognizer();
-            checkRecordMic();
-
-
-            //Open AI
             openAIApi = new OpenAIAPI(openAiKey);
 
-
-
             return true;
-
-
-
-
         }
 
         private SpeechRecognizer BuildSpeechRecognizer()
         {
             //Azure speech to text AI
-            string speechKey = System.Configuration.ConfigurationManager.AppSettings["SPEECH_KEY"];
-
-            string speechRegion = System.Configuration.ConfigurationManager.AppSettings["SPEECH_REGION"];
+            string speechKey = "9abb06bd923b40fc9b99692bc077c9e9";
+            string speechRegion = "westeurope";
 
             var speechConfig = SpeechConfig.FromSubscription(speechKey, speechRegion);
             speechConfig.SpeechRecognitionLanguage = "en-US";
@@ -84,15 +73,15 @@ namespace VRWorld
                 speechAIText = "";
             };
 
-            checkRecordMic = () =>
+            checkRecordMic = async () =>
             {
                 if (record)
                 {
-                    speechRecognizer.StartContinuousRecognitionAsync().Wait();
+                    await speechRecognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
                 }
                 else
                 {
-                    speechRecognizer.StopContinuousRecognitionAsync().Wait();
+                    await speechRecognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
                 }
             };
 
