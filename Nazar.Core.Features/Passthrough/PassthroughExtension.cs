@@ -46,10 +46,13 @@ namespace Nazar.Core.Features.Passthrough
                 Backend.OpenXR.ExtEnabled("XR_FB_passthrough") &&
                 LoadBindings();
 
-            EnabledPassthrough = true;
+            if(extAvailable)
+            {
+                EnabledPassthrough = true;
 
-            // Adding the configure menu
-            CoreFeaturesState.ToggleableFeatures.Add(typeof(PassthroughMenu));
+                // Adding the configure menu
+                CoreFeaturesState.ToggleableFeatures.Add(typeof(PassthroughMenu));
+            }
 
             return true;
         }
