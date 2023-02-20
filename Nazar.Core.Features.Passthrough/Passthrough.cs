@@ -5,11 +5,13 @@ using StereoKit.Framework;
 
 namespace Nazar.Core.Features.Passthrough
 {
-    public class PassthroughService : IStepper
+    public class Passthrough : IStepper
     {
-        bool extAvailable;
+        public static bool enabledPassthrough;
+
+        private static bool extAvailable;
+
         bool enabled;
-        bool enabledPassthrough;
         bool enableOnInitialize;
         bool passthroughRunning;
         XrPassthroughFB activePassthrough = new XrPassthroughFB();
@@ -18,7 +20,7 @@ namespace Nazar.Core.Features.Passthrough
         Color oldColor;
         bool oldSky;
 
-        public bool Available => extAvailable;
+        public static bool Available => extAvailable;
         public bool Enabled { get => extAvailable && enabled; set => enabled = value; }
         public bool EnabledPassthrough
         {
@@ -33,8 +35,8 @@ namespace Nazar.Core.Features.Passthrough
             }
         }
 
-        public PassthroughService() : this(true) { }
-        public PassthroughService(bool enabled = true)
+        public Passthrough() : this(true) { }
+        public Passthrough(bool enabled = true)
         {
             if (SK.IsInitialized)
                 Log.Err("PassthroughMod must be constructed before StereoKit is initialized!");

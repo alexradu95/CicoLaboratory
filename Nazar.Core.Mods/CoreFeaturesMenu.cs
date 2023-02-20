@@ -1,68 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Nazar.Core.Mods;
 using StereoKit;
 using StereoKit.Framework;
+using System;
+using System.Linq;
 
-namespace Nazar.Core.Mods
+namespace Nazar.Core.Features
 {
-    public class CoreMods : IStepper
+    internal class CoreFeaturesMenu : IStepper
     {
-        private List<Type> allSteppers = new List<Type>();
-
-        Dictionary<string, IStepper> activeFeatures = new();
 
         private Pose demoSelectPose = new Pose();
         private Sprite powerButton;
 
         public bool Enabled => true;
 
-        public CoreMods()
-        {
-            InitializePassthrough();
-        }
-
         public bool Initialize()
-        {
-            InitializeUI();
-            return true;
-        }
-
-        private void InitializePassthrough()
-        {
-        }
-
-        private void InitializeUI()
         {
             powerButton = Sprite.FromTex(Tex.FromFile("power.png"));
 
             demoSelectPose.position = new Vec3(0, 0, -0.6f);
             demoSelectPose.orientation = Quat.LookDir(-Vec3.Forward);
+
+            return true;
         }
 
-        public void Shutdown()
-        {
-            throw new NotImplementedException();
-        }
+        public void Shutdown() { }
 
         public void Step()
         {
             // Make a window for demo selection
             UI.WindowBegin("Core Mods Settings", ref demoSelectPose, new Vec2(50 * U.cm, 0));
-            foreach (string demoName in allSteppers.Select(el => el.Name))
+            foreach (string demoName in CoreFeaturesState.AllFeatures.Select(el => el.Name))
             {
                 // If the button is pressed
                 if (UI.Button(demoName))
                 {
-                    if (!activeFeatures.ContainsKey(demoName))
+                    if (!CoreFeaturesState.ActiveToggleableFeatures.ContainsKey(demoName))
                     {
-                        Type featureType = allSteppers.FirstOrDefault(el => el.Name == demoName);
-                        activeFeatures[demoName] = (IStepper) SK.AddStepper(featureType);
+                        Type featureType = CoreFeaturesState.AllFeatures.FirstOrDefault(el => el.Name == demoName);
+                        CoreFeaturesState.ActiveToggleableFeatures[demoName] = (IStepper)SK.AddStepper(featureType);
                     }
                     else
                     {
-                        SK.RemoveStepper(activeFeatures[demoName]);
-                        activeFeatures.Remove(demoName);
+                        SK.RemoveStepper(CoreFeaturesState.ActiveToggleableFeatures[demoName]);
+                        CoreFeaturesState.ActiveToggleableFeatures.Remove(demoName);
                     }
                 }
                 UI.SameLine();

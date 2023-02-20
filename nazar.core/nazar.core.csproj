@@ -42,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Nazar.Core.Mods\Nazar.Core.Mods.csproj" />
+	  <ProjectReference Include="..\Nazar.Core.Mods\Nazar.Core.Features.csproj" />
 	</ItemGroup>
 
 </Project>

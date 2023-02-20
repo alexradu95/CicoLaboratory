@@ -3,7 +3,7 @@ using StereoKit.Framework;
 
 namespace Nazar.Core.Features.Passthrough;
 
-public class PassthroughModUI : IStepper
+public class PassthroughMenu : IStepper
 {
     Pose windowPose = new Pose(0.5f, 0, -0.5f, Quat.LookDir(-1, 0, 1));
 
@@ -16,12 +16,12 @@ public class PassthroughModUI : IStepper
     public void Step()
     {
         UI.WindowBegin("Passthrough Settings", ref windowPose);
-        bool toggle = App.passthrough.EnabledPassthrough;
-        UI.Label(App.passthrough.Available
+        bool toggle = Passthrough.enabledPassthrough;
+        UI.Label(Passthrough.Available
             ? "Passthrough EXT available!"
             : "No passthrough EXT available :(");
         if (UI.Toggle("Passthrough", ref toggle))
-            App.passthrough.EnabledPassthrough = toggle;
+            Passthrough.enabledPassthrough = toggle;
         UI.WindowEnd();
     }
 }
