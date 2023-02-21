@@ -1,17 +1,23 @@
-﻿using StereoKit;
+﻿using System;
+using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Core.Features.Passthrough;
+namespace Nazar.Core.Passthrough;
 
 public class PassthroughMenu : IStepper
 {
-    Pose windowPose = new Pose(0.5f, 0, -0.5f, Quat.LookDir(-1, 0, 1));
+    private Pose windowPose = new(0.5f, 0, -0.5f, Quat.LookDir(-1, 0, 1));
 
-    public bool Enabled => throw new System.NotImplementedException();
+    public bool Enabled => throw new NotImplementedException();
 
-    public bool Initialize() { return true; }
+    public bool Initialize()
+    {
+        return true;
+    }
 
-    public void Shutdown() { }
+    public void Shutdown()
+    {
+    }
 
     public void Step()
     {

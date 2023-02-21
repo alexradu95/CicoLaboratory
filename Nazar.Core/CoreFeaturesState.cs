@@ -1,20 +1,19 @@
-﻿using Nazar.Core.Features.Passthrough;
-using StereoKit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Nazar.Core.Passthrough;
+using StereoKit.Framework;
 
-namespace Nazar.Core.Features
+namespace Nazar.Core;
+
+internal class CoreFeaturesState
 {
-    internal class CoreFeaturesState
-    {
-        #region Permanent features
-        internal static PassthroughExtension PassthroughExtension;
-        internal static CoreFeaturesMenu CoreFeatures;
+    internal static List<Type> ToggleableFeatures = new();
+    internal static Dictionary<string, IStepper> ActiveToggleableFeatures = new();
 
-        #endregion
-        internal static List<Type> ToggleableFeatures = new List<Type>();
-        internal static Dictionary<string, IStepper> ActiveToggleableFeatures = new();
+    #region Permanent features
 
+    internal static PassthroughExtension PassthroughExtension;
+    internal static CoreFeaturesMenu CoreFeatures;
 
-    }
+    #endregion
 }

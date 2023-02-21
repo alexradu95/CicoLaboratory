@@ -16,9 +16,14 @@ using System.Threading.Tasks;
 namespace Nazar
 {
     [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, Exported = true)]
-    [IntentFilter(new[] { Intent.ActionMain }, Categories = new[] { "org.khronos.openxr.intent.category.IMMERSIVE_HMD", "com.oculus.intent.category.VR", Intent.CategoryLauncher })]
+    [IntentFilter(new[] {Intent.ActionMain},
+        Categories = new[]
+        {
+            "org.khronos.openxr.intent.category.IMMERSIVE_HMD", "com.oculus.intent.category.VR", Intent.CategoryLauncher
+        })]
     public class MainActivity : AppCompatActivity, ISurfaceHolderCallback2
     {
+        static bool running = false;
         App app;
         View surface;
 
@@ -39,13 +44,14 @@ namespace Nazar
 
             Run(Handle);
         }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
+            [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Microsoft.Maui.ApplicationModel.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        static bool running = false;
         void Run(IntPtr activityHandle)
         {
             if (running)
@@ -58,9 +64,9 @@ namespace Nazar
                 // we'll use that, and pass the command line arguments into it on
                 // creation
                 Type appType = typeof(App);
-                app = appType.GetConstructor(new Type[] { typeof(string[]) }) != null
-                    ? (App)Activator.CreateInstance(appType, new object[] { new string[0] { } })
-                    : (App)Activator.CreateInstance(appType);
+                app = appType.GetConstructor(new Type[] {typeof(string[])}) != null
+                    ? (App) Activator.CreateInstance(appType, new object[] {new string[0] { }})
+                    : (App) Activator.CreateInstance(appType);
                 if (app == null)
                     throw new System.Exception("StereoKit loader couldn't construct an instance of the App!");
 
@@ -69,8 +75,9 @@ namespace Nazar
                 settings.androidActivity = activityHandle;
 
                 // For requesting permission to use the Microphone
-                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.RecordAudio) != Android.Content.PM.Permission.Granted)
-                    ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.RecordAudio }, 1);
+                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.RecordAudio) !=
+                    Android.Content.PM.Permission.Granted)
+                    ActivityCompat.RequestPermissions(this, new string[] {Manifest.Permission.RecordAudio}, 1);
 
                 if (!SK.Initialize(settings))
                     return;
@@ -84,9 +91,14 @@ namespace Nazar
         }
 
         // Events related to surface state changes
-        public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height) => SK.SetWindow(holder.Surface.Handle);
+        public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height) =>
+            SK.SetWindow(holder.Surface.Handle);
+
         public void SurfaceCreated(ISurfaceHolder holder) => SK.SetWindow(holder.Surface.Handle);
         public void SurfaceDestroyed(ISurfaceHolder holder) => SK.SetWindow(IntPtr.Zero);
-        public void SurfaceRedrawNeeded(ISurfaceHolder holder) { }
+
+        public void SurfaceRedrawNeeded(ISurfaceHolder holder)
+        {
+        }
     }
 }

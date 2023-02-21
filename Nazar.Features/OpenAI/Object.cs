@@ -1,94 +1,90 @@
 ﻿using Newtonsoft.Json.Linq;
 using StereoKit;
 
-namespace VRWorld
+namespace VRWorld;
+
+internal class Object
 {
-    internal class Object
+    private Color myColor;
+    private Model myModel;
+    private Pose myPose = Pose.Identity;
+    private Vec3 myScale = Vec3.One;
+
+    private string
+        myShape; //Can be "cube", "cylinder", "plane", "rounded cube". See generate funcitons at https://stereokit.net/Pages/StereoKit/Mesh.html
+
+    public Object(int anId, JObject someData) //JObject is a JSON object
     {
-        public int myId { get; }
-        Model myModel;
-        Color myColor;
-        Pose myPose = Pose.Identity;
-        Vec3 myScale = Vec3.One;
-        string myShape; //Can be "cube", "cylinder", "plane", "rounded cube". See generate funcitons at https://stereokit.net/Pages/StereoKit/Mesh.html
+        myId = anId;
 
-        public Object(int anId, JObject someData) //JObject is a JSON object
+        UpdateFromJSON(someData);
+    }
+
+    public int myId { get; }
+
+    public void UpdateFromJSON(JObject someData)
+    {
+        someData.TryGetValue("position", out JToken JPos);
+        someData.TryGetValue("scale", out JToken JScale);
+        someData.TryGetValue("shape", out JToken JShape);
+        someData.TryGetValue("color", out JToken JColor);
+
+        //Position
+        if (JPos != null) myPose.position = JSONConverter.FromJSONVec3((JObject) JPos);
+        //Scale
+        if (JScale != null) myScale = JSONConverter.FromJSONVec3((JObject) JScale);
+        //Mesh
+        if (JShape != null)
         {
-            myId = anId;
+            string str = JShape.ToString();
+            myShape = str;
 
-            UpdateFromJSON(someData);
-        }
-
-        public void UpdateFromJSON(JObject someData)
-        {
-            someData.TryGetValue("position", out JToken JPos);
-            someData.TryGetValue("scale", out JToken JScale);
-            someData.TryGetValue("shape", out JToken JShape);
-            someData.TryGetValue("color", out JToken JColor);
-
-            //Position
-            if (JPos != null)
+            if (str == "cube")
             {
-                myPose.position = JSONConverter.FromJSONVec3((JObject)JPos);
+                myModel = Model.FromMesh(Mesh.Cube, Material.UI);
             }
-            //Scale
-            if (JScale != null)
+            else if (str == "sphere")
             {
-                myScale = JSONConverter.FromJSONVec3((JObject)JScale);
+                myModel = Model.FromMesh(Mesh.Sphere, Material.UI);
             }
-            //Mesh
-            if (JShape != null)
+            else if (str == "cylinder")
             {
-                string str = JShape.ToString();
-                myShape = str;
-
-                if (str == "cube")
-                {
-                    myModel = Model.FromMesh(Mesh.Cube, Material.UI);
-                }
-                else if (str == "sphere")
-                {
-                    myModel = Model.FromMesh(Mesh.Sphere, Material.UI);
-                }
-                else if (str == "cylinder")
-                {
-                    Mesh cylinder = Mesh.GenerateCylinder(1.0f, 1.0f, Vec3.Up);
-                    myModel = Model.FromMesh(cylinder, Material.UI);
-                }
-                //continue with more meshes
-                else //default cube
-                {
-                    myModel = Model.FromMesh(Mesh.Cube, Material.UI);
-                }
-                
+                Mesh cylinder = Mesh.GenerateCylinder(1.0f, 1.0f, Vec3.Up);
+                myModel = Model.FromMesh(cylinder, Material.UI);
             }
-            //Color
-            if (JColor != null)
+            //continue with more meshes
+            else //default cube
             {
-                Color color = JSONConverter.FromJSONColor((JObject)JColor);
-                myColor = color;
+                myModel = Model.FromMesh(Mesh.Cube, Material.UI);
             }
         }
 
-        JObject ToJson()
+        //Color
+        if (JColor != null)
         {
-            JObject result = new JObject();
-            result.Add("id", myId);
-            result.Add("position", JSONConverter.ToJSON(myPose.position));
-            result.Add("scale", JSONConverter.ToJSON(myScale));
-            result.Add("shape", myShape);
-            result.Add("color", JSONConverter.ToJSON(myColor));
-
-            return result;
+            Color color = JSONConverter.FromJSONColor((JObject) JColor);
+            myColor = color;
         }
+    }
 
-        public void Draw()
-        {
-            Vec3 worldPositionOffset = new Vec3(0, -0.5f, -1);
-            Vec3 worldScaleOffset = new Vec3(0.5f, 0.5f, 0.5f);
-            Matrix worldOffset = Matrix.TS(worldPositionOffset, worldScaleOffset);
-            
-            myModel.Draw(myPose.ToMatrix(myScale) * worldOffset, myColor);
-        }
+    private JObject ToJson()
+    {
+        JObject result = new();
+        result.Add("id", myId);
+        result.Add("position", JSONConverter.ToJSON(myPose.position));
+        result.Add("scale", JSONConverter.ToJSON(myScale));
+        result.Add("shape", myShape);
+        result.Add("color", JSONConverter.ToJSON(myColor));
+
+        return result;
+    }
+
+    public void Draw()
+    {
+        Vec3 worldPositionOffset = new(0, -0.5f, -1);
+        Vec3 worldScaleOffset = new(0.5f, 0.5f, 0.5f);
+        Matrix worldOffset = Matrix.TS(worldPositionOffset, worldScaleOffset);
+
+        myModel.Draw(myPose.ToMatrix(myScale) * worldOffset, myColor);
     }
 }

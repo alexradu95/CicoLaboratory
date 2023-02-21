@@ -1,257 +1,297 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Core.Features.Passthrough
+namespace Nazar.Core.Passthrough;
+
+public class PassthroughExtension : IStepper
 {
-    public class PassthroughExtension : IStepper
+    private XrPassthroughLayerFB activeLayer;
+    private XrPassthroughFB activePassthrough;
+    private bool enabled;
+    private bool enabledPassthrough;
+
+    private Color oldColor;
+    private bool oldSky;
+    private bool passthroughRunning;
+
+    public PassthroughExtension()
     {
-        bool enabledPassthrough;
-        bool extAvailable;
-        bool enabled;
-        bool passthroughRunning;
-        XrPassthroughFB activePassthrough = new XrPassthroughFB();
-        XrPassthroughLayerFB activeLayer = new XrPassthroughLayerFB();
+        if (SK.IsInitialized)
+            Log.Err("PassthroughMod must be constructed before StereoKit is initialized!");
+        Backend.OpenXR.RequestExt("XR_FB_passthrough");
+    }
 
-        Color oldColor;
-        bool oldSky;
+    public bool Available { get; private set; }
 
-        public bool Available => extAvailable;
-        public bool Enabled { get => extAvailable && enabled; set => enabled = value; }
-        public bool EnabledPassthrough
+    public bool EnabledPassthrough
+    {
+        get => enabledPassthrough;
+        set
         {
-            get => enabledPassthrough; set
+            if (enabledPassthrough != value)
             {
-                if (enabledPassthrough != value)
-                {
-                    enabledPassthrough = value;
-                    if (enabledPassthrough) StartPassthrough();
-                    if (!enabledPassthrough) EndPassthrough();
-                }
+                enabledPassthrough = value;
+                if (enabledPassthrough) StartPassthrough();
+                if (!enabledPassthrough) EndPassthrough();
             }
         }
+    }
 
-        public PassthroughExtension()
+    public bool Enabled
+    {
+        get => Available && enabled;
+        set => enabled = value;
+    }
+
+    public bool Initialize()
+    {
+        Available =
+            Backend.XRType == BackendXRType.OpenXR &&
+            Backend.OpenXR.ExtEnabled("XR_FB_passthrough") &&
+            LoadBindings();
+
+        if (Available)
         {
-            if (SK.IsInitialized)
-                Log.Err("PassthroughMod must be constructed before StereoKit is initialized!");
-            Backend.OpenXR.RequestExt("XR_FB_passthrough");
+            EnabledPassthrough = true;
+
+            // Adding the configure menu
+            CoreFeaturesState.ToggleableFeatures.Add(typeof(PassthroughMenu));
         }
 
-        public bool Initialize()
-        {
-            extAvailable =
-                Backend.XRType == BackendXRType.OpenXR &&
-                Backend.OpenXR.ExtEnabled("XR_FB_passthrough") &&
-                LoadBindings();
+        return true;
+    }
 
-            if(extAvailable)
-            {
-                EnabledPassthrough = true;
+    public void Step()
+    {
+        if (!EnabledPassthrough) return;
 
-                // Adding the configure menu
-                CoreFeaturesState.ToggleableFeatures.Add(typeof(PassthroughMenu));
-            }
+        XrCompositionLayerPassthroughFB layer = new(
+            XrCompositionLayerFlags.BLEND_TEXTURE_SOURCE_ALPHA_BIT, activeLayer);
+        Backend.OpenXR.AddCompositionLayer(layer, -1);
+    }
 
-            return true;
-        }
+    public void Shutdown()
+    {
+        EnabledPassthrough = false;
+    }
 
-        public void Step()
-        {
-            if (!EnabledPassthrough) return;
+    private void StartPassthrough()
+    {
+        if (!Available) return;
+        if (passthroughRunning) return;
+        passthroughRunning = true;
 
-            XrCompositionLayerPassthroughFB layer = new XrCompositionLayerPassthroughFB(
-                XrCompositionLayerFlags.BLEND_TEXTURE_SOURCE_ALPHA_BIT, activeLayer);
-            Backend.OpenXR.AddCompositionLayer(layer, -1);
-        }
+        oldColor = Renderer.ClearColor;
+        oldSky = Renderer.EnableSky;
 
-        public void Shutdown()
-        {
-            EnabledPassthrough = false;
-        }
+        XrResult result = xrCreatePassthroughFB(
+            Backend.OpenXR.Session,
+            new XrPassthroughCreateInfoFB(XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB),
+            out activePassthrough);
 
-        void StartPassthrough()
-        {
-            if (!extAvailable) return;
-            if (passthroughRunning) return;
-            passthroughRunning = true;
+        result = xrCreatePassthroughLayerFB(
+            Backend.OpenXR.Session,
+            new XrPassthroughLayerCreateInfoFB(activePassthrough, XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB,
+                XrPassthroughLayerPurposeFB.RECONSTRUCTION_FB),
+            out activeLayer);
 
-            oldColor = Renderer.ClearColor;
-            oldSky = Renderer.EnableSky;
+        Renderer.ClearColor = Color.BlackTransparent;
+        Renderer.EnableSky = false;
+    }
 
-            XrResult result = xrCreatePassthroughFB(
-                Backend.OpenXR.Session,
-                new XrPassthroughCreateInfoFB(XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB),
-                out activePassthrough);
+    private void EndPassthrough()
+    {
+        if (!passthroughRunning) return;
+        passthroughRunning = false;
 
-            result = xrCreatePassthroughLayerFB(
-                Backend.OpenXR.Session,
-                new XrPassthroughLayerCreateInfoFB(activePassthrough, XrPassthroughFlagsFB.IS_RUNNING_AT_CREATION_BIT_FB, XrPassthroughLayerPurposeFB.RECONSTRUCTION_FB),
-                out activeLayer);
+        xrPassthroughPauseFB(activePassthrough);
+        xrDestroyPassthroughLayerFB(activeLayer);
+        xrDestroyPassthroughFB(activePassthrough);
 
-            Renderer.ClearColor = Color.BlackTransparent;
-            Renderer.EnableSky = false;
-        }
+        Renderer.ClearColor = oldColor;
+        Renderer.EnableSky = oldSky;
+    }
 
-        void EndPassthrough()
-        {
-            if (!passthroughRunning) return;
-            passthroughRunning = false;
+    #region OpenXR native bindings and types
 
-            xrPassthroughPauseFB(activePassthrough);
-            xrDestroyPassthroughLayerFB(activeLayer);
-            xrDestroyPassthroughFB(activePassthrough);
+    private enum XrStructureType : ulong
+    {
+        XR_TYPE_PASSTHROUGH_CREATE_INFO_FB = 1000118001,
+        XR_TYPE_PASSTHROUGH_LAYER_CREATE_INFO_FB = 1000118002,
+        XR_TYPE_PASSTHROUGH_STYLE_FB = 1000118020,
+        XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_FB = 1000118003
+    }
 
-            Renderer.ClearColor = oldColor;
-            Renderer.EnableSky = oldSky;
-        }
+    private enum XrPassthroughFlagsFB : ulong
+    {
+        None = 0,
+        IS_RUNNING_AT_CREATION_BIT_FB = 0x00000001
+    }
 
-        #region OpenXR native bindings and types
-        enum XrStructureType : ulong
-        {
-            XR_TYPE_PASSTHROUGH_CREATE_INFO_FB = 1000118001,
-            XR_TYPE_PASSTHROUGH_LAYER_CREATE_INFO_FB = 1000118002,
-            XR_TYPE_PASSTHROUGH_STYLE_FB = 1000118020,
-            XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_FB = 1000118003,
-        }
-        enum XrPassthroughFlagsFB : ulong
-        {
-            None = 0,
-            IS_RUNNING_AT_CREATION_BIT_FB = 0x00000001
-        }
-        enum XrCompositionLayerFlags : ulong
-        {
-            None = 0,
-            CORRECT_CHROMATIC_ABERRATION_BIT = 0x00000001,
-            BLEND_TEXTURE_SOURCE_ALPHA_BIT = 0x00000002,
-            UNPREMULTIPLIED_ALPHA_BIT = 0x00000004,
-        }
-        enum XrPassthroughLayerPurposeFB : uint
-        {
-            RECONSTRUCTION_FB = 0,
-            PROJECTED_FB = 1,
-            TRACKED_KEYBOARD_HANDS_FB = 1000203001,
-            MAX_ENUM_FB = 0x7FFFFFFF,
-        }
-        enum XrResult : uint
-        {
-            Success = 0,
-        }
+    private enum XrCompositionLayerFlags : ulong
+    {
+        None = 0,
+        CORRECT_CHROMATIC_ABERRATION_BIT = 0x00000001,
+        BLEND_TEXTURE_SOURCE_ALPHA_BIT = 0x00000002,
+        UNPREMULTIPLIED_ALPHA_BIT = 0x00000004
+    }
+
+    private enum XrPassthroughLayerPurposeFB : uint
+    {
+        RECONSTRUCTION_FB = 0,
+        PROJECTED_FB = 1,
+        TRACKED_KEYBOARD_HANDS_FB = 1000203001,
+        MAX_ENUM_FB = 0x7FFFFFFF
+    }
+
+    private enum XrResult : uint
+    {
+        Success = 0
+    }
 
 #pragma warning disable 0169 // handle is not "used", but required for interop
-        struct XrPassthroughFB { ulong handle; }
-        struct XrPassthroughLayerFB { ulong handle; }
+    private struct XrPassthroughFB
+    {
+        private ulong handle;
+    }
+
+    private struct XrPassthroughLayerFB
+    {
+        private ulong handle;
+    }
 #pragma warning restore 0169
 
-        [StructLayout(LayoutKind.Sequential)]
-        struct XrPassthroughCreateInfoFB
+    [StructLayout(LayoutKind.Sequential)]
+    private struct XrPassthroughCreateInfoFB
+    {
+        private readonly XrStructureType type;
+        public readonly nint next;
+        public readonly XrPassthroughFlagsFB flags;
+
+        public XrPassthroughCreateInfoFB(XrPassthroughFlagsFB passthroughFlags)
         {
-            private XrStructureType type;
-            public IntPtr next;
-            public XrPassthroughFlagsFB flags;
-
-            public XrPassthroughCreateInfoFB(XrPassthroughFlagsFB passthroughFlags)
-            {
-                type = XrStructureType.XR_TYPE_PASSTHROUGH_CREATE_INFO_FB;
-                next = IntPtr.Zero;
-                flags = passthroughFlags;
-            }
+            type = XrStructureType.XR_TYPE_PASSTHROUGH_CREATE_INFO_FB;
+            next = nint.Zero;
+            flags = passthroughFlags;
         }
-        [StructLayout(LayoutKind.Sequential)]
-        struct XrPassthroughLayerCreateInfoFB
-        {
-            private XrStructureType type;
-            public IntPtr next;
-            public XrPassthroughFB passthrough;
-            public XrPassthroughFlagsFB flags;
-            public XrPassthroughLayerPurposeFB purpose;
-
-            public XrPassthroughLayerCreateInfoFB(XrPassthroughFB passthrough, XrPassthroughFlagsFB flags, XrPassthroughLayerPurposeFB purpose)
-            {
-                type = XrStructureType.XR_TYPE_PASSTHROUGH_LAYER_CREATE_INFO_FB;
-                next = IntPtr.Zero;
-                this.passthrough = passthrough;
-                this.flags = flags;
-                this.purpose = purpose;
-            }
-        }
-        [StructLayout(LayoutKind.Sequential)]
-        struct XrPassthroughStyleFB
-        {
-            public XrStructureType type;
-            public IntPtr next;
-            public float textureOpacityFactor;
-            public Color edgeColor;
-            public XrPassthroughStyleFB(float textureOpacityFactor, Color edgeColor)
-            {
-                type = XrStructureType.XR_TYPE_PASSTHROUGH_STYLE_FB;
-                next = IntPtr.Zero;
-                this.textureOpacityFactor = textureOpacityFactor;
-                this.edgeColor = edgeColor;
-            }
-        }
-        [StructLayout(LayoutKind.Sequential)]
-        struct XrCompositionLayerPassthroughFB
-        {
-            public XrStructureType type;
-            public IntPtr next;
-            public XrCompositionLayerFlags flags;
-            public ulong space;
-            public XrPassthroughLayerFB layerHandle;
-            public XrCompositionLayerPassthroughFB(XrCompositionLayerFlags flags, XrPassthroughLayerFB layerHandle)
-            {
-                type = XrStructureType.XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_FB;
-                next = IntPtr.Zero;
-                space = 0;
-                this.flags = flags;
-                this.layerHandle = layerHandle;
-            }
-        }
-
-        delegate XrResult del_xrCreatePassthroughFB(ulong session, [In] XrPassthroughCreateInfoFB createInfo, out XrPassthroughFB outPassthrough);
-        delegate XrResult del_xrDestroyPassthroughFB(XrPassthroughFB passthrough);
-        delegate XrResult del_xrPassthroughStartFB(XrPassthroughFB passthrough);
-        delegate XrResult del_xrPassthroughPauseFB(XrPassthroughFB passthrough);
-        delegate XrResult del_xrCreatePassthroughLayerFB(ulong session, [In] XrPassthroughLayerCreateInfoFB createInfo, out XrPassthroughLayerFB outLayer);
-        delegate XrResult del_xrDestroyPassthroughLayerFB(XrPassthroughLayerFB layer);
-        delegate XrResult del_xrPassthroughLayerPauseFB(XrPassthroughLayerFB layer);
-        delegate XrResult del_xrPassthroughLayerResumeFB(XrPassthroughLayerFB layer);
-        delegate XrResult del_xrPassthroughLayerSetStyleFB(XrPassthroughLayerFB layer, [In] XrPassthroughStyleFB style);
-
-        del_xrCreatePassthroughFB xrCreatePassthroughFB;
-        del_xrDestroyPassthroughFB xrDestroyPassthroughFB;
-        del_xrPassthroughStartFB xrPassthroughStartFB;
-        del_xrPassthroughPauseFB xrPassthroughPauseFB;
-        del_xrCreatePassthroughLayerFB xrCreatePassthroughLayerFB;
-        del_xrDestroyPassthroughLayerFB xrDestroyPassthroughLayerFB;
-        del_xrPassthroughLayerPauseFB xrPassthroughLayerPauseFB;
-        del_xrPassthroughLayerResumeFB xrPassthroughLayerResumeFB;
-        del_xrPassthroughLayerSetStyleFB xrPassthroughLayerSetStyleFB;
-
-        bool LoadBindings()
-        {
-            xrCreatePassthroughFB = Backend.OpenXR.GetFunction<del_xrCreatePassthroughFB>("xrCreatePassthroughFB");
-            xrDestroyPassthroughFB = Backend.OpenXR.GetFunction<del_xrDestroyPassthroughFB>("xrDestroyPassthroughFB");
-            xrPassthroughStartFB = Backend.OpenXR.GetFunction<del_xrPassthroughStartFB>("xrPassthroughStartFB");
-            xrPassthroughPauseFB = Backend.OpenXR.GetFunction<del_xrPassthroughPauseFB>("xrPassthroughPauseFB");
-            xrCreatePassthroughLayerFB = Backend.OpenXR.GetFunction<del_xrCreatePassthroughLayerFB>("xrCreatePassthroughLayerFB");
-            xrDestroyPassthroughLayerFB = Backend.OpenXR.GetFunction<del_xrDestroyPassthroughLayerFB>("xrDestroyPassthroughLayerFB");
-            xrPassthroughLayerPauseFB = Backend.OpenXR.GetFunction<del_xrPassthroughLayerPauseFB>("xrPassthroughLayerPauseFB");
-            xrPassthroughLayerResumeFB = Backend.OpenXR.GetFunction<del_xrPassthroughLayerResumeFB>("xrPassthroughLayerResumeFB");
-            xrPassthroughLayerSetStyleFB = Backend.OpenXR.GetFunction<del_xrPassthroughLayerSetStyleFB>("xrPassthroughLayerSetStyleFB");
-
-            return
-                xrCreatePassthroughFB != null &&
-                xrDestroyPassthroughFB != null &&
-                xrPassthroughStartFB != null &&
-                xrPassthroughPauseFB != null &&
-                xrCreatePassthroughLayerFB != null &&
-                xrDestroyPassthroughLayerFB != null &&
-                xrPassthroughLayerPauseFB != null &&
-                xrPassthroughLayerResumeFB != null &&
-                xrPassthroughLayerSetStyleFB != null;
-        }
-        #endregion
     }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct XrPassthroughLayerCreateInfoFB
+    {
+        private readonly XrStructureType type;
+        public readonly nint next;
+        public readonly XrPassthroughFB passthrough;
+        public readonly XrPassthroughFlagsFB flags;
+        public readonly XrPassthroughLayerPurposeFB purpose;
+
+        public XrPassthroughLayerCreateInfoFB(XrPassthroughFB passthrough, XrPassthroughFlagsFB flags,
+            XrPassthroughLayerPurposeFB purpose)
+        {
+            type = XrStructureType.XR_TYPE_PASSTHROUGH_LAYER_CREATE_INFO_FB;
+            next = nint.Zero;
+            this.passthrough = passthrough;
+            this.flags = flags;
+            this.purpose = purpose;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct XrPassthroughStyleFB
+    {
+        public readonly XrStructureType type;
+        public readonly nint next;
+        public readonly float textureOpacityFactor;
+        public readonly Color edgeColor;
+
+        public XrPassthroughStyleFB(float textureOpacityFactor, Color edgeColor)
+        {
+            type = XrStructureType.XR_TYPE_PASSTHROUGH_STYLE_FB;
+            next = nint.Zero;
+            this.textureOpacityFactor = textureOpacityFactor;
+            this.edgeColor = edgeColor;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct XrCompositionLayerPassthroughFB
+    {
+        public readonly XrStructureType type;
+        public readonly nint next;
+        public readonly XrCompositionLayerFlags flags;
+        public readonly ulong space;
+        public readonly XrPassthroughLayerFB layerHandle;
+
+        public XrCompositionLayerPassthroughFB(XrCompositionLayerFlags flags, XrPassthroughLayerFB layerHandle)
+        {
+            type = XrStructureType.XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_FB;
+            next = nint.Zero;
+            space = 0;
+            this.flags = flags;
+            this.layerHandle = layerHandle;
+        }
+    }
+
+    private delegate XrResult del_xrCreatePassthroughFB(ulong session, [In] XrPassthroughCreateInfoFB createInfo,
+        out XrPassthroughFB outPassthrough);
+
+    private delegate XrResult del_xrDestroyPassthroughFB(XrPassthroughFB passthrough);
+
+    private delegate XrResult del_xrPassthroughStartFB(XrPassthroughFB passthrough);
+
+    private delegate XrResult del_xrPassthroughPauseFB(XrPassthroughFB passthrough);
+
+    private delegate XrResult del_xrCreatePassthroughLayerFB(ulong session,
+        [In] XrPassthroughLayerCreateInfoFB createInfo, out XrPassthroughLayerFB outLayer);
+
+    private delegate XrResult del_xrDestroyPassthroughLayerFB(XrPassthroughLayerFB layer);
+
+    private delegate XrResult del_xrPassthroughLayerPauseFB(XrPassthroughLayerFB layer);
+
+    private delegate XrResult del_xrPassthroughLayerResumeFB(XrPassthroughLayerFB layer);
+
+    private delegate XrResult del_xrPassthroughLayerSetStyleFB(XrPassthroughLayerFB layer,
+        [In] XrPassthroughStyleFB style);
+
+    private del_xrCreatePassthroughFB xrCreatePassthroughFB;
+    private del_xrDestroyPassthroughFB xrDestroyPassthroughFB;
+    private del_xrPassthroughStartFB xrPassthroughStartFB;
+    private del_xrPassthroughPauseFB xrPassthroughPauseFB;
+    private del_xrCreatePassthroughLayerFB xrCreatePassthroughLayerFB;
+    private del_xrDestroyPassthroughLayerFB xrDestroyPassthroughLayerFB;
+    private del_xrPassthroughLayerPauseFB xrPassthroughLayerPauseFB;
+    private del_xrPassthroughLayerResumeFB xrPassthroughLayerResumeFB;
+    private del_xrPassthroughLayerSetStyleFB xrPassthroughLayerSetStyleFB;
+
+    private bool LoadBindings()
+    {
+        xrCreatePassthroughFB = Backend.OpenXR.GetFunction<del_xrCreatePassthroughFB>("xrCreatePassthroughFB");
+        xrDestroyPassthroughFB = Backend.OpenXR.GetFunction<del_xrDestroyPassthroughFB>("xrDestroyPassthroughFB");
+        xrPassthroughStartFB = Backend.OpenXR.GetFunction<del_xrPassthroughStartFB>("xrPassthroughStartFB");
+        xrPassthroughPauseFB = Backend.OpenXR.GetFunction<del_xrPassthroughPauseFB>("xrPassthroughPauseFB");
+        xrCreatePassthroughLayerFB =
+            Backend.OpenXR.GetFunction<del_xrCreatePassthroughLayerFB>("xrCreatePassthroughLayerFB");
+        xrDestroyPassthroughLayerFB =
+            Backend.OpenXR.GetFunction<del_xrDestroyPassthroughLayerFB>("xrDestroyPassthroughLayerFB");
+        xrPassthroughLayerPauseFB =
+            Backend.OpenXR.GetFunction<del_xrPassthroughLayerPauseFB>("xrPassthroughLayerPauseFB");
+        xrPassthroughLayerResumeFB =
+            Backend.OpenXR.GetFunction<del_xrPassthroughLayerResumeFB>("xrPassthroughLayerResumeFB");
+        xrPassthroughLayerSetStyleFB =
+            Backend.OpenXR.GetFunction<del_xrPassthroughLayerSetStyleFB>("xrPassthroughLayerSetStyleFB");
+
+        return
+            xrCreatePassthroughFB != null &&
+            xrDestroyPassthroughFB != null &&
+            xrPassthroughStartFB != null &&
+            xrPassthroughPauseFB != null &&
+            xrCreatePassthroughLayerFB != null &&
+            xrDestroyPassthroughLayerFB != null &&
+            xrPassthroughLayerPauseFB != null &&
+            xrPassthroughLayerResumeFB != null &&
+            xrPassthroughLayerSetStyleFB != null;
+    }
+
+    #endregion
 }

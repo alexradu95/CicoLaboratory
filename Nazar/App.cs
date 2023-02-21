@@ -1,14 +1,19 @@
 ﻿//using Nazar.Core.Mods;
-using Nazar.Core.Mods;
+
+using Nazar.Core;
 using StereoKit;
 using StereoKit.Framework;
-using VRWorld;
 
 namespace Nazar;
 
 public class App : IStepper
 {
-    public SKSettings Settings => new SKSettings
+    public App()
+    {
+        SK.AddStepper<CoreFeatures>();
+    }
+
+    public SKSettings Settings => new()
     {
         appName = "nazar.OS",
         assetsFolder = "Assets",
@@ -17,11 +22,16 @@ public class App : IStepper
 
     public bool Enabled => true;
 
-    public App()
+    public bool Initialize()
     {
-        SK.AddStepper<CoreFeatures>();
+        return true;
     }
-    public bool Initialize() => true;
-    public void Step() { }
-    public void Shutdown() { }
+
+    public void Step()
+    {
+    }
+
+    public void Shutdown()
+    {
+    }
 }
