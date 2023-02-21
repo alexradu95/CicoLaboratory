@@ -19,7 +19,7 @@ namespace Nazar.Core.Mods
 
         public bool Initialize() {
 
-            CoreFeaturesState.ToggleableFeatures.Add(typeof(AiAssistant));
+            //CoreFeaturesState.ToggleableFeatures.Add(typeof(AiAssistant));
             return true;
 
         }
