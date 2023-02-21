@@ -10,12 +10,13 @@ using StereoKit;
 using StereoKit.Framework;
 using Model = OpenAI_API.Models.Model;
 
-namespace VRWorld;
+namespace Nazar.Features.AI;
 
 public class AiAssistant : IStepper
 {
-    private string aiText =
-        "Create a json block from prompt.\nExample:\ntext:Create a blue cube at position zero zero zero\njson:{\"id\": 0, \"position\": {\"x\": 0, \"y\": 0, \"z\": 0}, \"scale\": {\"x\": 1.0, \"y\": 1.0, \"z\": 1.0}, \"shape\": \"cube\", \"color\": {\"r\": 0.0, \"g\": 0.0, \"b\": 1.0}}\ntext:remove or delete the blue cube\njson:{\"id\": 0, \"remove\": true}\nReal start with id 0:\ntext:";
+
+    OpenAIService openAiService = new OpenAIService();
+
 
     private Pose buttonPose = new(0.04f, -0.32f, -0.34f, Quat.LookDir(-0.03f, 0.64f, 0.76f));
     private Action checkRecordMic;
@@ -26,7 +27,7 @@ public class AiAssistant : IStepper
     private readonly int myIdCounter = 0;
     private readonly List<Object> objects = new();
 
-    private OpenAIAPI openAIApi;
+
 
     //Microphone and text
     private bool record;
@@ -42,10 +43,7 @@ public class AiAssistant : IStepper
 
     public bool Initialize()
     {
-        string openAiKey = "";
-
         speechRecognizer = BuildSpeechRecognizer();
-        openAIApi = new OpenAIAPI(openAiKey);
 
         return true;
     }
@@ -56,7 +54,7 @@ public class AiAssistant : IStepper
 
         //Get the 200 last characters of aiText
         int showLength = 1000;
-        string showText = aiText.Length > showLength ? "..." + aiText.Substring(aiText.Length - showLength) : aiText;
+        string showText = openAiService.AiText.Length > showLength ? "..." + openAiService.AiText.Substring(openAiService.AiText.Length - showLength) : openAiService.AiText;
         UI.Text(showText);
 
         if (speechAIText == "") //no AI speech == can edit text
@@ -89,8 +87,8 @@ public class AiAssistant : IStepper
         bool submit = UI.Button("Submit") || (Input.Key(Key.Return) & BtnState.JustActive) > 0;
         if (textInput != "" && submit)
         {
-            aiText += textInput + startSequence;
-            generateTask = GenerateAIResponce(openAIApi, aiText);
+            openAiService.AiText += textInput + startSequence;
+            generateTask = openAiService.GenerateAIResponce(openAiService.AiText);
 
             textInput = ""; //Clear input
         }
@@ -102,7 +100,7 @@ public class AiAssistant : IStepper
         {
             string responce = generateTask.Result.ToString();
             HandleAIResponce(responce, objects, myIdCounter);
-            aiText += responce + restartSequence;
+            openAiService.AiText += responce + restartSequence;
             generateTask = null;
         }
 
@@ -118,7 +116,7 @@ public class AiAssistant : IStepper
     private SpeechRecognizer BuildSpeechRecognizer()
     {
         //Azure speech to text AI
-        string speechKey = "";
+        string speechKey = "9abb06bd923b40fc9b99692bc077c9e9";
         string speechRegion = "westeurope";
 
         SpeechConfig speechConfig = SpeechConfig.FromSubscription(speechKey, speechRegion);
@@ -145,22 +143,6 @@ public class AiAssistant : IStepper
         };
 
         return speechRecognizer;
-    }
-
-    private static async Task<CompletionResult> GenerateAIResponce(OpenAIAPI anApi, string aPrompt)
-    {
-        CompletionRequest request = new CompletionRequest(
-            aPrompt,
-            Model.CushmanCode,
-            temperature: 0.1,
-            max_tokens: 256,
-            top_p: 1.0,
-            frequencyPenalty: 0.0,
-            presencePenalty: 0.0,
-            stopSequences: new[] {"text:", "json:", "\n"}
-        );
-        CompletionResult result = await anApi.Completions.CreateCompletionAsync(request);
-        return result;
     }
 
     private static void HandleAIResponce(string aResponce, List<Object> someObjects, int someIdCounter)

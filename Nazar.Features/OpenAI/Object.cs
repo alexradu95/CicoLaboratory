@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using StereoKit;
+using VRWorld;
 
-namespace VRWorld;
+namespace Nazar.Features.AI;
 
 internal class Object
 {
