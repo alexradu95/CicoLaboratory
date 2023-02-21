@@ -16,17 +16,20 @@ namespace Nazar.Features.AI
     internal class OpenAIService : IStepper
     {
 
-        private Pose windowPose = new(0.4f, 0.09f, -0.32f, Quat.LookDir(-0.7f, 0.09f, 0.71f));
 
+        private readonly string startSequence = "\njson:";
         private readonly string restartSequence = "\ntext:\n";
 
         string openAiKey = "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";
 
         private OpenAIAPI openAIApi;
 
-        public string textInput = "";
 
-        private string outputText = @"Create a json block from prompt.
+        /*
+         The first thing we have to do is create a start prompt for the AI, which it is going to continue on. In the start prompt we set up the rules for the AI.
+         Using OpenAI playground is a good place to test our prompts. The Codex Cushman model was used.
+         */
+        private string openAIPrompt = @"Create a json block from prompt.
                                 Example:
                                 text:Create a blue cube at position one one one
                                 json:{""id"": 0, ""position"": {""x"": 0, ""y"": 0, ""z"": -1}, ""scale"": {""x"": 1.0, ""y"": 1.0, ""z"": 1.0}, ""shape"": ""cube"", ""color"": {""r"": 0.0, ""g"": 0.0, ""b"": 1.0}}
@@ -36,12 +39,19 @@ namespace Nazar.Features.AI
                                 text:";
 
 
+        public string AddNewEntryToPrompt(string entry)
+        {
+            openAIPrompt += entry + startSequence;
+            return openAIPrompt;
+        }
+
         public OpenAIService() { }
 
         public bool Enabled => throw new NotImplementedException();
 
-        public string OutputText { get => outputText; set => outputText = value; }
+        public string OpenAIPromptFull { get => openAIPrompt; set => openAIPrompt = value; }
 
+        public string OpenAIPromptSummary { get => openAIPrompt.Substring(openAIPrompt.Length - 300); }
         public bool Initialize()
         {
             openAIApi = new OpenAI_API.OpenAIAPI(openAiKey);
@@ -55,7 +65,6 @@ namespace Nazar.Features.AI
 
         public void Step()
         {
-            DrawAIChatUI();
 
         }
 
@@ -76,31 +85,11 @@ namespace Nazar.Features.AI
             CompletionResult result = await openAIApi.Completions.CreateCompletionAsync(request);
 
             string responce = result.ToString();
-            outputText += responce + restartSequence;
+            openAIPrompt += responce + restartSequence;
             return responce;
         }
 
-        private void DrawAIChatUI()
-        {
-            UI.WindowBegin("Open AI chat", ref windowPose, new Vec2(30, 0) * U.cm);
 
-            //Get the 200 last characters of aiText
-            int showLength = 1000;
-            string showText = outputText.Length > showLength ? "..." +  outputText.Substring(outputText.Length - showLength) : outputText;
-            UI.Text(showText);
-
-            if (OutputText == "") //no AI speech == can edit text
-            {
-                UI.Input("Input", ref textInput);
-            }
-            else //AI speech can not edit text
-            {
-                string sum = textInput + OutputText;
-                UI.Input("Input", ref sum);
-            }
-
-            UI.WindowEnd();
-        }
 
 
 

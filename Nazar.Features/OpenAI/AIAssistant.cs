@@ -10,82 +10,58 @@ namespace Nazar.Features.AI;
 
 public class AiAssistant : IStepper
 {
-
     //AI generated game objects
     private readonly int myIdCounter = 0;
     private readonly List<Object> objects = new();
 
     OpenAIService openAiService;
-    SpeechToTextService speechToTextService = new SpeechToTextService();
+    SpeechToTextService speechToTextService;
 
-    private Pose buttonPose = new(0.04f, -0.32f, -0.34f, Quat.LookDir(-0.03f, 0.64f, 0.76f));
-    private Action checkRecordMic;
+    private Pose windowPose = new(0.04f, -0.32f, -0.34f, Quat.LookDir(-0.03f, 0.64f, 0.76f));
 
-    //Microphone and text
-    private bool record;
-
-    private string speechAIText = "";
-
-
-    private readonly string startSequence = "\njson:";
-
-
-    public bool Enabled => throw new NotImplementedException();
+    public bool Enabled => true;
 
     public bool Initialize()
     {
 
         openAiService = SK.AddStepper<OpenAIService>();
+        speechToTextService = SK.AddStepper<SpeechToTextService>();
 
-        speechToTextService.speechRecognizer.Recognizing += (s, e) => { speechAIText = e.Result.Text; };
-
-        speechToTextService.speechRecognizer.Recognized += (s, e) =>
-        {
-            openAiService.textInput += speechAIText;
-            speechAIText = "";
-        };
-
-        checkRecordMic = async () =>
-        {
-            if (record)
-                await speechToTextService.speechRecognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
-            else
-                await speechToTextService.speechRecognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
-        };
         return true;
     }
 
+
+
     public void Step()
     {
-        DrawButtonsUI();
+        DrawAssistantUI();
 
         foreach (Object o in objects) o.Draw();
     }
 
-    private void DrawButtonsUI()
+
+    private void DrawAssistantUI()
     {
-        UI.WindowBegin("Buttons", ref buttonPose, new Vec2(30, 0) * U.cm);
-        UI.PushTint(record ? new Color(1, 0.1f, 0.1f) : Color.White); //red when recording
-        if (UI.Toggle("Mic(F1)", ref record)) checkRecordMic();
-        if ((Input.Key(Key.F1) & BtnState.JustActive) > 0) //keyboard 'M'
-        {
-            record = !record; //switch value
-            checkRecordMic();
-        }
+        UI.WindowBegin("Buttons", ref windowPose, new Vec2(30, 0) * U.cm);
+
+        UI.Text(openAiService.OpenAIPromptSummary);
+
+        UI.PushTint(speechToTextService.IsRecording ? new Color(1, 0.1f, 0.1f) : Color.White); //red when recording
+        if (UI.Button("Mic(F1)")) speechToTextService.IsRecording = !speechToTextService.IsRecording;
 
         UI.PopTint();
 
         UI.SameLine();
-        if (UI.Button("Clear(F2)") || (Input.Key(Key.F2) & BtnState.JustActive) > 0) openAiService.textInput = "";
+        if (UI.Button("Clear(F2)") || (Input.Key(Key.F2) & BtnState.JustActive) > 0) speechToTextService.speechToTextInput = "";
         UI.SameLine();
         UI.PushTint(new Color(0.5f, 0.5f, 1));
         bool submit = UI.Button("Submit") || (Input.Key(Key.Return) & BtnState.JustActive) > 0;
-        if (openAiService.textInput != "" && submit)
+        if (speechToTextService.speechToTextInput != "" && submit)
         {
-            openAiService.OutputText += openAiService.textInput + startSequence;
-            openAiService.GenerateAIResponce(openAiService.OutputText).ContinueWith(response => HandleAIResponce(response.Result, objects, myIdCounter));
+            openAiService.AddNewEntryToPrompt(speechToTextService.speechToTextInput);
+            openAiService.GenerateAIResponce(openAiService.OpenAIPromptFull).ContinueWith(response => HandleAIResponce(response.Result, objects, myIdCounter));
 
-            openAiService.textInput = ""; //Clear input
+            speechToTextService.speechToTextInput = ""; //Clear input
         }
 
         UI.PopTint();
@@ -134,7 +110,7 @@ public class AiAssistant : IStepper
 
     public void Shutdown()
     {
-        speechToTextService.speechRecognizer.StopContinuousRecognitionAsync().Wait(); //Need to call, else slow shutdown
+
     }
 
 
