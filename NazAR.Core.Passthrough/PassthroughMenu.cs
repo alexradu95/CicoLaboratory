@@ -23,12 +23,12 @@ public class PassthroughMenu : IStepper
     public void Step()
     {
         UI.WindowBegin("Passthrough Settings", ref windowPose);
-        bool toggle = PassthroughExtension.PassthroughCore.EnabledPassthrough;
-        UI.Label(PassthroughExtension.PassthroughCore.Available
+        bool toggle = PassthroughExtension.passthroughCore.EnabledPassthrough;
+        UI.Label(PassthroughExtension.passthroughCore.Available
             ? "Passthrough EXT available!"
             : "No passthrough EXT available :(");
         if (UI.Toggle("Passthrough", ref toggle))
-            PassthroughExtension.PassthroughCore.EnabledPassthrough = toggle;
+            PassthroughExtension.passthroughCore.EnabledPassthrough = toggle;
         UI.WindowEnd();
     }
 }

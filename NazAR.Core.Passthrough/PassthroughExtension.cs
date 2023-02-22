@@ -5,22 +5,15 @@ using System;
 
 namespace NazAR.Core.Passthrough
 {
-    public class PassthroughExtension : IStepper
+    public class PassthroughExtension : INazarStepper
     {
         public bool Enabled => throw new NotImplementedException();
 
-
-        #region IStepper children
-
-        public static PassthroughCore PassthroughCore;
-        public static PassthroughMenu PassthroughMenu;
-
-        #endregion
+        public static PassthroughCore passthroughCore;
 
         public PassthroughExtension()
         {
-            PassthroughCore = SK.AddStepper<PassthroughCore>();
-            PassthroughMenu = SK.AddStepper<PassthroughMenu>();
+            passthroughCore = SK.AddStepper<PassthroughCore>();
         }
 
         public bool Initialize() => true;
@@ -28,5 +21,10 @@ namespace NazAR.Core.Passthrough
         public void Shutdown() {}
 
         public void Step() {}
+
+        Type INazarStepper.GetUserInterface()
+        {
+            return typeof(PassthroughMenu);
+        }
     }
 }
