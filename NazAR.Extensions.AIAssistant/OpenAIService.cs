@@ -16,12 +16,12 @@ namespace Nazar.Features.AI
     internal class OpenAIService : IStepper
     {
 
+        private Pose aiChatPose = new(0, 0, 0, Quat.LookDir(-0.03f, 0.64f, 0.76f));
 
         private readonly string startSequence = "\njson:";
         private readonly string restartSequence = "\ntext:\n";
 
         string openAiKey = "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";
-
         private OpenAIAPI openAIApi;
 
 
@@ -29,7 +29,7 @@ namespace Nazar.Features.AI
          The first thing we have to do is create a start prompt for the AI, which it is going to continue on. In the start prompt we set up the rules for the AI.
          Using OpenAI playground is a good place to test our prompts. The Codex Cushman model was used.
          */
-        private string openAIPrompt = @"Create a json block from prompt.
+        public string OpenAIPrompt = @"Create a json block from prompt.
                                 Example:
                                 text:Create a blue cube at position one one one
                                 json:{""id"": 0, ""position"": {""x"": 0, ""y"": 0, ""z"": -1}, ""scale"": {""x"": 1.0, ""y"": 1.0, ""z"": 1.0}, ""shape"": ""cube"", ""color"": {""r"": 0.0, ""g"": 0.0, ""b"": 1.0}}
@@ -38,24 +38,12 @@ namespace Nazar.Features.AI
                                 Real start with id 0:
                                 text:";
 
+        public bool Enabled => true;
 
-        public string AddNewEntryToPrompt(string entry)
-        {
-            openAIPrompt += entry + startSequence;
-            return openAIPrompt;
-        }
-
-        public OpenAIService() { }
-
-        public bool Enabled => throw new NotImplementedException();
-
-        public string OpenAIPromptFull { get => openAIPrompt; set => openAIPrompt = value; }
-
-        public string OpenAIPromptSummary { get => openAIPrompt.Substring(openAIPrompt.Length - 300); }
         public bool Initialize()
         {
-            openAIApi = new OpenAI_API.OpenAIAPI(openAiKey);
-            return true;
+            openAIApi = new OpenAIAPI(openAiKey);
+            return openAIApi != null;
         }
 
         public void Shutdown()
@@ -65,14 +53,29 @@ namespace Nazar.Features.AI
 
         public void Step()
         {
-
+            DrawOpenAIConversationUI();
         }
 
-
-        public async Task<string> GenerateAIResponce(string aPrompt)
+        private void DrawOpenAIConversationUI()
         {
+            UI.WindowBegin("Conversation", ref aiChatPose, new Vec2(70, 0) * U.cm);
+
+            UI.Text(OpenAIPrompt);
+
+            UI.WindowEnd();
+        }
+
+        /// <summary>
+        /// Generates an AI response based on the input
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
+        public async Task<string> GenerateAIResponce(string entry)
+        {
+            OpenAIPrompt += entry + startSequence;
+
             CompletionRequest request = new CompletionRequest(
-                aPrompt,
+                OpenAIPrompt,
                 OpenAI_API.Models.Model.CushmanCode,
                 temperature: 0.1,
                 max_tokens: 256,
@@ -85,14 +88,8 @@ namespace Nazar.Features.AI
             CompletionResult result = await openAIApi.Completions.CreateCompletionAsync(request);
 
             string responce = result.ToString();
-            openAIPrompt += responce + restartSequence;
+            OpenAIPrompt += responce + restartSequence;
             return responce;
         }
-
-
-
-
-
-
     }
 }

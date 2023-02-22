@@ -1,25 +1,26 @@
-﻿using Nazar.Core.Passthrough;
-using Nazar.Features.AI;
+﻿using NazAR.Core.Passthrough;
 using StereoKit;
 using StereoKit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace Nazar.Core;
 
 public class CoreFeatures : IStepper
 {
+    internal static List<Type> ToggleableFeatures = new();
+    internal static Dictionary<string, IStepper> ActiveToggleableFeatures = new();
+
+
     public CoreFeatures()
     {
-        // We instantiate it in the constructor because the Pass-through Service must be initialized before SK
-        CoreFeaturesState.PassthroughExtension = SK.AddStepper<PassthroughExtension>();
-        CoreFeaturesState.CoreFeatures = SK.AddStepper<CoreFeaturesMenu>();
+        SK.AddStepper<PassthroughExtension>();
     }
 
     public bool Enabled => true;
 
     public bool Initialize()
     {
-
-        CoreFeaturesState.ToggleableFeatures.Add(typeof(AiAssistant));
         return true;
     }
 
@@ -30,5 +31,10 @@ public class CoreFeatures : IStepper
 
     public void Step()
     {
+    }
+
+    private void AddNewFeature(Type typeofClass)
+    {
+
     }
 }

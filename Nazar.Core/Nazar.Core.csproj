@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nazar.Features\OpenAI\Nazar.Features.AI.csproj" />
+    <ProjectReference Include="..\NazAR.Core.Passthrough\NazAR.Core.Passthrough.csproj" />
   </ItemGroup>
 
 </Project>

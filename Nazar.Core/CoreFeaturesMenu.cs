@@ -33,42 +33,42 @@ internal class CoreFeaturesMenu : IStepper
 
     private void DrawMenu()
     {
-        // Make a window for demo selection
-        UI.WindowBegin("Core Mods Settings", ref menuPose, new Vec2(50 * U.cm, 0));
-        foreach (string demoName in CoreFeaturesState.ToggleableFeatures.Select(el => el.Name))
-        {
-            // If the button is pressed
-            if (UI.Button(demoName))
-            {
-                if (!CoreFeaturesState.ActiveToggleableFeatures.ContainsKey(demoName))
-                {
-                    ActivateFeature(demoName);
-                }
-                else
-                {
-                    RemoveFeature(demoName);
-                }
-            }
+        //// Make a window for demo selection
+        //UI.WindowBegin("Core Mods Settings", ref menuPose, new Vec2(50 * U.cm, 0));
+        //foreach (string demoName in FeaturesState.ToggleableFeatures.Select(el => el.Name))
+        //{
+        //    // If the button is pressed
+        //    if (UI.Button(demoName))
+        //    {
+        //        if (!FeaturesState.ActiveToggleableFeatures.ContainsKey(demoName))
+        //        {
+        //            ActivateFeature(demoName);
+        //        }
+        //        else
+        //        {
+        //            RemoveFeature(demoName);
+        //        }
+        //    }
 
-            UI.SameLine();
-        }
+        //    UI.SameLine();
+        //}
 
-        UI.NextLine();
-        UI.HSeparator();
-        if (UI.ButtonImg("Exit", powerButton))
-            SK.Quit();
-        UI.WindowEnd();
+        //UI.NextLine();
+        //UI.HSeparator();
+        //if (UI.ButtonImg("Exit", powerButton))
+        //    SK.Quit();
+        //UI.WindowEnd();
     }
 
     private static void RemoveFeature(string demoName)
     {
-        SK.RemoveStepper(CoreFeaturesState.ActiveToggleableFeatures[demoName]);
-        CoreFeaturesState.ActiveToggleableFeatures.Remove(demoName);
+        //SK.RemoveStepper(FeaturesState.ActiveToggleableFeatures[demoName]);
+        //FeaturesState.ActiveToggleableFeatures.Remove(demoName);
     }
 
     private static void ActivateFeature(string demoName)
     {
-        Type featureType = CoreFeaturesState.ToggleableFeatures.FirstOrDefault(el => el.Name == demoName);
-        CoreFeaturesState.ActiveToggleableFeatures[demoName] = (IStepper) SK.AddStepper(featureType);
+        //Type featureType = FeaturesState.ToggleableFeatures.FirstOrDefault(el => el.Name == demoName);
+        //FeaturesState.ActiveToggleableFeatures[demoName] = (IStepper) SK.AddStepper(featureType);
     }
 }

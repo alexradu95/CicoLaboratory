@@ -1,4 +1,5 @@
 ﻿using System;
+using NazAR.Core.Passthrough;
 using StereoKit;
 using StereoKit.Framework;
 
@@ -22,12 +23,12 @@ public class PassthroughMenu : IStepper
     public void Step()
     {
         UI.WindowBegin("Passthrough Settings", ref windowPose);
-        bool toggle = CoreFeaturesState.PassthroughExtension.EnabledPassthrough;
-        UI.Label(CoreFeaturesState.PassthroughExtension.Available
+        bool toggle = PassthroughExtension.PassthroughCore.EnabledPassthrough;
+        UI.Label(PassthroughExtension.PassthroughCore.Available
             ? "Passthrough EXT available!"
             : "No passthrough EXT available :(");
         if (UI.Toggle("Passthrough", ref toggle))
-            CoreFeaturesState.PassthroughExtension.EnabledPassthrough = toggle;
+            PassthroughExtension.PassthroughCore.EnabledPassthrough = toggle;
         UI.WindowEnd();
     }
 }

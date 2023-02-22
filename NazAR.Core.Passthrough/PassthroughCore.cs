@@ -4,7 +4,7 @@ using StereoKit.Framework;
 
 namespace Nazar.Core.Passthrough;
 
-public class PassthroughExtension : IStepper
+public class PassthroughCore : IStepper
 {
     private XrPassthroughLayerFB activeLayer;
     private XrPassthroughFB activePassthrough;
@@ -15,7 +15,7 @@ public class PassthroughExtension : IStepper
     private bool oldSky;
     private bool passthroughRunning;
 
-    public PassthroughExtension()
+    public PassthroughCore()
     {
         if (SK.IsInitialized)
             Log.Err("PassthroughMod must be constructed before StereoKit is initialized!");
@@ -54,9 +54,6 @@ public class PassthroughExtension : IStepper
         if (Available)
         {
             EnabledPassthrough = true;
-
-            // Adding the configure menu
-            CoreFeaturesState.ToggleableFeatures.Add(typeof(PassthroughMenu));
         }
 
         return true;

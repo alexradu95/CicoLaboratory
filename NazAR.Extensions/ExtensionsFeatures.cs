@@ -7,7 +7,7 @@ using StereoKit.Framework;
 
 namespace Nazar.Core.Features
 {
-    public class ExtensionMods : IStepper
+    public class ExtensionsFeatures : IStepper
     {
         private List<Type> allSteppers = new List<Type>();
         Dictionary<string, IStepper> activeFeatures = new();
@@ -28,7 +28,7 @@ namespace Nazar.Core.Features
         private void FindAllSteppers()
         {
             allSteppers = Assembly.GetExecutingAssembly().GetTypes().Where(a => a != typeof(IStepper) && typeof(IStepper).IsAssignableFrom(a)).ToList();
-            allSteppers.Remove(typeof(ExtensionMods));
+            allSteppers.Remove(typeof(ExtensionsFeatures));
         }
 
         private void InitializeUI()
