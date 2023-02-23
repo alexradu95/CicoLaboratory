@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace nazar.core.Features.Environment
+namespace NazAR.Extension.Environment
 {
     // Infinite floor feature from JumliVR repo
     internal class InfiniteFloor : IStepper

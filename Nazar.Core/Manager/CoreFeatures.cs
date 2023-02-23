@@ -1,20 +1,21 @@
-﻿using NazAR.Core.FeatureManager.UI;
+﻿using System;
+using System.Collections.Generic;
+using NazAR.Common;
+using NazAR.Core.Manager.UI;
 using NazAR.Core.Passthrough;
 using StereoKit;
 using StereoKit.Framework;
-using System;
-using System.Collections.Generic;
 
-namespace NazAR.Core.FeatureManager;
+namespace NazAR.Core.Manager;
 
-public class FeatureManager : IStepper
+public class CoreFeatures : IStepper
 {
     internal static List<Type> PermanentFeatures = new();
     internal static List<Type> ToggleableFeatures = new();
     internal static Dictionary<string, IStepper> ActiveToggleableFeatures = new();
 
 
-    public FeatureManager()
+    public CoreFeatures()
     {
         AddNewFeature(typeof(PassthroughExtension));
         SK.AddStepper<FeatureManagerUI>();
@@ -39,7 +40,7 @@ public class FeatureManager : IStepper
 
     private void AddNewFeature(Type stepperType)
     {
-        var passthroughExtension = (INazarStepper) SK.AddStepper(stepperType);
+        var passthroughExtension = (IUiStepper)SK.AddStepper(stepperType);
         PermanentFeatures.Add(stepperType);
 
         var passthroughInterface = passthroughExtension.GetUserInterface();

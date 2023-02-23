@@ -1,9 +1,8 @@
 ﻿using System;
-using NazAR.Core.Passthrough;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Core.Passthrough;
+namespace NazAR.Core.Passthrough;
 
 public class PassthroughMenu : IStepper
 {

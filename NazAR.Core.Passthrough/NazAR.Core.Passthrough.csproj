@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nazar.SK.Custom\Nazar.SK.Custom.csproj" />
+    <ProjectReference Include="..\Nazar.SK.Custom\NazAR.Common.csproj" />
   </ItemGroup>
   
 </Project>

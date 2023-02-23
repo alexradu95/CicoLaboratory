@@ -3,7 +3,7 @@ using System.Linq;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace nazar.core.Features.Demos;
+namespace NazAR.Extension.Demos;
 
 class DemoPhysics : IStepper
 {

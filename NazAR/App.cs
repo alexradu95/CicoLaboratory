@@ -1,4 +1,5 @@
-﻿using NazAR.Core.FeatureManager;
+﻿using NazAR.Core.Manager;
+using NazAR.Extension;
 using StereoKit;
 using StereoKit.Framework;
 
@@ -8,7 +9,8 @@ namespace NazAR
     {
         public App()
         {
-            SK.AddStepper<FeatureManager>();
+            SK.AddStepper<CoreFeatures>();
+            SK.AddStepper<ExtensionFeatures>();
         }
 
         public SKSettings Settings => new()

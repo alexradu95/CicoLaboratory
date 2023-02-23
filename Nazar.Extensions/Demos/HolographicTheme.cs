@@ -1,7 +1,7 @@
 ﻿using System;
 using StereoKit;
 
-namespace nazar.core.Features.Demos
+namespace NazAR.Extension.Demos
 {
     static class HolographicTheme
     {

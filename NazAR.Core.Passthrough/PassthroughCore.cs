@@ -2,7 +2,7 @@
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Core.Passthrough;
+namespace NazAR.Core.Passthrough;
 
 public class PassthroughCore : IStepper
 {

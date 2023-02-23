@@ -43,6 +43,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\NazAR.Core\NazAR.Core.csproj" />
+	  <ProjectReference Include="..\Nazar.Extensions\NazAR.Extension.csproj" />
 	</ItemGroup>
 
 </Project>

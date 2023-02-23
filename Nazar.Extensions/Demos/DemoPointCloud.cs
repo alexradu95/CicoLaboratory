@@ -13,7 +13,7 @@ using CicoLaboratory.Content.Demos;
 namespace CicoLaboratory.Content.Demos
 */
 
-namespace nazar.core.Features.Demos
+namespace NazAR.Extension.Demos
 {
     public class PointCloud
     {

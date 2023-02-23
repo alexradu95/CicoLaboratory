@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace nazar.core.Features.Demos
+namespace NazAR.Extension.Demos
 {
     internal class DemoAnimations : IStepper
     {

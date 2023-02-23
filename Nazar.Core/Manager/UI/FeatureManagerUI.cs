@@ -1,9 +1,9 @@
-﻿using StereoKit;
-using StereoKit.Framework;
-using System;
+﻿using System;
 using System.Linq;
+using StereoKit;
+using StereoKit.Framework;
 
-namespace NazAR.Core.FeatureManager.UI;
+namespace NazAR.Core.Manager.UI;
 
 internal class FeatureManagerUI : IStepper
 {
@@ -35,12 +35,12 @@ internal class FeatureManagerUI : IStepper
     {
         // Make a window for demo selection
         StereoKit.UI.WindowBegin("Core Mods Settings", ref menuPose, new Vec2(50 * U.cm, 0));
-        foreach (string demoName in FeatureManager.ToggleableFeatures.Select(el => el.Name))
+        foreach (string demoName in CoreFeatures.ToggleableFeatures.Select(el => el.Name))
         {
             // If the button is pressed
             if (StereoKit.UI.Button(demoName))
             {
-                if (!FeatureManager.ActiveToggleableFeatures.ContainsKey(demoName))
+                if (!CoreFeatures.ActiveToggleableFeatures.ContainsKey(demoName))
                 {
                     ActivateFeature(demoName);
                 }
@@ -62,13 +62,13 @@ internal class FeatureManagerUI : IStepper
 
     private static void RemoveFeature(string demoName)
     {
-        SK.RemoveStepper(FeatureManager.ActiveToggleableFeatures[demoName]);
-        FeatureManager.ActiveToggleableFeatures.Remove(demoName);
+        SK.RemoveStepper(CoreFeatures.ActiveToggleableFeatures[demoName]);
+        CoreFeatures.ActiveToggleableFeatures.Remove(demoName);
     }
 
     private static void ActivateFeature(string demoName)
     {
-        Type featureType = FeatureManager.ToggleableFeatures.FirstOrDefault(el => el.Name == demoName);
-        FeatureManager.ActiveToggleableFeatures[demoName] = (IStepper)SK.AddStepper(featureType);
+        Type featureType = CoreFeatures.ToggleableFeatures.FirstOrDefault(el => el.Name == demoName);
+        CoreFeatures.ActiveToggleableFeatures[demoName] = (IStepper)SK.AddStepper(featureType);
     }
 }
