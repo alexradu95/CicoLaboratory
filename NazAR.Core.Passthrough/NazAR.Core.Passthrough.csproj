@@ -6,11 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Nazar.SK.Custom\NazAR.Common.csproj" />
+    <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
   </ItemGroup>
   
 </Project>

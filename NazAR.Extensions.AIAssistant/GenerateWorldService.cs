@@ -1,12 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using StereoKit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Nazar.Features.AI
+﻿namespace Nazar.Extension.AIWorldGenerator
 {
     internal class GenerateWorldService : IStepper
     {

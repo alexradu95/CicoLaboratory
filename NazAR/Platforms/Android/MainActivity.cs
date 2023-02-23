@@ -16,7 +16,7 @@ namespace NazAR
     [IntentFilter(new[] { Intent.ActionMain }, Categories = new[] { "org.khronos.openxr.intent.category.IMMERSIVE_HMD", "com.oculus.intent.category.VR", Intent.CategoryLauncher })]
     public class MainActivity : AppCompatActivity, ISurfaceHolderCallback2
     {
-        App app;
+        Launcher launcher;
         View surface;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -51,25 +51,25 @@ namespace NazAR
 
             Task.Run(() =>
             {
-                // If the app has a constructor that takes a string array, then
+                // If the launcher has a constructor that takes a string array, then
                 // we'll use that, and pass the command line arguments into it on
                 // creation
-                Type appType = typeof(App);
-                app = appType.GetConstructor(new Type[] { typeof(string[]) }) != null
-                    ? (App)Activator.CreateInstance(appType, new object[] { new string[0] { } })
-                    : (App)Activator.CreateInstance(appType);
-                if (app == null)
-                    throw new System.Exception("StereoKit loader couldn't construct an instance of the App!");
+                Type appType = typeof(Launcher);
+                launcher = appType.GetConstructor(new Type[] { typeof(string[]) }) != null
+                    ? (Launcher)Activator.CreateInstance(appType, new object[] { new string[0] { } })
+                    : (Launcher)Activator.CreateInstance(appType);
+                if (launcher == null)
+                    throw new System.Exception("StereoKit loader couldn't construct an instance of the Launcher!");
 
-                // Initialize StereoKit, and the app
-                SKSettings settings = app.Settings;
+                // Initialize StereoKit, and the launcher
+                SKSettings settings = launcher.Settings;
                 settings.androidActivity = activityHandle;
                 if (!SK.Initialize(settings))
                     return;
-                app.Initialize();
+                launcher.Initialize();
 
                 // Now loop until finished, and then shut down
-                SK.Run(app.Step);
+                SK.Run(launcher.Step);
 
                 Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
             });

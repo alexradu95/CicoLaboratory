@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using StereoKit;
-
-namespace VRWorld;
+﻿namespace Nazar.Extension.AIWorldGenerator;
 
 internal class JSONConverter
 {

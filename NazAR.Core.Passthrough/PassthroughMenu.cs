@@ -2,7 +2,7 @@
 using StereoKit;
 using StereoKit.Framework;
 
-namespace NazAR.Core.Passthrough;
+namespace Nazar.Core.Passthrough;
 
 public class PassthroughMenu : IStepper
 {
@@ -23,9 +23,7 @@ public class PassthroughMenu : IStepper
     {
         UI.WindowBegin("Passthrough Settings", ref windowPose);
         bool toggle = PassthroughExtension.passthroughCore.EnabledPassthrough;
-        UI.Label(PassthroughExtension.passthroughCore.Available
-            ? "Passthrough EXT available!"
-            : "No passthrough EXT available :(");
+        UI.Label(PassthroughExtension.passthroughCore.Available ? "Passthrough EXT available!" : "No passthrough EXT available :(");
         if (UI.Toggle("Passthrough", ref toggle))
             PassthroughExtension.passthroughCore.EnabledPassthrough = toggle;
         UI.WindowEnd();

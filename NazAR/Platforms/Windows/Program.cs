@@ -7,27 +7,27 @@ namespace NazAR
     {
         static void Main(string[] args)
         {
-            // This will allow the App constructor to call a few SK methods
+            // This will allow the Launcher constructor to call a few SK methods
             // before Initialize is called.
             SK.PreLoadLibrary();
 
-            // If the app has a constructor that takes a string array, then
+            // If the launcher has a constructor that takes a string array, then
             // we'll use that, and pass the command line arguments into it on
             // creation
-            Type appType = typeof(App);
-            App app = appType.GetConstructor(new Type[] { typeof(string[]) }) != null
-                ? (App)Activator.CreateInstance(appType, new object[] { args })
-                : (App)Activator.CreateInstance(appType);
-            if (app == null)
-                throw new Exception("StereoKit loader couldn't construct an instance of the App!");
+            Type appType = typeof(Launcher);
+            Launcher launcher = appType.GetConstructor(new Type[] { typeof(string[]) }) != null
+                ? (Launcher)Activator.CreateInstance(appType, new object[] { args })
+                : (Launcher)Activator.CreateInstance(appType);
+            if (launcher == null)
+                throw new Exception("StereoKit loader couldn't construct an instance of the Launcher!");
 
-            // Initialize StereoKit, and the app
-            if (!SK.Initialize(app.Settings))
+            // Initialize StereoKit, and the launcher
+            if (!SK.Initialize(launcher.Settings))
                 Environment.Exit(1);
-            app.Initialize();
+            launcher.Initialize();
 
             // Now loop until finished, and then shut down
-            SK.Run(app.Step);
+            SK.Run(launcher.Step);
         }
     }
 }

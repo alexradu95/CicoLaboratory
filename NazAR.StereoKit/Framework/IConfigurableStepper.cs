@@ -1,6 +1,6 @@
 ﻿using StereoKit.Framework;
 
-namespace NazAR.StereoKit.Framework;
+namespace Nazar.SKit.Framework;
 
 public interface IConfigurableStepper : IStepper
 {

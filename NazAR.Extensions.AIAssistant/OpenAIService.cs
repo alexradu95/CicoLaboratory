@@ -1,17 +1,4 @@
-﻿using OpenAI_API;
-using OpenAI_API.Completions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenAI_API.Models;
-using StereoKit.Framework;
-using StereoKit;
-using Newtonsoft.Json.Linq;
-using System.Xml.Linq;
-
-namespace Nazar.Features.AI
+﻿namespace Nazar.Extension.AIWorldGenerator
 {
     internal class OpenAIService : IStepper
     {

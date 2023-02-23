@@ -1,15 +1,19 @@
-﻿using StereoKit;
-using StereoKit.Framework;
-using System;
-using NazAR.Common;
+﻿using System;
+using Nazar.SKit.Framework;
+using StereoKit;
 
-namespace NazAR.Core.Passthrough
+namespace Nazar.Core.Passthrough
 {
-    public class PassthroughExtension : IUiStepper
+    public class PassthroughExtension : IConfigurableStepper
     {
         public bool Enabled => throw new NotImplementedException();
 
         public static PassthroughCore passthroughCore;
+
+        public Type GetConfigUi()
+        {
+            return typeof(PassthroughMenu);
+        }
 
         public PassthroughExtension()
         {
@@ -21,10 +25,5 @@ namespace NazAR.Core.Passthrough
         public void Shutdown() {}
 
         public void Step() {}
-
-        Type IUiStepper.GetUserInterface()
-        {
-            return typeof(PassthroughMenu);
-        }
     }
 }

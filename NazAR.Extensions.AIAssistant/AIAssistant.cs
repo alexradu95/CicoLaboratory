@@ -1,8 +1,4 @@
-using StereoKit;
-using StereoKit.Framework;
-using System;
-
-namespace Nazar.Features.AI;
+namespace Nazar.Extension.AIWorldGenerator;
 
 public class AiAssistant : IStepper
 {

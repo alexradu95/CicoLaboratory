@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NazAR.Core\Nazar.Core.csproj" />
+    <ProjectReference Include="..\NazAR.Extensions\Nazar.Extension.csproj" />
+    <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
+  </ItemGroup>
+
+</Project>
