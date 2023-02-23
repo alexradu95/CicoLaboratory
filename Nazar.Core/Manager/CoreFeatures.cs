@@ -1,52 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using NazAR.Common;
-using NazAR.Core.Manager.UI;
-using NazAR.Core.Passthrough;
-using StereoKit;
-using StereoKit.Framework;
+﻿using NazAR.Core.Manager.UI;
 
-namespace NazAR.Core.Manager;
-
-public class CoreFeatures : IStepper
+namespace NazAR.Core.Manager
 {
-    internal static List<Type> PermanentFeatures = new();
-    internal static List<Type> ToggleableFeatures = new();
-    internal static Dictionary<string, IStepper> ActiveToggleableFeatures = new();
 
-
-    public CoreFeatures()
+    public class CoreFeatures : IStepper
     {
-        AddNewFeature(typeof(PassthroughExtension));
-        SK.AddStepper<FeatureManagerUI>();
-
-    }
-
-    public bool Enabled => true;
-
-    public bool Initialize()
-    {
-        return true;
-    }
+        internal static List<Type> PermanentFeatures = new();
+        internal static List<Type> ToggleableFeatures = new();
+        internal static Dictionary<string, IStepper> ActiveToggleableFeatures = new();
 
 
-    public void Shutdown()
-    {
-    }
-
-    public void Step()
-    {
-    }
-
-    private void AddNewFeature(Type stepperType)
-    {
-        var passthroughExtension = (IUiStepper)SK.AddStepper(stepperType);
-        PermanentFeatures.Add(stepperType);
-
-        var passthroughInterface = passthroughExtension.GetUserInterface();
-        if (passthroughInterface != null)
+        public CoreFeatures()
         {
-            ToggleableFeatures.Add(passthroughInterface);
+            AddNewFeature(typeof(PassthroughExtension));
+            SK.AddStepper<FeatureManagerUI>();
+
+        }
+
+        public bool Enabled => true;
+
+        public bool Initialize()
+        {
+            return true;
+        }
+
+
+        public void Shutdown()
+        {
+        }
+
+        public void Step()
+        {
+        }
+
+        private void AddNewFeature(Type stepperType)
+        {
+            var passthroughExtension = (IUiStepper)SK.AddStepper(stepperType);
+            PermanentFeatures.Add(stepperType);
+
+            var passthroughInterface = passthroughExtension.GetUserInterface();
+            if (passthroughInterface != null)
+            {
+                ToggleableFeatures.Add(passthroughInterface);
+            }
         }
     }
 }

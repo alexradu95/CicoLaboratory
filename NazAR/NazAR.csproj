@@ -14,7 +14,7 @@
 		<ApplicationTitle>NazAR</ApplicationTitle>
 		
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.NazAR</ApplicationId>
+		<ApplicationId>net.alexradu.NazAR</ApplicationId>
 		<ApplicationIdGuid>0B809B71-236D-4885-812C-16B11CD30121</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -38,12 +38,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
+	  <PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\NazAR.Core\NazAR.Core.csproj" />
-	  <ProjectReference Include="..\Nazar.Extensions\NazAR.Extension.csproj" />
+	  <ProjectReference Include="..\NazAR.StereoKit\NazAR.StereoKit.csproj" />
 	</ItemGroup>
+
 
 </Project>
