@@ -4,9 +4,9 @@ using StereoKit.Framework;
 
 namespace NazAR
 {
-    public class Launcher : IStepper
+    public class App : IStepper
     {
-        public Launcher()
+        public App()
         {
             SK.AddStepper<NazarApplication>();
         }

@@ -1,4 +1,7 @@
-﻿namespace Nazar.Extension.AIWorldGenerator;
+﻿using Newtonsoft.Json.Linq;
+using StereoKit;
+
+namespace Nazar.Extension.AIWorldGenerator;
 
 internal class Object
 {

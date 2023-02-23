@@ -1,4 +1,10 @@
-﻿namespace Nazar.Extension.AIWorldGenerator
+﻿using System.Threading.Tasks;
+using OpenAI_API;
+using OpenAI_API.Completions;
+using StereoKit;
+using StereoKit.Framework;
+
+namespace Nazar.Extension.AIWorldGenerator
 {
     internal class OpenAIService : IStepper
     {

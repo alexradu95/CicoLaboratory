@@ -63,13 +63,10 @@ namespace Nazar.Core.Features
 
         public void AddNewFeature(Type stepperType)
         {
-            var passthroughExtension = (IConfigurableStepper)SK.AddStepper(stepperType);
-            PermanentFeatures.Add(stepperType);
-
-            var passthroughInterface = passthroughExtension.GetConfigUi();
-            if (passthroughInterface != null)
+            var passthroughExtension = SK.AddStepper(stepperType);
+            if (passthroughExtension is IConfigurableStepper configurableStepper)
             {
-                ToggleableFeatures.Add(passthroughInterface);
+                ToggleableFeatures.Add(configurableStepper.GetConfigUi());
             }
         }
 

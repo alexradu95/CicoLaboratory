@@ -38,6 +38,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="StereoKit" Version="0.3.7-preview.9" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\NazAR.Application\Nazar.Application.csproj" />
 	  <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
 	</ItemGroup>

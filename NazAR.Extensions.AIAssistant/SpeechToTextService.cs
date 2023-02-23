@@ -1,4 +1,10 @@
-﻿namespace Nazar.Extension.AIWorldGenerator
+﻿using System;
+using Microsoft.CognitiveServices.Speech;
+using Microsoft.CognitiveServices.Speech.Audio;
+using StereoKit;
+using StereoKit.Framework;
+
+namespace Nazar.Extension.AIWorldGenerator
 {
     internal class SpeechToTextService : IStepper
     {

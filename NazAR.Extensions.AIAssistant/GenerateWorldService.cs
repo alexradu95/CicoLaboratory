@@ -1,4 +1,9 @@
-﻿namespace Nazar.Extension.AIWorldGenerator
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using StereoKit.Framework;
+
+namespace Nazar.Extension.AIWorldGenerator
 {
     internal class GenerateWorldService : IStepper
     {

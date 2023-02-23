@@ -11,7 +11,6 @@ namespace Nazar.Extension.Features
     {
         public bool Enabled { get; }
 
-        internal List<Type> PermanentFeatures = new();
         internal List<Type> ToggleableFeatures = new();
         internal Dictionary<string, IStepper> ActiveToggleableFeatures = new();
 
@@ -63,14 +62,7 @@ namespace Nazar.Extension.Features
 
         public void AddNewFeature(Type stepperType)
         {
-            var passthroughExtension = (IConfigurableStepper)SK.AddStepper(stepperType);
-            PermanentFeatures.Add(stepperType);
-
-            var passthroughInterface = passthroughExtension.GetConfigUi();
-            if (passthroughInterface != null)
-            {
-                ToggleableFeatures.Add(passthroughInterface);
-            }
+            ToggleableFeatures.Add(stepperType);
         }
 
         public void DisableFeature(string demoName)

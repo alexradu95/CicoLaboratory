@@ -38,7 +38,7 @@ namespace Nazar.Extension.Demos
 
         public void Shutdown()
         {
-            throw new NotImplementedException();
+
         }
 
         public void Step()

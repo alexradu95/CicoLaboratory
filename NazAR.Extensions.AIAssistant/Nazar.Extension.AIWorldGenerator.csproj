@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <UserSecretsId>2388d914-8018-4fd6-a75e-a4531e9a1eae</UserSecretsId>
   </PropertyGroup>
 
