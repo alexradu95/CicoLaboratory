@@ -1,18 +1,18 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos
+namespace Nazar.Extension.ZDemos.Demos
 {
     class DemoSound : IStepper
     {
         Pose windowPose = new Pose(.4f, 0, -0.4f, Quat.LookDir(-1, 0, 1));
-        Sound fileSound = Sound.FromFile("BlipNoise.wav");
+        readonly Sound fileSound = Sound.FromFile("BlipNoise.wav");
         public bool Enabled => throw new NotImplementedException();
         float genDuration = 0.5f;
         Sound genSound;
         Bounds genVolume = new Bounds(new Vec3(.5f, 0, 0), new Vec3(0.25f, 0.25f, 0.25f));
         bool genPrevContains = false;
-        List<LinePoint> genPath = new List<LinePoint>();
+        readonly List<LinePoint> genPath = new List<LinePoint>();
 
         Sound wandStream;
         SoundInst wandStreamInst;

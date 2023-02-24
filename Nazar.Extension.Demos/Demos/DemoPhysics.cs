@@ -1,19 +1,19 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoPhysics : IStepper
 {
     Solid       floorSolid;
     Model       gltf;
-    List<Solid> objects     = new List<Solid>();
+    readonly List<Solid> objects     = new List<Solid>();
     Pose        optionsPose = new Pose(0.5f, 0,-0.5f, Quat.LookDir(-1,0,1));
 
-    Matrix      descPose    = Matrix.TR (-0.5f, 0, -0.5f, Quat.LookDir(1,0,1));
-    string      description = "StereoKit supports some basic rigidbody physics simulation. See the 'Solid' class in the docs.\n\nUse the panel to add or clear physics objects from the scene, and make a fist to interact with them yourself!";
-    Matrix      titlePose   = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
-    string      title       = "Physics";
+    readonly Matrix      descPose    = Matrix.TR (-0.5f, 0, -0.5f, Quat.LookDir(1,0,1));
+    readonly string      description = "StereoKit supports some basic rigidbody physics simulation. See the 'Solid' class in the docs.\n\nUse the panel to add or clear physics objects from the scene, and make a fist to interact with them yourself!";
+    readonly Matrix      titlePose   = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
+    readonly string      title       = "Physics";
     public bool Enabled => throw new System.NotImplementedException();
     public bool Initialize()
     {

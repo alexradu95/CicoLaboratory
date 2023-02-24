@@ -1,14 +1,14 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos
+namespace Nazar.Extension.ZDemos.Demos
 {
     class DemoControllers : IStepper
     {
-        Matrix descPose = Matrix.TR(-0.5f, 0, -0.5f, Quat.LookDir(1, 0, 1));
-        string description = "While StereoKit prioritizes hand input, sometimes a controller has more precision! StereoKit provides access to any controllers via the Input.Controller function. This is a debug visualization of the controller data provided there.\n\nStereoKit will simulate hands if only controllers are present, but it will not simulate controllers if only hands are present.";
-        Matrix titlePose = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
-        string title = "Controllers";
+        readonly Matrix descPose = Matrix.TR(-0.5f, 0, -0.5f, Quat.LookDir(1, 0, 1));
+        readonly string description = "While StereoKit prioritizes hand input, sometimes a controller has more precision! StereoKit provides access to any controllers via the Input.Controller function. This is a debug visualization of the controller data provided there.\n\nStereoKit will simulate hands if only controllers are present, but it will not simulate controllers if only hands are present.";
+        readonly Matrix titlePose = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
+        readonly string title = "Controllers";
 
         public bool Enabled => throw new System.NotImplementedException();
 

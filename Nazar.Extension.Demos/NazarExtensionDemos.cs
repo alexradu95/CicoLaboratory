@@ -2,12 +2,12 @@
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos
+namespace Nazar.Extension.ZDemos
 {
     public class NazarExtensionDemos : IStepper
     {
         private List<Type> allSteppers = new List<Type>();
-        Dictionary<string, IStepper> activeFeatures = new();
+        readonly Dictionary<string, IStepper> activeFeatures = new();
 
         private Pose demoSelectPose = new Pose();
         private Sprite powerButton;

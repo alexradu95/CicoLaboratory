@@ -1,13 +1,13 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos
+namespace Nazar.Extension.ZDemos.Demos
 {
     class DemoManyObjects : IStepper
     {
         Model model;
         const int cacheCount = 1000;
-        List<Pose> poseCache = new List<Pose>(cacheCount);
+        readonly List<Pose> poseCache = new List<Pose>(cacheCount);
         public bool Enabled => throw new NotImplementedException();
         public bool Initialize()
         {

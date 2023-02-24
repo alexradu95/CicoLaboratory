@@ -1,12 +1,12 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos
+namespace Nazar.Extension.ZDemos.Demos
 {
     class AvatarSkeleton : IStepper
     {
-        LinePoint[] headLine = new LinePoint[3];
-        LinePoint[] armLine = new LinePoint[4];
+        readonly LinePoint[] headLine = new LinePoint[3];
+        readonly LinePoint[] armLine = new LinePoint[4];
 
         public bool Enabled => true;
 

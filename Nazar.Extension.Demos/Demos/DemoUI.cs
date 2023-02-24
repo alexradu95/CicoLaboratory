@@ -18,7 +18,7 @@
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoUI : IStepper
 {
@@ -38,11 +38,11 @@ class DemoUI : IStepper
     bool  showHeader = true;
     float slider     = 0.5f;
 
-    Sprite powerSprite = Sprite.FromFile("power.png", SpriteType.Single);
+    readonly Sprite powerSprite = Sprite.FromFile("power.png", SpriteType.Single);
     /// :End:
+    readonly Model  clipboard     = Model.FromFile("Clipboard.glb", Default.ShaderUI);
 
-    Model  clipboard     = Model.FromFile("Clipboard.glb", Default.ShaderUI);
-    Sprite logoSprite    = Sprite.FromFile("StereoKitWide.png", SpriteType.Single);
+    readonly Sprite logoSprite    = Sprite.FromFile("StereoKitWide.png", SpriteType.Single);
     Pose   clipboardPose = new Pose(.4f,0,0, Quat.LookDir(-1,0,1));
     bool   clipToggle;
     float  clipSlider;

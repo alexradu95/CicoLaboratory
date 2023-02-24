@@ -17,7 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Extension", "NazAR.Ex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Extension.AIWorldGenerator", "NazAR.Extensions.AIAssistant\Nazar.Extension.AIWorldGenerator.csproj", "{3B179E26-7C93-439D-99AE-FCDA999CC96E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nazar.Extension.Demos", "Nazar.Extension.Demos\Nazar.Extension.Demos.csproj", "{C6D03A50-B818-4AB6-BEA2-D5F3336B4BC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nazar.Extension.ZDemos", "Nazar.Extension.Demos\Nazar.Extension.ZDemos.csproj", "{C6D03A50-B818-4AB6-BEA2-D5F3336B4BC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nazar.Extension.SpeechToText", "Nazar.Extenion.SpeechToText\Nazar.Extension.SpeechToText.csproj", "{A749411A-9D18-4B7A-A2B1-20ECF57279E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nazar.Extension.OpenAI", "Nazar.Extension.OpenAI\Nazar.Extension.OpenAI.csproj", "{45A319DC-4CE6-4294-BF1F-FD177910D116}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nazar.Core.WorldGenerator", "Nazar.Core.WorldGenerator\Nazar.Core.WorldGenerator.csproj", "{AA878BBA-D469-421F-A756-27BA586D9CF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +63,18 @@ Global
 		{C6D03A50-B818-4AB6-BEA2-D5F3336B4BC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6D03A50-B818-4AB6-BEA2-D5F3336B4BC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6D03A50-B818-4AB6-BEA2-D5F3336B4BC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A749411A-9D18-4B7A-A2B1-20ECF57279E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A749411A-9D18-4B7A-A2B1-20ECF57279E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A749411A-9D18-4B7A-A2B1-20ECF57279E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A749411A-9D18-4B7A-A2B1-20ECF57279E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A319DC-4CE6-4294-BF1F-FD177910D116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A319DC-4CE6-4294-BF1F-FD177910D116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A319DC-4CE6-4294-BF1F-FD177910D116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A319DC-4CE6-4294-BF1F-FD177910D116}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA878BBA-D469-421F-A756-27BA586D9CF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA878BBA-D469-421F-A756-27BA586D9CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA878BBA-D469-421F-A756-27BA586D9CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA878BBA-D469-421F-A756-27BA586D9CF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

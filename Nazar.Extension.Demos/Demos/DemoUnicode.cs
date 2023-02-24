@@ -1,12 +1,12 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoUnicode : IStepper
 {
     Model atlasModel;
-    Model clipboard = Model.FromFile("Clipboard.glb", Shader.UI);
+    readonly Model clipboard = Model.FromFile("Clipboard.glb", Shader.UI);
 
     Pose  clipboardPose  = new Pose(0.8f,-0.15f,-0.2f, Quat.LookDir(-1,0,1));
     Pose  unicodeWinPose = new Pose(0.5f,0,-0.5f, Quat.LookDir(-1,0,1));

@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos
+namespace Nazar.Extension.ZDemos.Demos
 {
     class Light
     {
@@ -16,17 +16,17 @@ namespace Nazar.Extension.Demos.Demos
 
     class DemoSkyLight : IStepper
     {
-        static List<Light> lights = new List<Light>();
+        static readonly List<Light> lights = new List<Light>();
         static Pose windowPose = new Pose(0, 0.1f, -0.3f, Quat.LookDir(-Vec3.Forward));
         static LightMode mode = LightMode.Lights;
         static Tex cubemap = null;
         static bool cubelightDirty = false;
         static Pose previewPose = new Pose(0, -0.1f, -0.3f, Quat.LookDir(-Vec3.Forward));
         public bool Enabled => throw new NotImplementedException();
-        Model previewModel = Model.FromFile("DamagedHelmet.gltf");
-        Mesh lightMesh = Mesh.GenerateSphere(1);
-        Material lightProbeMat = Default.Material;
-        Material lightSrcMat = new Material(Default.ShaderUnlit);
+        readonly Model previewModel = Model.FromFile("DamagedHelmet.gltf");
+        readonly Mesh lightMesh = Mesh.GenerateSphere(1);
+        readonly Material lightProbeMat = Default.Material;
+        readonly Material lightSrcMat = new Material(Default.ShaderUnlit);
 
         public bool Initialize() { return true; }
         public void Shutdown() => Platform.FilePickerClose();

@@ -13,17 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.25.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
-    <PackageReference Include="OpenAI" Version="1.4.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckInput Remove="Assets\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nazar.Core.WorldGenerator\Nazar.Core.WorldGenerator.csproj" />
+    <ProjectReference Include="..\Nazar.Extenion.SpeechToText\Nazar.Extension.SpeechToText.csproj" />
+    <ProjectReference Include="..\Nazar.Extension.OpenAI\Nazar.Extension.OpenAI.csproj" />
     <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
   </ItemGroup>
 

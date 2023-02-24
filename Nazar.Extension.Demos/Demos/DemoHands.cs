@@ -12,7 +12,7 @@
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoHands : IStepper
 {
@@ -31,7 +31,7 @@ class DemoHands : IStepper
     bool showHandMenus = true;
     bool showHandSize  = true;
 
-    Mesh jointMesh = Mesh.GenerateSphere(1);
+    readonly Mesh jointMesh = Mesh.GenerateSphere(1);
     HandMenuRadial handMenu;
 
     public bool Initialize() {

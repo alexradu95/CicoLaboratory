@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoLineRender : IStepper
 {
@@ -16,7 +16,7 @@ class DemoLineRender : IStepper
     }
 
     int    trailId = 0;
-    Vec3   center = new Vec3(0.4f,0,-0.4f);
+    readonly Vec3   center = new Vec3(0.4f,0,-0.4f);
     Body[] bodies;
 
     public bool Enabled => throw new System.NotImplementedException();

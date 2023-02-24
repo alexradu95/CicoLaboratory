@@ -1,12 +1,12 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoWelcome : IStepper
 {
     Model  logo;
-    string message = "Welcome fellow developer!\n\nThis is the StereoKit test app, a collection of demos and tests that cover StereoKit's major features. Use this panel to navigate around the app, and enjoy!\n\nCheck behind you for some debugging tools :)";
+    readonly string message = "Welcome fellow developer!\n\nThis is the StereoKit test app, a collection of demos and tests that cover StereoKit's major features. Use this panel to navigate around the app, and enjoy!\n\nCheck behind you for some debugging tools :)";
     public bool Enabled => throw new System.NotImplementedException();
     public bool Initialize()
     {

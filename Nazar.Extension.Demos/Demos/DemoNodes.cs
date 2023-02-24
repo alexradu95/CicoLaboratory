@@ -1,16 +1,16 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoNodes : IStepper
 {
-    Matrix descPose    = Matrix.TR (-0.5f, 0, -0.5f, Quat.LookDir(1,0,1));
-    string description = "ModelNode API lets...";
-    Matrix titlePose   = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
-    string title       = "Model Nodes";
+    readonly Matrix descPose    = Matrix.TR (-0.5f, 0, -0.5f, Quat.LookDir(1,0,1));
+    readonly string description = "ModelNode API lets...";
+    readonly Matrix titlePose   = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
+    readonly string title       = "Model Nodes";
     public bool Enabled => throw new System.NotImplementedException();
-    Model radio     = Model.FromFile("Radio.glb");
+    readonly Model radio     = Model.FromFile("Radio.glb");
     Pose  radioPose = new Pose(0.5f, -0.25f, -0.5f, Quat.LookDir(-1, 0, 1));
     Pose  radioPowerPose;
     Pose  radioSpeakerPose;
@@ -20,12 +20,12 @@ class DemoNodes : IStepper
     Vec2  radioDisplaySize;
 
     float       radioFreq = 500;
-    float       radioVolume = 0.5f;
+    readonly float       radioVolume = 0.5f;
     bool        radioPlay = false;
-    LinePoint[] radioFreqLine = new LinePoint[256];
+    readonly LinePoint[] radioFreqLine = new LinePoint[256];
     Sound       radioSound;
     SoundInst   radioSoundInst;
-    float[]     radioSoundBuffer = new float[(int)(0.1f*48000)];
+    readonly float[]     radioSoundBuffer = new float[(int)(0.1f*48000)];
     double      radioSoundBufferT = 0;
 
     public bool Initialize()

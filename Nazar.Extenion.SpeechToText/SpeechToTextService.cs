@@ -1,25 +1,24 @@
-﻿using System;
-using Microsoft.CognitiveServices.Speech;
+﻿using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.AIWorldGenerator
+namespace Nazar.Extension.SpeechToText
 {
-    internal class SpeechToTextService : IStepper
+    public class SpeechToTextService : IStepper
     {
 
         public bool Enabled => true;
-        public event EventHandler<string> TextWasSubmitted;
+        public event EventHandler<string>? TextWasSubmitted;
 
-        private SpeechRecognizer speechRecognizer;
+        private readonly SpeechRecognizer speechRecognizer;
 
         private string intermediateSpeechInput = string.Empty;
         private string speechToTextInput = string.Empty;
 
         //Azure speech to text AI
-        private string speechKey = "9abb06bd923b40fc9b99692bc077c9e9";
-        private string speechRegion = "westeurope";
+        private readonly string speechKey = "9abb06bd923b40fc9b99692bc077c9e9";
+        private readonly string speechRegion = "westeurope";
 
         private Pose buttonsPose = new(0.04f, -0.32f, -0.34f, Quat.LookDir(-0.03f, 0.64f, 0.76f));
 

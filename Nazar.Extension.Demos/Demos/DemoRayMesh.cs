@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoRayMesh : IStepper
 {
@@ -13,8 +13,9 @@ class DemoRayMesh : IStepper
     /// 
     /// ![Ray Mesh Intersection]({{site.url}}/img/screenshots/RayMeshIntersect.jpg)
     ///
-    Mesh sphereMesh = Default.MeshSphere;
-    Mesh boxMesh    = Mesh.GenerateRoundedCube(Vec3.One*0.2f, 0.05f);
+    readonly Mesh sphereMesh = Default.MeshSphere;
+
+    readonly Mesh boxMesh    = Mesh.GenerateRoundedCube(Vec3.One*0.2f, 0.05f);
     Pose boxPose    = new Pose(0,     0,     -0.5f,  Quat.Identity);
     Pose castPose   = new Pose(0.25f, 0.21f, -0.36f, Quat.Identity);
     public bool Enabled => throw new System.NotImplementedException();

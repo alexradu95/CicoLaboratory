@@ -11,11 +11,11 @@ using CicoLaboratory.Content.Demos;
 namespace CicoLaboratory.Content.Demos
 */
 
-namespace Nazar.Extension.Demos.Demos
+namespace Nazar.Extension.ZDemos.Demos
 {
     public class PointCloud
     {
-        Material mat;
+        readonly Material mat;
         Vertex[] verts;
         Mesh mesh;
 
@@ -95,10 +95,10 @@ namespace Nazar.Extension.Demos.Demos
 
     class DemoPointCloud : IStepper
     {
-        Matrix descPose = Matrix.TR(-0.5f, 0, -0.5f, Quat.LookDir(1, 0, 1));
-        string description = "Point clouds are not a built-in feature of StereoKit, but it's not hard to do this yourself! Check out the code for this demo for a class that'll help you do this directly from data, or from a Model.";
-        Matrix titlePose = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
-        string title = "Point Clouds";
+        readonly Matrix descPose = Matrix.TR(-0.5f, 0, -0.5f, Quat.LookDir(1, 0, 1));
+        readonly string description = "Point clouds are not a built-in feature of StereoKit, but it's not hard to do this yourself! Check out the code for this demo for a class that'll help you do this directly from data, or from a Model.";
+        readonly Matrix titlePose = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
+        readonly string title = "Point Clouds";
 
         Pose cloudPose = new Pose(0.5f, 0, -0.5f, Quat.LookDir(-1, 0, 1));
         float cloudScale = 1;

@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using StereoKit;
 
-namespace Nazar.Extension.AIWorldGenerator;
+namespace Nazar.Core.WorldGenerator;
 
-internal class Object
+public class WorldObject
 {
     private Color myColor;
     private Model myModel;
@@ -11,9 +11,9 @@ internal class Object
     private Vec3 myScale = Vec3.One;
 
     private string
-        myShape; //Can be "cube", "cylinder", "plane", "rounded cube". See generate funcitons at https://stereokit.net/Pages/StereoKit/Mesh.html
+        myShape; //Can be "cube", "cylinder", "plane", "rounded cube". See generate functions at https://stereokit.net/Pages/StereoKit/Mesh.html
 
-    public Object(int anId, JObject someData) //JObject is a JSON object
+    public WorldObject(int anId, JObject someData) //JObject is a JSON object
     {
         myId = anId;
 
@@ -39,23 +39,25 @@ internal class Object
             string str = JShape.ToString();
             myShape = str;
 
-            if (str == "cube")
+            switch (str)
             {
-                myModel = Model.FromMesh(Mesh.Cube, Material.UI);
-            }
-            else if (str == "sphere")
-            {
-                myModel = Model.FromMesh(Mesh.Sphere, Material.UI);
-            }
-            else if (str == "cylinder")
-            {
-                Mesh cylinder = Mesh.GenerateCylinder(1.0f, 1.0f, Vec3.Up);
-                myModel = Model.FromMesh(cylinder, Material.UI);
-            }
-            //continue with more meshes
-            else //default cube
-            {
-                myModel = Model.FromMesh(Mesh.Cube, Material.UI);
+                case "cube":
+                    myModel = Model.FromMesh(Mesh.Cube, Material.UI);
+                    break;
+                case "sphere":
+                    myModel = Model.FromMesh(Mesh.Sphere, Material.UI);
+                    break;
+                case "cylinder":
+                {
+                    Mesh cylinder = Mesh.GenerateCylinder(1.0f, 1.0f, Vec3.Up);
+                    myModel = Model.FromMesh(cylinder, Material.UI);
+                    break;
+                }
+                //continue with more meshes
+                //default cube
+                default:
+                    myModel = Model.FromMesh(Mesh.Cube, Material.UI);
+                    break;
             }
         }
 
@@ -69,12 +71,14 @@ internal class Object
 
     private JObject ToJson()
     {
-        JObject result = new();
-        result.Add("id", myId);
-        result.Add("position", JSONConverter.ToJSON(myPose.position));
-        result.Add("scale", JSONConverter.ToJSON(myScale));
-        result.Add("shape", myShape);
-        result.Add("color", JSONConverter.ToJSON(myColor));
+        JObject result = new()
+        {
+            {"id", myId},
+            {"position", JSONConverter.ToJSON(myPose.position)},
+            {"scale", JSONConverter.ToJSON(myScale)},
+            {"shape", myShape},
+            {"color", JSONConverter.ToJSON(myColor)}
+        };
 
         return result;
     }

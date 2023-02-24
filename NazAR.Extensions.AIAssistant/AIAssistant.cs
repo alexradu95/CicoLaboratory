@@ -1,3 +1,6 @@
+using Nazar.Core.WorldGenerator;
+using Nazar.Extension.OpenAI;
+using Nazar.Extension.SpeechToText;
 using StereoKit;
 using StereoKit.Framework;
 
@@ -9,7 +12,7 @@ public class AiAssistant : IStepper
 
     OpenAIService openAiService;
     SpeechToTextService speechToTextService;
-    GenerateWorldService generateWorldService;
+    WorldGenerator generateWorldService;
 
 
 
@@ -18,7 +21,7 @@ public class AiAssistant : IStepper
         //  Instantiate the components of AI Assistant
         openAiService = SK.AddStepper<OpenAIService>();
         speechToTextService = SK.AddStepper<SpeechToTextService>();
-        generateWorldService = SK.AddStepper<GenerateWorldService>();
+        generateWorldService = SK.AddStepper<WorldGenerator>();
 
         // Connect the features between them
         speechToTextService.TextWasSubmitted += async (s, entry) =>

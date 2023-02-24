@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.AIWorldGenerator
+namespace Nazar.Core.WorldGenerator
 {
-    internal class GenerateWorldService : IStepper
+    public class WorldGenerator : IStepper
     {
 
         //AI generated game objects
         private readonly int myIdCounter = 0;
-        private readonly List<Object> objects = new();
+        private readonly List<WorldObject> objects = new();
 
         public bool Enabled => throw new NotImplementedException();
 
@@ -25,7 +23,7 @@ namespace Nazar.Extension.AIWorldGenerator
 
         public void Step()
         {
-            foreach (Object o in objects) o.Draw();
+            foreach (WorldObject o in objects) o.Draw();
         }
 
         public void HandleInput(string input)
@@ -62,7 +60,7 @@ namespace Nazar.Extension.AIWorldGenerator
                     }
 
                 if (!foundObject) //Create a new object
-                    objects.Add(new Object(id, JResponce));
+                    objects.Add(new WorldObject(id, JResponce));
             }
         }
     }

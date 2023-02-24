@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos
+namespace Nazar.Extension.ZDemos.Demos
 {
     class DemoLines : IStepper
     {
@@ -87,8 +87,8 @@ namespace Nazar.Extension.Demos.Demos
 
         Vec3 prevTip;
         bool painting = false;
-        List<LinePoint> drawPoints = new List<LinePoint>();
-        List<LinePoint[]> drawList = new List<LinePoint[]>();
+        readonly List<LinePoint> drawPoints = new List<LinePoint>();
+        readonly List<LinePoint[]> drawList = new List<LinePoint[]>();
 
 
         void Draw(Handed handed)

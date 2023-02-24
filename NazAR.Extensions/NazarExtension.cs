@@ -1,5 +1,4 @@
 ﻿using Nazar.Extension.AIWorldGenerator;
-using Nazar.Extension.Demos;
 using Nazar.Extension.Features;
 using StereoKit;
 using StereoKit.Framework;
@@ -16,8 +15,7 @@ namespace Nazar.Extension
             // We build the extensions manager
             ExtensionManager = SK.AddStepper<ExtensionManager>();
 
-            ExtensionManager.AddNewFeature(typeof(NazarExtensionDemos));
-
+            //ExtensionManager.AddNewFeature(typeof(NazarExtensionDemos));
             ExtensionManager.AddNewFeature(typeof(AiAssistant));
 
         }

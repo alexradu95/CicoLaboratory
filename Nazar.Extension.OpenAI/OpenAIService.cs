@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
-using OpenAI_API;
+﻿using OpenAI_API;
 using OpenAI_API.Completions;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.AIWorldGenerator
+namespace Nazar.Extension.OpenAI
 {
-    internal class OpenAIService : IStepper
+    public class OpenAIService : IStepper
     {
 
         private Pose aiChatPose = new(0, 0, 0, Quat.LookDir(-0.03f, 0.64f, 0.76f));
@@ -14,7 +13,7 @@ namespace Nazar.Extension.AIWorldGenerator
         private readonly string startSequence = "\njson:";
         private readonly string restartSequence = "\ntext:\n";
 
-        string openAiKey = "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";
+        readonly string openAiKey = "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";
         private OpenAIAPI openAIApi;
 
 

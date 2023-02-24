@@ -1,14 +1,14 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoMicrophone : IStepper
 {
-    Matrix descPose    = Matrix.TR (-0.5f, 0, -0.5f, Quat.LookDir(1,0,1));
-    string description = "Sometimes you need direct access to the microphone data! Maybe for a special effect, or maybe you just need to stream it to someone else. Well, there's an easy API for that!\n\nThis demo shows how to grab input from the microphone, and use it to drive an indicator that tells users that you're listening!";
-    Matrix titlePose   = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
-    string title       = "Microphone";
+    readonly Matrix descPose    = Matrix.TR (-0.5f, 0, -0.5f, Quat.LookDir(1,0,1));
+    readonly string description = "Sometimes you need direct access to the microphone data! Maybe for a special effect, or maybe you just need to stream it to someone else. Well, there's an easy API for that!\n\nThis demo shows how to grab input from the microphone, and use it to drive an indicator that tells users that you're listening!";
+    readonly Matrix titlePose   = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
+    readonly string title       = "Microphone";
 
     Sprite   micSprite;
     Material micMaterial;

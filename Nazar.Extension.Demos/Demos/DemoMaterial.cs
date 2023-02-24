@@ -1,7 +1,7 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoMaterial : IStepper
 {
@@ -150,7 +150,7 @@ class DemoMaterial : IStepper
     }
 
     int showCount;
-    int showGrid = 3;
+    readonly int showGrid = 3;
     void ShowMaterial(Mesh mesh, Material material, string screenshotName, Vec3? from = null) 
     {
         float x = ((showCount % showGrid)-showGrid/2) * 0.2f;

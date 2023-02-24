@@ -1,17 +1,17 @@
 ﻿using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.Demos.Demos;
+namespace Nazar.Extension.ZDemos.Demos;
 
 class DemoTextures : IStepper
 {
-    Material exampleMaterial = Material.Default.Copy();
-    Mesh     quad            = Mesh.GeneratePlane(new Vec2(.4f,.4f), -Vec3.Forward, Vec3.Up);
+    readonly Material exampleMaterial = Material.Default.Copy();
+    readonly Mesh     quad            = Mesh.GeneratePlane(new Vec2(.4f,.4f), -Vec3.Forward, Vec3.Up);
 
-    Matrix   descPose    = Matrix.TR (-0.5f, 0, -0.5f, Quat.LookDir(1,0,1));
-    string   description = "Here's a quick sample of procedurally assembling a texture!";
-    Matrix   titlePose   = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
-    string   title       = "Procedural Textures";
+    readonly Matrix   descPose    = Matrix.TR (-0.5f, 0, -0.5f, Quat.LookDir(1,0,1));
+    readonly string   description = "Here's a quick sample of procedurally assembling a texture!";
+    readonly Matrix   titlePose   = Matrix.TRS(V.XYZ(-0.5f, 0.05f, -0.5f), Quat.LookDir(1, 0, 1), 2);
+    readonly string   title       = "Procedural Textures";
     public bool Enabled => throw new System.NotImplementedException();
     public bool Initialize()
     {

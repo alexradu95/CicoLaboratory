@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
     <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nazar.Extension.Demos\Nazar.Extension.ZDemos.csproj" />
-    <ProjectReference Include="..\NazAR.Extensions.AIAssistant\Nazar.Extension.AIWorldGenerator.csproj" />
     <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
   </ItemGroup>
-  
+
 </Project>

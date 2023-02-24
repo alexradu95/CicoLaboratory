@@ -1,6 +1,6 @@
 ﻿using StereoKit;
 
-namespace Nazar.Extension.Demos.Demos
+namespace Nazar.Extension.ZDemos.Demos
 {
     static class HolographicTheme
     {

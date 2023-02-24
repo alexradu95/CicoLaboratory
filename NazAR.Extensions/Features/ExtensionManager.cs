@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nazar.SKit.Framework;
 using StereoKit;
 using StereoKit.Framework;
 
