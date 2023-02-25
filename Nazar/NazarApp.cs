@@ -5,9 +5,9 @@ using StereoKit.Framework;
 
 namespace Nazar.Application
 {
-    public class NazarApplication : IStepper
+    public class NazarApp : IStepper
     {
-        public NazarApplication()
+        public NazarApp()
         {
             SK.AddStepper<NazarCore>();
             SK.AddStepper<NazarExtension>();

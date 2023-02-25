@@ -43,7 +43,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Nazar\Nazar.csproj" />
-	  <ProjectReference Include="..\SKExtension\Nazar.SKExtension.csproj" />
 	</ItemGroup>
 
 

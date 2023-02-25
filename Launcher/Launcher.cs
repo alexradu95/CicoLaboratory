@@ -1,14 +1,14 @@
-﻿using Nazar.Application;
-using StereoKit;
+﻿using StereoKit;
 using StereoKit.Framework;
+using Nazar.Application;
 
 namespace NazAR
 {
-    public class App : IStepper
+    public class Launcher : IStepper
     {
-        public App()
+        public Launcher()
         {
-            SK.AddStepper<NazarApplication>();
+            SK.AddStepper<NazarApp>();
         }
 
         public SKSettings Settings => new()
