@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
+    <ProjectReference Include="..\..\SKExtension\Nazar.SKExtension.csproj" />
   </ItemGroup>
 
 </Project>

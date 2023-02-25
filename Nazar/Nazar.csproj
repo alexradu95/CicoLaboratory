@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NazAR.Core\Nazar.Core.csproj" />
-    <ProjectReference Include="..\NazAR.Extensions\Nazar.Extension.csproj" />
-    <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
+    <ProjectReference Include="..\Core\0Core\Nazar.Core.csproj" />
+    <ProjectReference Include="..\Extensions\0Extensions\Nazar.Extensions.csproj" />
+    <ProjectReference Include="..\SKExtension\Nazar.SKExtension.csproj" />
   </ItemGroup>
 
 </Project>

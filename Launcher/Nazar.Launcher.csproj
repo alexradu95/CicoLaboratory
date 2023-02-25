@@ -42,8 +42,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\NazAR.Application\Nazar.Application.csproj" />
-	  <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
+	  <ProjectReference Include="..\Nazar\Nazar.csproj" />
+	  <ProjectReference Include="..\SKExtension\Nazar.SKExtension.csproj" />
 	</ItemGroup>
 
 

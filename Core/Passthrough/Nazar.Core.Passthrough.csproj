@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NazAR.Core.Passthrough\Nazar.Core.Passthrough.csproj" />
-    <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
+    <ProjectReference Include="..\..\SKExtension\Nazar.SKExtension.csproj" />
   </ItemGroup>
-
+  
 </Project>

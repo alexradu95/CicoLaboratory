@@ -21,10 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nazar.Core.WorldGenerator\Nazar.Core.WorldGenerator.csproj" />
-    <ProjectReference Include="..\Nazar.Extenion.SpeechToText\Nazar.Extension.SpeechToText.csproj" />
-    <ProjectReference Include="..\Nazar.Extension.OpenAI\Nazar.Extension.OpenAI.csproj" />
-    <ProjectReference Include="..\NazAR.StereoKit\Nazar.SKit.csproj" />
+    <ProjectReference Include="..\..\Core\WorldGenerator\Nazar.Core.WorldGenerator.csproj" />
+    <ProjectReference Include="..\..\SKExtension\Nazar.SKExtension.csproj" />
+    <ProjectReference Include="..\OpenAI\Nazar.Extensions.OpenAI.csproj" />
+    <ProjectReference Include="..\SpeechToText\Nazar.Extensions.SpeechToText.csproj" />
   </ItemGroup>
 
 </Project>
