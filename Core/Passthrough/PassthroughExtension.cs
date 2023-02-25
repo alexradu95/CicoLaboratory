@@ -1,10 +1,10 @@
 ﻿using System;
-using Nazar.SKit.Framework;
+using Nazar.Framework;
 using StereoKit;
 
 namespace Nazar.Core.Passthrough
 {
-    public class PassthroughExtension : IConfigurableStepper
+    public class PassthroughExtension : INazarStepper
     {
         public bool Enabled => throw new NotImplementedException();
 
@@ -25,5 +25,6 @@ namespace Nazar.Core.Passthrough
         public void Shutdown() {}
 
         public void Step() {}
+
     }
 }

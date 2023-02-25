@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\0Core\Nazar.Core.csproj" />
     <ProjectReference Include="..\Extensions\0Extensions\Nazar.Extensions.csproj" />
-    <ProjectReference Include="..\SKExtension\Nazar.SKExtension.csproj" />
+    <ProjectReference Include="..\SKExtension\Nazar.Framework.csproj" />
   </ItemGroup>
 
 </Project>

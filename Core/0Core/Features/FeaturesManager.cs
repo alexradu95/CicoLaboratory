@@ -3,7 +3,7 @@ using StereoKit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nazar.SKit.Framework;
+using Nazar.Framework;
 
 namespace Nazar.Core.Features
 {
@@ -64,7 +64,7 @@ namespace Nazar.Core.Features
         public void AddNewFeature(Type stepperType)
         {
             var passthroughExtension = SK.AddStepper(stepperType);
-            if (passthroughExtension is IConfigurableStepper configurableStepper)
+            if (passthroughExtension is INazarStepper configurableStepper)
             {
                 ToggleableFeatures.Add(configurableStepper.GetConfigUi());
             }

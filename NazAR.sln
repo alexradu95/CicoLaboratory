@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar", "Nazar\Nazar.csproj", "{2AFF40A9-5CAF-4915-8595-904FCF6FAD5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.SKExtension", "SKExtension\Nazar.SKExtension.csproj", "{24358682-F547-4B8F-A4C9-46FDCC647959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Framework", "SKExtension\Nazar.Framework.csproj", "{24358682-F547-4B8F-A4C9-46FDCC647959}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Core", "Core\0Core\Nazar.Core.csproj", "{55FBB473-A9EE-4DFB-94DB-A507CC974973}"
 EndProject

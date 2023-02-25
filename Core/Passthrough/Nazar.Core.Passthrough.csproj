@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SKExtension\Nazar.SKExtension.csproj" />
+    <ProjectReference Include="..\..\SKExtension\Nazar.Framework.csproj" />
   </ItemGroup>
   
 </Project>
