@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Core", "Core\0Core\Na
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Core.Passthrough", "Core\Passthrough\Nazar.Core.Passthrough.csproj", "{A3FE10B6-21EC-4E79-A571-DEFCBF587FE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Core.WorldGenerator", "Core\WorldGenerator\Nazar.Core.WorldGenerator.csproj", "{F62B88B5-F608-4CD2-9FAE-5C1547C87B45}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Launcher", "Launcher\Nazar.Launcher.csproj", "{51385F5E-1D26-4485-BF1A-8FC9BC895497}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nazar.Extensions", "Extensions\0Extensions\Nazar.Extensions.csproj", "{D72604E7-DCE7-403A-BD1D-254C732A2F9E}"
@@ -45,10 +43,6 @@ Global
 		{A3FE10B6-21EC-4E79-A571-DEFCBF587FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3FE10B6-21EC-4E79-A571-DEFCBF587FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3FE10B6-21EC-4E79-A571-DEFCBF587FE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F62B88B5-F608-4CD2-9FAE-5C1547C87B45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F62B88B5-F608-4CD2-9FAE-5C1547C87B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F62B88B5-F608-4CD2-9FAE-5C1547C87B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F62B88B5-F608-4CD2-9FAE-5C1547C87B45}.Release|Any CPU.Build.0 = Release|Any CPU
 		{51385F5E-1D26-4485-BF1A-8FC9BC895497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{51385F5E-1D26-4485-BF1A-8FC9BC895497}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51385F5E-1D26-4485-BF1A-8FC9BC895497}.Release|Any CPU.ActiveCfg = Release|Any CPU

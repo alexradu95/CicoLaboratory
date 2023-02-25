@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\WorldGenerator\Nazar.Core.WorldGenerator.csproj" />
     <ProjectReference Include="..\..\SKExtension\Nazar.SKExtension.csproj" />
     <ProjectReference Include="..\OpenAI\Nazar.Extensions.OpenAI.csproj" />
     <ProjectReference Include="..\SpeechToText\Nazar.Extensions.SpeechToText.csproj" />

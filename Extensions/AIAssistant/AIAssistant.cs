@@ -12,7 +12,7 @@ public class AiAssistant : IStepper
 
     OpenAIService openAiService;
     SpeechToTextService speechToTextService;
-    WorldGenerator generateWorldService;
+    GeneratedWorld generateWorldService;
 
 
 
@@ -21,7 +21,7 @@ public class AiAssistant : IStepper
         //  Instantiate the components of AI Assistant
         openAiService = SK.AddStepper<OpenAIService>();
         speechToTextService = SK.AddStepper<SpeechToTextService>();
-        generateWorldService = SK.AddStepper<WorldGenerator>();
+        generateWorldService = SK.AddStepper<GeneratedWorld>();
 
         // Connect the features between them
         speechToTextService.TextWasSubmitted += async (s, entry) =>
