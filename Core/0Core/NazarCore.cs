@@ -1,29 +1,23 @@
-﻿using Nazar.Core.Features;
-using Nazar.Core.Passthrough;
-
-using StereoKit;
-using StereoKit.Framework;
+﻿using Nazar.Core.Passthrough;
+using Nazar.Framework;
 
 namespace Nazar.Core
 {
-    public class NazarCore : IStepper
+    public class NazarCore : Node
     {
-
-        internal static FeaturesManager FeaturesManager;
-
         public NazarCore()
         {
-            // We build the feature manager
-            FeaturesManager = SK.AddStepper<FeaturesManager>();
-
-            // We add the passthrough in the constructor, because it need to be initialized before Initialize method is called
-            FeaturesManager.AddNewFeature(typeof(PassthroughExtension));
+            AddChild(typeof(PassthroughExtension), "");
         }
 
-        public bool Enabled => true;
-        public bool Initialize() => true;
-        public void Shutdown() {}
-        public void Step() { }
-        
+        public override bool Enabled => true;
+
+
+        public override bool Initialize() => true;
+
+        public override void Step()
+        {
+
+        }
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System.Runtime.InteropServices;
+using Nazar.Framework;
 using StereoKit;
-using StereoKit.Framework;
 
 namespace Nazar.Core.Passthrough;
 
-public class PassthroughCore : IStepper
+public class PassthroughCore : Node
 {
     private XrPassthroughLayerFB activeLayer;
     private XrPassthroughFB activePassthrough;
-    private bool enabled;
     private bool enabledPassthrough;
 
     private Color oldColor;
@@ -38,13 +37,16 @@ public class PassthroughCore : IStepper
         }
     }
 
-    public bool Enabled
+    public override bool Enabled => throw new System.NotImplementedException();
+
+    new public void Shutdown()
     {
-        get => Available && enabled;
-        set => enabled = value;
+        EnabledPassthrough = false;
+        base.Shutdown();
     }
 
-    public bool Initialize()
+
+    override public bool Initialize()
     {
         Available =
             Backend.XRType == BackendXRType.OpenXR &&
@@ -56,21 +58,19 @@ public class PassthroughCore : IStepper
             EnabledPassthrough = true;
         }
 
+
         return true;
     }
 
-    public void Step()
+    override public void Step()
     {
         if (!EnabledPassthrough) return;
 
         XrCompositionLayerPassthroughFB layer = new(
             XrCompositionLayerFlags.BLEND_TEXTURE_SOURCE_ALPHA_BIT, activeLayer);
         Backend.OpenXR.AddCompositionLayer(layer, -1);
-    }
 
-    public void Shutdown()
-    {
-        EnabledPassthrough = false;
+        DrawNodeManager();
     }
 
     private void StartPassthrough()

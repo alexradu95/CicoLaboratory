@@ -1,30 +1,37 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
 using Nazar.Framework;
 using StereoKit;
 
 namespace Nazar.Core.Passthrough
 {
-    public class PassthroughExtension : INazarStepper
+    public class PassthroughExtension : Node, IConfigurableMenu
     {
-        public bool Enabled => throw new NotImplementedException();
+        PassthroughCore passthrough;
 
-        public static PassthroughCore passthroughCore;
+        private Pose windowPose = new(0.5f, 0, -0.5f, Quat.LookDir(-1, 0, 1));
 
-        public Type GetConfigUi()
-        {
-            return typeof(PassthroughMenu);
-        }
+        public override bool Enabled => true;
 
         public PassthroughExtension()
         {
-            passthroughCore = SK.AddStepper<PassthroughCore>();
+            passthrough = (PassthroughCore) AddChild(typeof(PassthroughCore));
         }
 
-        public bool Initialize() => true;
+        public override bool Initialize() => true;
 
-        public void Shutdown() {}
+        public override void Step()
+        {
+            DrawMenu();
+        }
 
-        public void Step() {}
-
+        public void DrawMenu()
+        {
+            UI.WindowBegin("Passthrough Settings", ref windowPose);
+            bool toggle = passthrough.EnabledPassthrough;
+            UI.Label(passthrough.Available ? "Passthrough EXT available!" : "No passthrough EXT available :(");
+            if (UI.Toggle("Passthrough", ref toggle))
+                passthrough.EnabledPassthrough = toggle;
+            UI.WindowEnd();
+        }
     }
 }
