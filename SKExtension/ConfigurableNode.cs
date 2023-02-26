@@ -1,5 +1,6 @@
 ﻿using Nazar.Framework.Interface;
 using StereoKit;
+using StereoKit.Framework;
 
 namespace Nazar.Framework;
 
@@ -7,14 +8,14 @@ namespace Nazar.Framework;
 /// The node is the building block of Nazar
 /// Each node cand contain other children nodes
 /// </summary>
-public abstract class Node : IChildManager
+public abstract class ConfigurableNode : IChildManager, IConfigurable
 {
     internal List<Type> allChildren = new();
     internal Dictionary<string, Node> activeChildren = new();
 
     private Pose menuPose;
 
-    public Node()
+    public ConfigurableNode()
     {
         menuPose.position = new Vec3(0, 0, -0.6f);
         menuPose.orientation = Quat.LookDir(-Vec3.Forward);
@@ -90,28 +91,16 @@ public abstract class Node : IChildManager
     private void EnableChild(string demoName)
     {
         Type featureType = allChildren.FirstOrDefault(el => el.Name == demoName);
-        activeChildren[demoName] = (Node) SK.AddStepper(featureType);
+        activeChildren[demoName] = (Node)SK.AddStepper(featureType);
     }
-
-    #region IStepper methods
-
-    public abstract bool Enabled { get; }
-
-    public abstract bool Initialize();
-
-    public void Shutdown()
-    {
-        activeChildren.Keys.ToList().ForEach(DisableChild);
-    }
-
-    public abstract void Step();
 
     public Node GetChild(string id)
     {
         return activeChildren[id];
     }
 
-    #endregion
+    public abstract void DrawConfigurationUI();
+
 }
 
 

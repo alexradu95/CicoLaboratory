@@ -1,10 +1,7 @@
-﻿using StereoKit.Framework;
-
-namespace Nazar.Framework.Interface
+﻿namespace Nazar.Framework.Interface
 {
-    interface INode
+    interface IChildManager
     {
-
         Node GetChild(string id);
 
         Node AddChild(Type node, string id);
@@ -20,7 +17,5 @@ namespace Nazar.Framework.Interface
         /// </summary>
         /// <param name="node"></param>
         void DisableChildren(Type node);
-
-        void DrawNodeManager();
     }
 }
