@@ -10,7 +10,15 @@ namespace Nazar.Framework;
 /// </summary>
 public abstract class Node : IChildManager, IStepper
 {
+
+    public bool Enabled => true;
+
     internal Dictionary<string, Node> Children = new();
+
+    public Node GetChild(string id)
+    {
+        return Children[id];
+    }
 
     /// <summary>
     /// Adds a new node as child of the current node
@@ -22,10 +30,11 @@ public abstract class Node : IChildManager, IStepper
     {
         Node stepperToBeAdded = (Node) SK.AddStepper(node);
         string stepperId = string.IsNullOrEmpty(id) ? $"{node.Name}" : $"{node.Name}_{id}";
-        if(Children.ContainsKey(stepperId))
+        if (Children.ContainsKey(stepperId))
         {
             throw new Exception("Could not add the requested child. Id already exists for this node child");
         }
+
         Children[stepperId] = stepperToBeAdded;
 
         return stepperToBeAdded;
@@ -51,56 +60,19 @@ public abstract class Node : IChildManager, IStepper
         Children.Remove(id);
     }
 
-    #region IStepper methods
-
-    public abstract bool Enabled { get; }
 
     public abstract bool Initialize();
 
-    public void Shutdown()
-    {
-        Children.Keys.ToList().ForEach(DisableChild);
-    }
+    public abstract void Step();
 
-    public virtual void Step()
-    {
-        DrawNodeManager();
-    }
-
-    public Node GetChild(string id)
-    {
-        return activeChildren[id];
-    }
-
-    #endregion
+    /// <summary>
+    /// Takes care of shutting down the children
+    /// Must always be called in the overwrite class to not have surprises
+    /// Must find a way to do this automatically
+    /// </summary>
+    public virtual void Shutdown() => Children.Keys.ToList().ForEach(DisableChild);
 
 
-
-    private void DrawNodeManager()
-    {
-        UI.WindowBegin(this.GetType().ToString(), ref menuPose, new Vec2(50 * U.cm, 0));
-        foreach (string demoName in allChildren.Select(el => el.Name))
-        {
-            // If the button is pressed
-            if (UI.Button(demoName))
-            {
-                if (!activeChildren.ContainsKey(demoName))
-                {
-                    EnableChild(demoName);
-                }
-                else
-                {
-                    DisableChild(demoName);
-                }
-            }
-
-            UI.SameLine();
-        }
-
-        UI.NextLine();
-        UI.HSeparator();
-        UI.WindowEnd();
-    }
 }
 
 
