@@ -1,6 +1,6 @@
-﻿using StereoKit;
+﻿using Nazar;
+using StereoKit;
 using StereoKit.Framework;
-using Nazar.Application;
 
 namespace NazAR
 {

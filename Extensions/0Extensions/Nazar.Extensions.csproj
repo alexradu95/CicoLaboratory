@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SKExtension\Nazar.Framework.csproj" />
     <ProjectReference Include="..\AIAssistant\Nazar.Extensions.AIWorldGenerator.csproj" />
   </ItemGroup>
   

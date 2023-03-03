@@ -3,7 +3,7 @@ using Microsoft.CognitiveServices.Speech.Audio;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.SpeechToText
+namespace Nazar.Extensions.SpeechToText
 {
     public class SpeechToTextService : IStepper
     {

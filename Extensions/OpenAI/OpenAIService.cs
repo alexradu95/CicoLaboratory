@@ -3,7 +3,7 @@ using OpenAI_API.Completions;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Extension.OpenAI
+namespace Nazar.Extensions.OpenAI
 {
     public class OpenAIService : IStepper
     {

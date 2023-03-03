@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using StereoKit;
 
-namespace Nazar.Extension.AIWorldGenerator;
+namespace Nazar.Extensions.AIWorldGenerator;
 
 internal class JSONConverter
 {

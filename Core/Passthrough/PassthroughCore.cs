@@ -62,15 +62,14 @@ public class PassthroughCore : Node
         return true;
     }
 
-    override public void Step()
+    public override void Step()
     {
+        base.Step();
         if (!EnabledPassthrough) return;
 
         XrCompositionLayerPassthroughFB layer = new(
             XrCompositionLayerFlags.BLEND_TEXTURE_SOURCE_ALPHA_BIT, activeLayer);
         Backend.OpenXR.AddCompositionLayer(layer, -1);
-
-        DrawNodeManager();
     }
 
     private void StartPassthrough()

@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SKExtension\Nazar.Framework.csproj" />
     <ProjectReference Include="..\OpenAI\Nazar.Extensions.OpenAI.csproj" />
     <ProjectReference Include="..\SpeechToText\Nazar.Extensions.SpeechToText.csproj" />
   </ItemGroup>

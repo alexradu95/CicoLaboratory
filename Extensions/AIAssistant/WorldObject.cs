@@ -1,8 +1,7 @@
-﻿using Nazar.Extension.AIWorldGenerator;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using StereoKit;
 
-namespace Nazar.Core.WorldGenerator;
+namespace Nazar.Extensions.AIWorldGenerator;
 
 public class WorldObject
 {

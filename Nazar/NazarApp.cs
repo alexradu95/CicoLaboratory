@@ -1,9 +1,9 @@
 ﻿using Nazar.Core;
-using Nazar.Extension;
+using Nazar.Extensions;
 using StereoKit;
 using StereoKit.Framework;
 
-namespace Nazar.Application
+namespace Nazar
 {
     public class NazarApp : IStepper
     {

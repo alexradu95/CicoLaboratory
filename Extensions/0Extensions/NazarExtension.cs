@@ -1,8 +1,6 @@
-﻿using Nazar.Extension.AIWorldGenerator;
-using StereoKit;
-using StereoKit.Framework;
+﻿using StereoKit.Framework;
 
-namespace Nazar.Extension
+namespace Nazar.Extensions
 {
     public class NazarExtension : IStepper
     {

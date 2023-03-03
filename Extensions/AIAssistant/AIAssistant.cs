@@ -1,12 +1,9 @@
-using Nazar.Core.WorldGenerator;
-using Nazar.Extension.OpenAI;
-using Nazar.Extension.SpeechToText;
-using Nazar.Framework;
+using Nazar.Extensions.OpenAI;
+using Nazar.Extensions.SpeechToText;
 using StereoKit;
 using StereoKit.Framework;
-using System.Collections.Generic;
 
-namespace Nazar.Extension.AIWorldGenerator;
+namespace Nazar.Extensions.AIWorldGenerator;
 
 public class AiAssistant : IStepper
 {
@@ -26,7 +23,7 @@ public class AiAssistant : IStepper
         // Connect the features between them
         speechToTextService.TextWasSubmitted += async (s, entry) =>
         {
-            var openAIResponse = await openAiService.GenerateAIResponce(entry);
+            string openAIResponse = await openAiService.GenerateAIResponce(entry);
             generatedWorld.HandleInput(openAIResponse);
         };
 

@@ -1,24 +1,16 @@
 ﻿using Nazar.Framework.Interface;
 using StereoKit;
+using StereoKit.Framework;
 
 namespace Nazar.Framework;
 
 /// <summary>
 /// The node is the building block of Nazar
-/// Each node cand contain other children nodes
+/// Each node can contain other Children nodes
 /// </summary>
-public abstract class Node : IChildManager
+public abstract class Node : IChildManager, IStepper
 {
-    internal List<Type> allChildren = new();
-    internal Dictionary<string, Node> activeChildren = new();
-
-    private Pose menuPose;
-
-    public Node()
-    {
-        menuPose.position = new Vec3(0, 0, -0.6f);
-        menuPose.orientation = Quat.LookDir(-Vec3.Forward);
-    }
+    internal Dictionary<string, Node> Children = new();
 
     /// <summary>
     /// Adds a new node as child of the current node
@@ -28,14 +20,13 @@ public abstract class Node : IChildManager
     /// <exception cref="Exception">Throws when an already existing child node with the same id exists</exception>
     public Node AddChild(Type node, string id = "")
     {
-        allChildren.Add(node);
-        var stepperToBeAdded = (Node) SK.AddStepper(node);
-        var stepperId = string.IsNullOrEmpty(id) ? $"{node.Name}" : $"{node.Name}_{id}";
-        if(activeChildren.ContainsKey(stepperId))
+        Node stepperToBeAdded = (Node) SK.AddStepper(node);
+        string stepperId = string.IsNullOrEmpty(id) ? $"{node.Name}" : $"{node.Name}_{id}";
+        if(Children.ContainsKey(stepperId))
         {
             throw new Exception("Could not add the requested child. Id already exists for this node child");
         }
-        activeChildren[stepperId] = stepperToBeAdded;
+        Children[stepperId] = stepperToBeAdded;
 
         return stepperToBeAdded;
     }
@@ -46,7 +37,7 @@ public abstract class Node : IChildManager
     /// <param name="type"></param>
     public void DisableChildren(Type type)
     {
-        var selectedChildrenIds = activeChildren.Keys.Where(key => key.Contains(type.ToString()));
+        var selectedChildrenIds = Children.Keys.Where(key => key.Contains(type.ToString()));
         selectedChildrenIds.ToList().ForEach(DisableChild);
     }
 
@@ -56,12 +47,36 @@ public abstract class Node : IChildManager
     /// <param name="id"></param>
     public void DisableChild(string id)
     {
-        SK.RemoveStepper(activeChildren[id]);
-        activeChildren.Remove(id);
+        SK.RemoveStepper(Children[id]);
+        Children.Remove(id);
     }
 
+    #region IStepper methods
 
-    public void DrawNodeManager()
+    public abstract bool Enabled { get; }
+
+    public abstract bool Initialize();
+
+    public void Shutdown()
+    {
+        Children.Keys.ToList().ForEach(DisableChild);
+    }
+
+    public virtual void Step()
+    {
+        DrawNodeManager();
+    }
+
+    public Node GetChild(string id)
+    {
+        return activeChildren[id];
+    }
+
+    #endregion
+
+
+
+    private void DrawNodeManager()
     {
         UI.WindowBegin(this.GetType().ToString(), ref menuPose, new Vec2(50 * U.cm, 0));
         foreach (string demoName in allChildren.Select(el => el.Name))
@@ -86,32 +101,6 @@ public abstract class Node : IChildManager
         UI.HSeparator();
         UI.WindowEnd();
     }
-
-    private void EnableChild(string demoName)
-    {
-        Type featureType = allChildren.FirstOrDefault(el => el.Name == demoName);
-        activeChildren[demoName] = (Node) SK.AddStepper(featureType);
-    }
-
-    #region IStepper methods
-
-    public abstract bool Enabled { get; }
-
-    public abstract bool Initialize();
-
-    public void Shutdown()
-    {
-        activeChildren.Keys.ToList().ForEach(DisableChild);
-    }
-
-    public abstract void Step();
-
-    public Node GetChild(string id)
-    {
-        return activeChildren[id];
-    }
-
-    #endregion
 }
 
 

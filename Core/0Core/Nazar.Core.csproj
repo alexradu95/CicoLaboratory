@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SKExtension\Nazar.Framework.csproj" />
     <ProjectReference Include="..\Passthrough\Nazar.Core.Passthrough.csproj" />
   </ItemGroup>
 
