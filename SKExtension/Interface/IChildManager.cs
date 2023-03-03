@@ -1,21 +1,54 @@
-﻿namespace Nazar.Framework.Interface
+﻿using StereoKit;
+
+namespace Nazar.Framework.Interface
 {
-    interface IChildManager
+    public interface IChildManager
     {
-        Node GetChild(string id);
+        Dictionary<string, INode> Children { get; }
 
-        Node AddChild(Type node, string id);
-
-        /// <summary>
-        /// Deletes the node with the corresponding ID
-        /// </summary>
-        /// <param name="id"></param>
-        void DisableChild(string id);
+        INode GetChild(string id)
+        {
+            return Children[id];
+        }
 
         /// <summary>
-        /// Deletes all nodes of the provided Type
+        /// Adds a new node as child of the current node
         /// </summary>
         /// <param name="node"></param>
-        void DisableChildren(Type node);
+        /// <param name="id"></param>
+        /// <exception cref="Exception">Throws when an already existing child node with the same id exists</exception>
+        INode AddChild(Type node, string id = "")
+        {
+            INode stepperToBeAdded = (INode)SK.AddStepper(node);
+            string stepperId = string.IsNullOrEmpty(id) ? $"{node.Name}" : $"{node.Name}_{id}";
+            if (Children.ContainsKey(stepperId))
+            {
+                throw new Exception("Could not add the requested child. Id already exists for this node child");
+            }
+
+            Children[stepperId] = stepperToBeAdded;
+
+            return stepperToBeAdded;
+        }
+
+        /// <summary>
+        /// Deletes all child nodes that have the requested Type
+        /// </summary>
+        /// <param name="type"></param>
+        void DisableChildren(Type type)
+        {
+            var selectedChildrenIds = Children.Keys.Where(key => key.Contains(type.ToString()));
+            selectedChildrenIds.ToList().ForEach(DisableChild);
+        }
+
+        /// <summary>
+        /// Deletes a child by ID
+        /// </summary>
+        /// <param name="id"></param>
+        void DisableChild(string id)
+        {
+            SK.RemoveStepper(Children[id]);
+            Children.Remove(id);
+        }
     }
 }

@@ -1,23 +1,29 @@
-﻿using Nazar.Core.Passthrough;
+﻿using System.Collections.Generic;
+using Nazar.Core.Passthrough;
 using Nazar.Framework;
 
 namespace Nazar.Core
 {
-    public class NazarCore : Node
+    public class NazarCore : INode
     {
-        public NazarCore()
+
+        public Dictionary<string, INode> Children { get; }
+
+        public bool Initialize()
         {
-            AddChild(typeof(PassthroughExtension), "");
+            throw new System.NotImplementedException();
         }
 
-        public override bool Enabled => true;
-
-
-        public override bool Initialize() => true;
-
-        public override void Step()
+        public void Step()
         {
-
+            throw new System.NotImplementedException();
         }
+
+        public void Shutdown()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Enabled { get; }
     }
 }
