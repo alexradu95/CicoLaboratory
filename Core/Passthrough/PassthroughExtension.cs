@@ -10,7 +10,6 @@ namespace Nazar.Core.Passthrough
 
         private Pose windowPose = new(0.5f, 0, -0.5f, Quat.LookDir(-1, 0, 1));
 
-        public override bool Enabled => true;
 
         public PassthroughExtension()
         {
@@ -32,6 +31,11 @@ namespace Nazar.Core.Passthrough
             if (UI.Toggle("Passthrough", ref toggle))
                 passthrough.EnabledPassthrough = toggle;
             UI.WindowEnd();
+        }
+
+        public override void Shutdown()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

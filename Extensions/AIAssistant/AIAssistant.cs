@@ -1,11 +1,12 @@
 using Nazar.Extensions.OpenAI;
 using Nazar.Extensions.SpeechToText;
+using Nazar.Framework;
 using StereoKit;
 using StereoKit.Framework;
 
 namespace Nazar.Extensions.AIWorldGenerator;
 
-public class AiAssistant : IStepper
+public class AiAssistant : Node
 {
     public bool Enabled => true;
 
@@ -13,7 +14,7 @@ public class AiAssistant : IStepper
     SpeechToTextService speechToTextService;
     GeneratedWorld generatedWorld;
 
-    public bool Initialize()
+    public override bool Initialize()
     {
         //  Instantiate the components of AI Assistant
         openAiService = SK.AddStepper<OpenAIService>();
@@ -30,9 +31,9 @@ public class AiAssistant : IStepper
         return true;
     }
 
-    public void Step() { }
+    public override void Step() { }
 
-    public void Shutdown() { 
+    public override void Shutdown() { 
         openAiService.Shutdown();
         speechToTextService.Shutdown();
         generatedWorld.Shutdown();

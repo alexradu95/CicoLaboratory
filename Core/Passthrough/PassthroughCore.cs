@@ -37,12 +37,10 @@ public class PassthroughCore : Node
         }
     }
 
-    public override bool Enabled => throw new System.NotImplementedException();
 
-    new public void Shutdown()
+    public override void Shutdown()
     {
         EnabledPassthrough = false;
-        base.Shutdown();
     }
 
 
@@ -64,7 +62,6 @@ public class PassthroughCore : Node
 
     public override void Step()
     {
-        base.Step();
         if (!EnabledPassthrough) return;
 
         XrCompositionLayerPassthroughFB layer = new(
