@@ -1,14 +1,15 @@
 ﻿using Nazar;
+using Nazar.Framework;
 using StereoKit;
 using StereoKit.Framework;
 
 namespace NazAR
 {
-    public class Launcher : IStepper
+    public class Launcher : Node
     {
         public Launcher()
         {
-            SK.AddStepper<NazarApp>();
+            SK.AddStepper<HierarchyExample>();
         }
 
         public SKSettings Settings => new()
@@ -18,19 +19,5 @@ namespace NazAR
             displayPreference = DisplayMode.MixedReality
         };
 
-        public bool Enabled => true;
-
-        public bool Initialize()
-        {
-            return true;
-        }
-
-        public void Step()
-        {
-        }
-
-        public void Shutdown()
-        {
-        }
     }
 }

@@ -41,7 +41,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Nazar\Nazar.csproj" />
+	  <ProjectReference Include="..\SKExtension\Framework.csproj" />
 	</ItemGroup>
 
 
