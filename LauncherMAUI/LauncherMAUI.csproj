@@ -42,7 +42,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Framework\Framework.csproj" />
-	  <ProjectReference Include="..\SKExtension\Framework.csproj" />
 	</ItemGroup>
 
 

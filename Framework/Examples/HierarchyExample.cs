@@ -17,8 +17,8 @@ public class HierarchyExample : Node
         _childCubeNode2.AddChild(_grandchildCubeNode);
 
         // Set the positions of the nodes in local space
-        _childCubeNode1.Pose = new Pose(new Vec3(-0.5f, 0, 0));
-        _childCubeNode2.Pose = new Pose(new Vec3(0.5f, 0, 0));
-        _grandchildCubeNode.Pose = new Pose(new Vec3(0, 0.5f, 0));
+        _childCubeNode1.Pose = new Pose(new Vec3(-2f, 0, 0));
+        _childCubeNode2.Pose = new Pose(new Vec3(3f, 0, 0));
+        _grandchildCubeNode.Pose = new Pose(new Vec3(44, 0.5f, 0));
     }
 }
