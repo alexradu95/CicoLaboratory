@@ -1,4 +1,6 @@
-﻿using Nazar.Framework;
+﻿using Addons;
+using Core;
+using Nazar.Framework;
 using StereoKit;
 
 namespace NazAR
@@ -6,11 +8,13 @@ namespace NazAR
     public class Launcher : Node
     {
 
-        private readonly HierarchyExample hierarchyExample = new HierarchyExample();
+        private readonly CoreModule coreModule = new CoreModule();
+        private readonly AddonsModule addonsModule = new AddonsModule();
 
         public override bool Initialize()
         {
-            AddChild(hierarchyExample);
+            AddChild(coreModule);
+            AddChild(addonsModule);
 
             return base.Initialize();
         }

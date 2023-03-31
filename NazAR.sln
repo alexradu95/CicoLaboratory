@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LauncherNetCore", "Launcher
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nazar", "Nazar\Nazar.csproj", "{D67DD43A-34D1-46C4-9923-01BF5A1DF7D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{2AD12343-4621-4F77-885D-25845AFF2F43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Addons", "Addons\Addons.csproj", "{9B1DE0F6-CE08-4089-8EA1-F084BAB61C77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{D67DD43A-34D1-46C4-9923-01BF5A1DF7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D67DD43A-34D1-46C4-9923-01BF5A1DF7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D67DD43A-34D1-46C4-9923-01BF5A1DF7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AD12343-4621-4F77-885D-25845AFF2F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AD12343-4621-4F77-885D-25845AFF2F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AD12343-4621-4F77-885D-25845AFF2F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AD12343-4621-4F77-885D-25845AFF2F43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B1DE0F6-CE08-4089-8EA1-F084BAB61C77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B1DE0F6-CE08-4089-8EA1-F084BAB61C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B1DE0F6-CE08-4089-8EA1-F084BAB61C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B1DE0F6-CE08-4089-8EA1-F084BAB61C77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
