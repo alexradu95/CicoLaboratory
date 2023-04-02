@@ -1,54 +1,93 @@
-﻿using Framework;
+﻿using StereoKit;
+using StereoKit.Framework;
 
-namespace Nazar.Framework
+namespace Framework
 {
-    public class Node : NodeLifecycle, INodeChildManager, INodeParentListener
+    // The abstract Node class serves as the base for other classes in the application.
+    public abstract class Node : INodeChildManager<Node>, IStepper
     {
-        private readonly List<Node> _children = new List<Node>();
+        // Enabled property determines if the node is active or not.
+        private bool enabled;
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; }
+        }
 
-        public override void Step()
+        // Unique identifier for the node.
+        public Guid Id { get; } = Guid.NewGuid();
+
+        // List of child nodes.
+        private readonly List<Node> children = new();
+        public List<Node> Children => children;
+
+        #region IStepper
+
+        // Initializes the node and sets it as enabled.
+        public virtual bool Initialize()
+        {
+            if (!enabled)
+            {
+                enabled = true;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Updates this node and all of its child nodes. This method is called once per frame.
+        /// </summary>
+        public virtual void Step()
         {
             if (!Enabled)
                 return;
 
-            foreach (var child in _children)
+            foreach (var child in Children)
             {
                 child.Step();
             }
         }
 
-        public void AddChild(Node node)
+        // Performs any necessary cleanup when shutting down the node.
+        public virtual void Shutdown() { }
+
+        #endregion
+
+        #region INodeChildManager
+
+        // Adds a child node to the list.
+        public void AddChild(Node node) => children.Add(node);
+
+        // Retrieves a child node at a specific index.
+        public Node GetChild(int index) => children[index];
+
+        // Returns the number of child nodes.
+        public int GetChildCount() => children.Count;
+
+        // Removes a child node at a specific index.
+        public void RemoveChildAt(uint index)
         {
-            _children.Add(node);
-            if (node is INodeParentListener listener)
+            if (index < Children.Count)
             {
-                listener.OnAddedToParent(this);
+                Children.RemoveAt((int)index);
             }
         }
 
-        public void RemoveChild(Node node)
+        // Removes a child node with a specific ID.
+        public void RemoveChildById(Guid id)
         {
-            _children.Remove(node);
-            if (node is INodeParentListener listener)
+            var childToRemove = children.FirstOrDefault(child => child.Id == id);
+            if (childToRemove != null)
             {
-                listener.OnRemovedFromParent(this);
+                children.Remove(childToRemove);
             }
         }
 
-        public Node GetChild(int index)
+        // Removes all child nodes of a specific type.
+        public void RemoveChildren<TChild>() where TChild : Node
         {
-            return _children[index];
+            Children.RemoveAll(child => child is TChild);
         }
 
-        public int GetChildCount()
-        {
-            return _children.Count;
-        }
-
-        public void OnAddedToParent(Node parent) { }
-
-        public void OnRemovedFromParent(Node parent) { }
-
-        // Utils and other methods can be added here
+        #endregion
     }
 }
